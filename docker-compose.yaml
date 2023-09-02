@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  dot-net-starter:
+    container_name: dot-net-starter
+    image: eztekdockerhub.azurecr.io/dot-net-starter:latest
+    environment:
+      ASPNETCORE_ENVIRONMENT: Dev
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5011:5011"
+  
