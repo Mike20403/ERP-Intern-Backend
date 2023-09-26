@@ -25,6 +25,30 @@ namespace DotNetStarter.Services.Email
             await SendEmailAsync(email, templateId!, templateData);
         }
 
+        public async Task SendChangeEmailRequestAsync(string currentEmail, string newEmail, string firstName, string code)
+        {
+            // still using ResetPassword template, will modify later
+            var templateId = _configuration["Email:SendGrid:TemplateIds:ResetPassword"]; 
+            var templateData = new Dictionary<string, string>
+            {
+                { "firstName", firstName },
+                { "url", $"{_configuration["Urls:BasePortal"]}/account/change-email?new-email={newEmail}&code={code}" },
+            };
+
+            await SendEmailAsync(currentEmail, templateId!, templateData);
+        }
+
+        public async Task SendActivateEmailAsync(string email, string code)
+        {
+            // still using ResetPassword template, will modify later
+            var templateId = _configuration["Email:SendGrid:TemplateIds:ResetPassword"];
+            var templateData = new Dictionary<string, string>
+            {
+                { "url", $"{_configuration["Urls:BasePortal"]}/account/activate-account?email={email}&code={code}" },
+            };
+            await SendEmailAsync(email, templateId!, templateData);
+        }
+
         private async Task SendEmailAsync(string email, string templateId, object templateData)
         {
             var apiKey = _configuration["Email:SendGrid:ApiKey"];
