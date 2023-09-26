@@ -418,6 +418,7 @@ namespace DotNetStarter.Database
                 Lastname = "Yopmail",
                 Password = BCrypt.Net.BCrypt.HashPassword("Abc!2345"),
                 PhoneNumber = "0333333333",
+                Gender = Gender.Male,
                 CreatedDate = now,
                 CreatedBy = "System",
                 UpdatedDate = now,
