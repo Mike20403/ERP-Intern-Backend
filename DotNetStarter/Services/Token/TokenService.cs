@@ -1,11 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
+﻿using DotNetStarter.Common;
 using DotNetStarter.Entities;
+using DotNetStarter.Extensions;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using DotNetStarter.Extensions;
 
 namespace DotNetStarter.Services.Token
 {
@@ -18,9 +19,11 @@ namespace DotNetStarter.Services.Token
             _configuration = configuration;
         }
 
-        public string CreateToken(User user)
+        public (string, AuthToken) CreateToken(User user)
         {
             var now = DateTime.Now;
+            var tokenId = Guid.NewGuid();
+
             var issuer = _configuration["Jwt:Issuer"];
             var audience = _configuration["Jwt:Audience"];
             var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]!);
@@ -28,7 +31,7 @@ namespace DotNetStarter.Services.Token
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, user.Username),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Jti, tokenId.ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, now.ToString(CultureInfo.InvariantCulture)),
                 new Claim(ClaimTypes.Role, user.Role!.Name),
             };
@@ -37,7 +40,7 @@ namespace DotNetStarter.Services.Token
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = now.AddMinutes(30),
+                Expires = now.AddMinutes(int.Parse(_configuration["Jwt:TokenLifetimeDuration"]!)),
                 Issuer = issuer,
                 Audience = audience,
                 SigningCredentials = new SigningCredentials(
@@ -47,7 +50,16 @@ namespace DotNetStarter.Services.Token
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return tokenHandler.WriteToken(token);
+            var authToken = new AuthToken
+            {
+                IsUsed = false,
+                UserId = user!.Id,
+                TokenId = tokenId,
+                ExpiredDate = now.AddMinutes(int.Parse(_configuration["Jwt:RefreshTokenLifetimeDuration"]!)),
+                Secret = Guid.NewGuid() + "-" + Guid.NewGuid(),
+            };
+
+            return (tokenHandler.WriteToken(token), authToken);
         }
     }
 }

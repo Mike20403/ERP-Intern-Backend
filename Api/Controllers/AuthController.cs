@@ -2,6 +2,7 @@
 using Api.Models.Auth;
 using DotNetStarter.Commands.Auth.ForgotPassword;
 using DotNetStarter.Commands.Auth.Login;
+using DotNetStarter.Commands.Auth.RefreshToken;
 using DotNetStarter.Commands.Auth.ResetPassword;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -45,6 +46,14 @@ namespace Api.Controllers
             await _mediator.Send(new ResetPassword(request.Username!, request.Password!, request.Code!));
 
             return Ok();
+        }
+
+        [HttpPost("refresh-token")]
+        public async Task<ActionResult<LoginResponse>> RefreshToken([FromBody] RefreshTokenRequest request)
+        {
+            var result = await _mediator.Send(new RefreshToken(request.UserId!, request.TokenId!, request.Secret!));
+
+            return Ok(result);
         }
     }
 }

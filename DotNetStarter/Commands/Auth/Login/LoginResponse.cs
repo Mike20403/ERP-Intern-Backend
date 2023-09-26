@@ -4,9 +4,12 @@
     {
         public string Token { get; }
 
-        public LoginResponse(string token)
+        public string Secret { get; }
+
+        public LoginResponse(string token, string secret)
         {
             Token = token;
+            Secret = secret;
         }
     }
 }

@@ -4,6 +4,6 @@ namespace DotNetStarter.Services.Token
 {
     public interface ITokenService
     {
-        string CreateToken(User user);
+        (string, AuthToken) CreateToken(User user);
     }
 }

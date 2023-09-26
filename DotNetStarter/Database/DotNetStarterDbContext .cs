@@ -536,6 +536,7 @@ namespace DotNetStarter.Database
             SetAuditing();
             return await base.SaveChangesAsync(cancellationToken);
         }
+
         public DbSet<Privilege> Privileges { get; set; }
 
         public DbSet<Role> Roles { get; set; }
@@ -547,6 +548,8 @@ namespace DotNetStarter.Database
         public DbSet<UserPrivilege> UserPrivileges { get; set; }
 
         public DbSet<Otp> Otps { get; set; }
+
+        public DbSet<AuthToken> AuthTokens { get; set; }
 
         private void SetAuditing()
         {
