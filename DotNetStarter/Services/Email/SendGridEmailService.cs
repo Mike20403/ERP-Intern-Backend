@@ -27,24 +27,35 @@ namespace DotNetStarter.Services.Email
 
         public async Task SendChangeEmailRequestAsync(string currentEmail, string newEmail, string firstName, string code)
         {
-            // still using ResetPassword template, will modify later
-            var templateId = _configuration["Email:SendGrid:TemplateIds:ResetPassword"]; 
+            var templateId = _configuration["Email:SendGrid:TemplateIds:RequestChangeEmail"]; 
             var templateData = new Dictionary<string, string>
             {
                 { "firstName", firstName },
+                { "newEmail", newEmail },
                 { "url", $"{_configuration["Urls:BasePortal"]}/account/change-email?new-email={newEmail}&code={code}" },
             };
 
             await SendEmailAsync(currentEmail, templateId!, templateData);
         }
 
-        public async Task SendActivateEmailAsync(string email, string code)
+        public async Task SendActivateEmailAsync(string email, string firstName, string code)
         {
-            // still using ResetPassword template, will modify later
-            var templateId = _configuration["Email:SendGrid:TemplateIds:ResetPassword"];
+            var templateId = _configuration["Email:SendGrid:TemplateIds:ActivateEmail"];
             var templateData = new Dictionary<string, string>
             {
+                { "firstName", firstName },
                 { "url", $"{_configuration["Urls:BasePortal"]}/account/activate-account?email={email}&code={code}" },
+            };
+            await SendEmailAsync(email, templateId!, templateData);
+        }
+
+        public async Task SendNotificationAsync(string email, string firstName, string message)
+        {
+            var templateId = _configuration["Email:SendGrid:TemplateIds:SendNotification"];
+            var templateData = new Dictionary<string, string>
+            {
+                { "firstName", firstName },
+                { "message", message },
             };
             await SendEmailAsync(email, templateId!, templateData);
         }
