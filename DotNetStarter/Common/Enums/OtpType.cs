@@ -3,5 +3,7 @@
     public enum OtpType
     {
         ResetPassword = 1,
+        ChangeEmail = 2,
+        ActivateEmail = 3,
     }
 }

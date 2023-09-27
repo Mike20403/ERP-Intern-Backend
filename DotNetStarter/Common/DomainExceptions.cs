@@ -52,6 +52,12 @@ namespace DotNetStarter.Common
             Message = "User already exists",
         };
 
+        public static readonly DomainException EmailAlreadyExists = new DomainException
+        {
+            Code = "EmailAlreadyExists",
+            Message = "Email already exists",
+        };
+
         public static readonly DomainException InvalidPassword = new DomainException
         {
             Code = "InvalidPassword",

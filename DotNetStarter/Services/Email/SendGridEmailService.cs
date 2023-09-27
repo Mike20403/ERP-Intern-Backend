@@ -37,6 +37,41 @@ namespace DotNetStarter.Services.Email
             await SendEmailAsync(email, templateId!, templateData);
         }
 
+        public async Task SendChangeEmailRequestAsync(string currentEmail, string newEmail, string firstName, string code)
+        {
+            var templateId = _configuration["Email:SendGrid:TemplateIds:RequestChangeEmail"]; 
+            var templateData = new Dictionary<string, string>
+            {
+                { "firstName", firstName },
+                { "newEmail", newEmail },
+                { "url", $"{_configuration["Urls:BasePortal"]}/account/change-email?current-email={currentEmail}&new-email={newEmail}&code={code}" },
+            };
+
+            await SendEmailAsync(currentEmail, templateId!, templateData);
+        }
+
+        public async Task SendActivateEmailAsync(string email, string firstName, string code)
+        {
+            var templateId = _configuration["Email:SendGrid:TemplateIds:ActivateEmail"];
+            var templateData = new Dictionary<string, string>
+            {
+                { "firstName", firstName },
+                { "url", $"{_configuration["Urls:BasePortal"]}/auth/activate-account?email={email}&code={code}" },
+            };
+            await SendEmailAsync(email, templateId!, templateData);
+        }
+
+        public async Task SendNotificationAsync(string email, string firstName, string message)
+        {
+            var templateId = _configuration["Email:SendGrid:TemplateIds:SendNotification"];
+            var templateData = new Dictionary<string, string>
+            {
+                { "firstName", firstName },
+                { "message", message },
+            };
+            await SendEmailAsync(email, templateId!, templateData);
+        }
+
         private async Task SendEmailAsync(string email, string templateId, object templateData)
         {
             var apiKey = _configuration["Email:SendGrid:ApiKey"];
