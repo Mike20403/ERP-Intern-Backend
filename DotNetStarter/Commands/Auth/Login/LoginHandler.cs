@@ -20,9 +20,13 @@ namespace DotNetStarter.Commands.Auth.Login
         public override async Task<LoginResponse> Process(Login request, CancellationToken cancellationToken)
         {
             var user = await _unitOfWork.UserRepository.FindAsync($"{ClassUtils.GetPropertyName<User>(u => u.Role)},{ClassUtils.GetPropertyName<User>(u => u.Privileges)}", u => u.Username == request.Username);
-            var token = _tokenService.CreateToken(user!);
 
-            return new LoginResponse(token);
+            var (token, authToken) = _tokenService.CreateToken(user!);
+
+            await _unitOfWork.AuthTokenRepository.CreateAsync(authToken);
+            await _unitOfWork.SaveChangesAsync();
+
+            return new LoginResponse(token, authToken.Secret);
         }
     }
 }

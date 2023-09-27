@@ -69,5 +69,11 @@ namespace DotNetStarter.Common
             Code = "PhoneNumberAlreadyExists",
             Message = "Phone number already exists",
         };
+
+        public static readonly DomainException InvalidAuthToken = new DomainException
+        {
+            Code = "InvalidAuthToken",
+            Message = "Invalid auth token",
+        };
     }
 }
