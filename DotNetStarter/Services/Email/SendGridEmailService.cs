@@ -13,6 +13,18 @@ namespace DotNetStarter.Services.Email
             _configuration = configuration;
         }
 
+        public async Task SendChangePasswordEmailAsync(string email, string firstName, string lastName)
+        {
+            var templateId = _configuration["Email:SendGrid:TemplateIds:ChangePassword"];
+            var templateData = new Dictionary<string, string>
+            {
+                { "firstName", firstName },
+                { "lastName", lastName },
+            };
+
+            await SendEmailAsync(email, templateId!, templateData);
+        }
+
         public async Task SendResetPasswordEmailAsync(string email, string firstName, string code)
         {
             var templateId = _configuration["Email:SendGrid:TemplateIds:ResetPassword"];

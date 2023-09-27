@@ -2,6 +2,7 @@
 using Api.Dtos;
 using Api.Models.Account;
 using AutoMapper;
+using DotNetStarter.Commands.Account;
 using DotNetStarter.Commands.Users.Update;
 using DotNetStarter.Extensions;
 using DotNetStarter.Queries.Users.Get;
@@ -43,6 +44,15 @@ namespace Api.Controllers
             var result = await _mediator.Send(new UpdateUser(user.Id, request.Firstname!, request.Lastname!, request.PhoneNumber!, user.Status!.Value));
 
             return Ok(_mapper.Map<AccountDto>(result));
+        }
+
+        [HttpPut]
+        [Route("change-password")]
+        public async Task<ActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
+        {
+            await _mediator.Send(new ChangePassword(HttpContext.GetCurrentUserId()!.Value, request.CurrentPassword!, request.NewPassword!));
+
+            return Ok();
         }
     }
 }

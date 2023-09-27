@@ -75,5 +75,11 @@ namespace DotNetStarter.Common
             Code = "InvalidAuthToken",
             Message = "Invalid auth token",
         };
+
+        public static readonly DomainException IncorrectPassword = new DomainException
+        {
+            Code = "IncorrectPassword",
+            Message = "Current password is incorrect",
+        };
     }
 }
