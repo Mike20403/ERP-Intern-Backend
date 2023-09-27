@@ -36,13 +36,10 @@ namespace DotNetStarter.Commands.Account.ConfirmChangeEmail
             await _unitOfWork.UserRepository.UpdateAsync(user!);
             await _unitOfWork.SaveChangesAsync();
 
-
-            // Code used for send notification to old email, will be used soon (when config SendGrid template)
-            //await _emailService.SendEmailAsync(request.CurrentEmail, "", new Dictionary<string, string>
-            //{
-            //    { "message", "You have confirmed to change email successfully" }
-            //});
-            await _emailService.SendActivateEmailAsync(request.NewEmail, request.ActiveCode);
+            // Send notification to old email - Send active code to new email
+            string message = "Congratulation! you have changed your email, this email will no longer available";
+            await _emailService.SendNotificationAsync(request.CurrentEmail, user.Firstname, message);
+            await _emailService.SendActivateEmailAsync(request.NewEmail, user.Firstname, request.ActiveCode);
         }
     }
 }
