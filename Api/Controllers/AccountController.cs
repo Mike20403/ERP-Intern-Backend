@@ -67,6 +67,7 @@ namespace Api.Controllers
         }
 
         [HttpPost("activate-email")]
+        [AllowAnonymous]
         public async Task<ActionResult> ActivateNewEmail(ActivateEmailRequest request) // Activate new Email after change email by any one has authorized
         {
             await _mediator.Send(new ActivateEmail(request.Email!, request.ActiveCode!));
