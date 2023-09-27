@@ -1,6 +1,7 @@
 ﻿using DotNetStarter.Common;
 using DotNetStarter.Common.Enums;
 using DotNetStarter.Database.UnitOfWork;
+using DotNetStarter.Entities;
 using DotNetStarter.Services.Email;
 
 namespace DotNetStarter.Commands.Account.ConfirmChangeEmail
@@ -30,16 +31,27 @@ namespace DotNetStarter.Commands.Account.ConfirmChangeEmail
                 return;
             }
 
+            otp!.IsUsed = true;
             user!.Username = request.NewEmail;
             user!.Status = Status.Inactive;
 
+            var ActiveOtp = new Otp
+            {
+                UserId = user!.Id,
+                Type = OtpType.ChangeEmail,
+                Code = new Random().Next(0, 1000000).ToString("D6"),
+                IsUsed = false,
+                ExpiredDate = DateTime.Now.AddHours(1),
+            };
+
+            await _unitOfWork.OtpRepository.CreateAsync(ActiveOtp);
             await _unitOfWork.UserRepository.UpdateAsync(user!);
             await _unitOfWork.SaveChangesAsync();
 
             // Send notification to old email - Send active code to new email
             string message = "Congratulation! you have changed your email, this email will no longer available";
             await _emailService.SendNotificationAsync(request.CurrentEmail, user.Firstname, message);
-            await _emailService.SendActivateEmailAsync(request.NewEmail, user.Firstname, request.ActiveCode);
+            await _emailService.SendActivateEmailAsync(request.NewEmail, user.Firstname, ActiveOtp.Code);
         }
     }
 }
