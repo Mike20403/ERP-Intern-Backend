@@ -3,7 +3,7 @@ using DotNetStarter.Database.UnitOfWork;
 using DotNetStarter.Entities;
 using DotNetStarter.Services.Email;
 
-namespace DotNetStarter.Commands.Account
+namespace DotNetStarter.Commands.Account.ChangePassword
 {
     public sealed class ChangePasswordHandler : BaseRequestHandler<ChangePassword>
     {

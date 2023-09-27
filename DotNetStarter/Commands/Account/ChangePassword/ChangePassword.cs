@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace DotNetStarter.Commands.Account
+namespace DotNetStarter.Commands.Account.ChangePassword
 {
     public sealed class ChangePassword : IRequest
     {

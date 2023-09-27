@@ -2,7 +2,7 @@
 using DotNetStarter.Database.UnitOfWork;
 using FluentValidation;
 
-namespace DotNetStarter.Commands.Account
+namespace DotNetStarter.Commands.Account.ChangePassword
 {
     public sealed class ChangePasswordValidator : AbstractValidator<ChangePassword>
     {
@@ -30,7 +30,7 @@ namespace DotNetStarter.Commands.Account
                 .Matches(RegexPatterns.Password)
                 .NotEqual(cp => cp.CurrentPassword)
                 .WithErrorCode(DomainExceptions.InvalidPassword.Code)
-                .WithMessage(DomainExceptions.InvalidPassword.Message);       
+                .WithMessage(DomainExceptions.InvalidPassword.Message);
         }
     }
 }

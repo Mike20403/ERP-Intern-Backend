@@ -2,7 +2,7 @@
 using Api.Dtos;
 using Api.Models.Account;
 using AutoMapper;
-using DotNetStarter.Commands.Account;
+using DotNetStarter.Commands.Account.ChangePassword;
 using DotNetStarter.Commands.Users.Update;
 using DotNetStarter.Extensions;
 using DotNetStarter.Queries.Users.Get;
