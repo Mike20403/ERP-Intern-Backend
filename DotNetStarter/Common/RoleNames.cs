@@ -4,8 +4,7 @@
     {
         public const string Administrator = "ADMINISTRATOR";
         public const string ProjectManager = "PROJECT_MANAGER";
-        public const string ResourceManager = "RESOURCE_MANAGER";
-        public const string LocalizationTeam = "LOCALIZATION_TEAM";
+        public const string AgencyMember = "AGENCY_MEMBER";
         public const string Talent = "TALENT";
     }
 }
