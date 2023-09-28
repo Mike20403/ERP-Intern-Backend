@@ -20,7 +20,7 @@ namespace DotNetStarter.Commands.Account.ChangeEmailRequires
 
         public override async Task Process(RequestChangeEmail request, CancellationToken cancellationToken)
         {
-            var user = await _unitOfWork.UserRepository.FindAsync(filter: u => u.Username == request.Username);
+            var user = await _unitOfWork.UserRepository.FindAsync(filter: u => u.Id == request.UserId);
 
             var otp = new Otp
             {
@@ -34,7 +34,7 @@ namespace DotNetStarter.Commands.Account.ChangeEmailRequires
             await _unitOfWork.OtpRepository.CreateAsync(otp);
             await _unitOfWork.SaveChangesAsync();
 
-            await _emailService.SendChangeEmailRequestAsync(request.Username, request.NewEmail, user.Firstname, otp.Code);
+            await _emailService.SendChangeEmailRequestAsync(user.Username, request.NewEmail, user.Firstname, otp.Code);
         }
     }
 }

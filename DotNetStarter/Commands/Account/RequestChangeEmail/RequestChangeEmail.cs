@@ -4,12 +4,12 @@ namespace DotNetStarter.Commands.Account.ChangeEmailRequires
 {
     public sealed class RequestChangeEmail : IRequest
     {
-        public string Username { get; }
+        public Guid UserId { get; }
 
         public string NewEmail { get; }
         
-        public RequestChangeEmail(string username, string NewEmail) {
-            this.Username = username;
+        public RequestChangeEmail(Guid userId, string NewEmail) {
+            this.UserId = userId;
             this.NewEmail = NewEmail;
         }
     }

@@ -10,19 +10,23 @@ namespace DotNetStarter.Commands.Account.ConfirmChangeEmail
     {
         public RequestChangeEmailValidator(IDotNetStarterUnitOfWork unitOfWork)
         {
+            RuleFor(x => x.UserId)
+                .NotEmpty()
+                .MustAsync((userId, cancellation) => unitOfWork.UserRepository.AnyAsync(u => u.Id == userId))
+                .WithErrorCode(DomainExceptions.UserNotFound.Code)
+                .WithMessage(DomainExceptions.UserNotFound.Message);
+
             RuleFor(x => x.NewEmail)
                 .NotEmpty()
                 .EmailAddress()
                 .WithMessage("New email must be an email address")
-                .NotEqual(x => x.Username)
-                .WithMessage("Current email and new email must be different")
-                .MustAsync(async (username, cancellation) =>
+                .MustAsync(async (newEmail, cancellation) =>
                 {
-                    bool exists = await unitOfWork.UserRepository.AnyAsync(u => u.Username == username && u.Status == Status.Active);
+                    bool exists = await unitOfWork.UserRepository.AnyAsync(u => u.Username == newEmail);
                     return !exists;
                 })
-                .WithErrorCode(DomainExceptions.UserAlreadyExists.Code)
-                .WithMessage("This email is already exist");
+                .WithErrorCode(DomainExceptions.EmailAlreadyExists.Code)
+                .WithMessage(DomainExceptions.EmailAlreadyExists.Message);
         }
     }
 }

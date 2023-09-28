@@ -5,6 +5,7 @@ using AutoMapper;
 using DotNetStarter.Commands.Account.ActivateEmail;
 using DotNetStarter.Commands.Account.ConfirmChangeEmail;
 using DotNetStarter.Commands.Account.ChangeEmailRequires;
+using DotNetStarter.Commands.Account.ChangePassword;
 using DotNetStarter.Commands.Users.Update;
 using DotNetStarter.Extensions;
 using DotNetStarter.Queries.Users.Get;
@@ -51,9 +52,7 @@ namespace Api.Controllers
         [HttpPost("request-change-email")]
         public async Task<ActionResult> RequestChangeEmail(ChangeEmailRequest request) // Request to change email then recieve active code via current email
         {
-            var user = await _mediator.Send(new GetUser(HttpContext.GetCurrentUserId()!.Value));
-
-            await _mediator.Send(new RequestChangeEmail(user.Username!, request.NewEmail!));
+            await _mediator.Send(new RequestChangeEmail(HttpContext.GetCurrentUserId()!.Value, request.NewEmail!));
 
             return Ok();
         }
@@ -63,7 +62,7 @@ namespace Api.Controllers
         {
             await _mediator.Send(new ConfirmChangeEmail(request.CurrentEmail!, request.NewEmail!, request.ActiveCode!));
 
-            return Ok($"Email is changed into {request.NewEmail}, please check the inbox and activate your account soon");
+            return Ok();
         }
 
         [HttpPost("activate-email")]
@@ -71,8 +70,17 @@ namespace Api.Controllers
         public async Task<ActionResult> ActivateNewEmail(ActivateEmailRequest request) // Activate new Email after change email by any one has authorized
         {
             await _mediator.Send(new ActivateEmail(request.Email!, request.ActiveCode!));
+            
+            return Ok();    
+        }
 
-            return Ok("Account Activated!");
+        [HttpPut]
+        [Route("change-password")]
+        public async Task<ActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
+        {
+            await _mediator.Send(new ChangePassword(HttpContext.GetCurrentUserId()!.Value, request.CurrentPassword!, request.NewPassword!));
+            
+            return Ok();
         }
     }
 }

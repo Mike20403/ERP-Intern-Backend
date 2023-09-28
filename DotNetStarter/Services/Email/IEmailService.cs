@@ -9,5 +9,7 @@
         Task SendActivateEmailAsync(string email, string firstName, string code);
 
         Task SendNotificationAsync(string email, string firstName, string message);
+
+        Task SendChangePasswordEmailAsync(string email, string firstName, string lastName);
     }
 }
