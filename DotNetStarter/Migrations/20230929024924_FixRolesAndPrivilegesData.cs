@@ -164,11 +164,6 @@ namespace DotNetStarter.Migrations
                 keyValues: new object[] { new Guid("ce641717-7ab9-46b4-8188-2ec28d1985a4"), new Guid("75b9c8bd-68ff-49a2-ba3b-f3adf6b01d07") });
 
             migrationBuilder.DeleteData(
-                table: "Roles",
-                keyColumn: "Id",
-                keyValue: new Guid("36a36642-44db-4e8d-8cc8-adc387d73150"));
-
-            migrationBuilder.DeleteData(
                 table: "UserPrivileges",
                 keyColumns: new[] { "PrivilegeId", "UserId" },
                 keyValues: new object[] { new Guid("06e6bc20-7534-4e47-b914-8a0dd0867a24"), new Guid("a3edc636-8153-42af-85a1-65dac56cded7") });
@@ -301,11 +296,6 @@ namespace DotNetStarter.Migrations
             migrationBuilder.DeleteData(
                 table: "Roles",
                 keyColumn: "Id",
-                keyValue: new Guid("2fa87016-bafe-44f7-b4b3-d41fb0f0e202"));
-
-            migrationBuilder.DeleteData(
-                table: "Roles",
-                keyColumn: "Id",
                 keyValue: new Guid("752b3a92-dc11-487f-b2c9-0e5119e71604"));
 
             migrationBuilder.DeleteData(
@@ -313,15 +303,11 @@ namespace DotNetStarter.Migrations
                 keyColumn: "Id",
                 keyValue: new Guid("75b9c8bd-68ff-49a2-ba3b-f3adf6b01d07"));
 
-            migrationBuilder.DeleteData(
+            migrationBuilder.AddColumn<int>(
+                name: "Gender",
                 table: "Users",
-                keyColumn: "Id",
-                keyValue: new Guid("a3edc636-8153-42af-85a1-65dac56cded7"));
-
-            migrationBuilder.DeleteData(
-                table: "Roles",
-                keyColumn: "Id",
-                keyValue: new Guid("364dfceb-7779-4190-a5bc-2bd4aba39af4"));
+                type: "int",
+                nullable: true);
 
             migrationBuilder.InsertData(
                 table: "Privileges",
@@ -355,36 +341,45 @@ namespace DotNetStarter.Migrations
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "Name" },
-                values: new object[,]
-                {
-                    { new Guid("b765548f-dde2-4fbc-b8ad-f7e412f18d03"), "TALENT" },
-                    { new Guid("c6aef375-97dc-4992-b6b4-a389a216842e"), "PROJECT_MANAGER" },
-                    { new Guid("e73f1844-04be-4d7f-8e6e-65a1a20b2a83"), "AGENCY_MEMBER" },
-                    { new Guid("f23606a0-c943-4645-a4d5-2be674b64956"), "ADMINISTRATOR" }
-                });
+                values: new object[] { new Guid("e73f1844-04be-4d7f-8e6e-65a1a20b2a83"), "AGENCY_MEMBER" });
+
+            migrationBuilder.UpdateData(
+                table: "Users",
+                keyColumn: "Id",
+                keyValue: new Guid("a3edc636-8153-42af-85a1-65dac56cded7"),
+                column: "Gender",
+                value: 1);
 
             migrationBuilder.InsertData(
                 table: "RolePrivileges",
                 columns: new[] { "PrivilegeId", "RoleId", "Id" },
                 values: new object[,]
                 {
-                    { new Guid("0636175f-b650-4d48-a5e3-37f08b394b45"), new Guid("b765548f-dde2-4fbc-b8ad-f7e412f18d03"), new Guid("16e0452c-953b-4090-89c5-1f5eb6a82637") },
-                    { new Guid("0eefd2b0-d280-4ee7-906d-0baa3dcd0c88"), new Guid("b765548f-dde2-4fbc-b8ad-f7e412f18d03"), new Guid("dcf1134d-a616-4bb9-8c70-ce9c0e7799a0") },
-                    { new Guid("36b6bbda-3c16-47a7-8353-88fd19eaf2e1"), new Guid("b765548f-dde2-4fbc-b8ad-f7e412f18d03"), new Guid("6ff89af9-fc23-4a3e-b5af-47b24b72df33") },
-                    { new Guid("6deeccfd-7c92-4699-bbae-de86f83f6237"), new Guid("b765548f-dde2-4fbc-b8ad-f7e412f18d03"), new Guid("b3a9b08e-b3f3-4e68-af0f-8bf6f5ee6745") },
-                    { new Guid("9a1edd05-bd24-462e-9754-534ec573745f"), new Guid("b765548f-dde2-4fbc-b8ad-f7e412f18d03"), new Guid("d57a2c99-27e5-464c-8715-3f7fb6f1a57f") },
-                    { new Guid("9b07b2fd-259c-43bf-9a5d-715945b23414"), new Guid("b765548f-dde2-4fbc-b8ad-f7e412f18d03"), new Guid("d57a2c99-27e5-464c-8715-3f7fb6f1a57f") },
-                    { new Guid("c22a378a-feb2-4a97-82b9-3b0a0588ddcd"), new Guid("b765548f-dde2-4fbc-b8ad-f7e412f18d03"), new Guid("78dde744-3ae6-494d-a69b-35c4835ef5e5") },
-                    { new Guid("0eefd2b0-d280-4ee7-906d-0baa3dcd0c88"), new Guid("c6aef375-97dc-4992-b6b4-a389a216842e"), new Guid("de0b1da2-34af-4844-8e3b-e03f99e172ab") },
-                    { new Guid("1e63d635-ecb8-4f3e-972e-14e932fab8c0"), new Guid("c6aef375-97dc-4992-b6b4-a389a216842e"), new Guid("8436c0ac-fab5-41fe-a914-720622f80ca4") },
-                    { new Guid("36b6bbda-3c16-47a7-8353-88fd19eaf2e1"), new Guid("c6aef375-97dc-4992-b6b4-a389a216842e"), new Guid("aa196dfb-e122-4e83-9fd7-d6786bade7cc") },
-                    { new Guid("78416000-2b67-4b1f-89e7-3dbe3fd726b7"), new Guid("c6aef375-97dc-4992-b6b4-a389a216842e"), new Guid("2a8a21fd-5cbb-4eb8-b738-f57f0807eccf") },
-                    { new Guid("9483ac95-4f7a-4b5a-93cf-636a230a662d"), new Guid("c6aef375-97dc-4992-b6b4-a389a216842e"), new Guid("a9b10dcf-3cce-4814-810c-c2f6c0de1270") },
-                    { new Guid("9a1edd05-bd24-462e-9754-534ec573745f"), new Guid("c6aef375-97dc-4992-b6b4-a389a216842e"), new Guid("e695b354-009f-4b01-a759-297ec22c417a") },
-                    { new Guid("9b07b2fd-259c-43bf-9a5d-715945b23414"), new Guid("c6aef375-97dc-4992-b6b4-a389a216842e"), new Guid("6540c67e-7949-4751-adbc-bef4ce1d4286") },
-                    { new Guid("c22a378a-feb2-4a97-82b9-3b0a0588ddcd"), new Guid("c6aef375-97dc-4992-b6b4-a389a216842e"), new Guid("959491d7-de56-4884-89d4-a6a165e1702b") },
-                    { new Guid("cac3bf78-86a7-4255-9ed1-36a3cd89f1e9"), new Guid("c6aef375-97dc-4992-b6b4-a389a216842e"), new Guid("0e5ee4f5-0b78-4652-a309-3bf4552f4517") },
-                    { new Guid("ea6706b9-32a3-4a17-ab7f-0598c87b522b"), new Guid("c6aef375-97dc-4992-b6b4-a389a216842e"), new Guid("4529fea9-e740-4d71-8d45-68700f64bb62") },
+                    { new Guid("0eefd2b0-d280-4ee7-906d-0baa3dcd0c88"), new Guid("2fa87016-bafe-44f7-b4b3-d41fb0f0e202"), new Guid("de0b1da2-34af-4844-8e3b-e03f99e172ab") },
+                    { new Guid("1e63d635-ecb8-4f3e-972e-14e932fab8c0"), new Guid("2fa87016-bafe-44f7-b4b3-d41fb0f0e202"), new Guid("8436c0ac-fab5-41fe-a914-720622f80ca4") },
+                    { new Guid("36b6bbda-3c16-47a7-8353-88fd19eaf2e1"), new Guid("2fa87016-bafe-44f7-b4b3-d41fb0f0e202"), new Guid("aa196dfb-e122-4e83-9fd7-d6786bade7cc") },
+                    { new Guid("78416000-2b67-4b1f-89e7-3dbe3fd726b7"), new Guid("2fa87016-bafe-44f7-b4b3-d41fb0f0e202"), new Guid("2a8a21fd-5cbb-4eb8-b738-f57f0807eccf") },
+                    { new Guid("9483ac95-4f7a-4b5a-93cf-636a230a662d"), new Guid("2fa87016-bafe-44f7-b4b3-d41fb0f0e202"), new Guid("a9b10dcf-3cce-4814-810c-c2f6c0de1270") },
+                    { new Guid("9a1edd05-bd24-462e-9754-534ec573745f"), new Guid("2fa87016-bafe-44f7-b4b3-d41fb0f0e202"), new Guid("e695b354-009f-4b01-a759-297ec22c417a") },
+                    { new Guid("9b07b2fd-259c-43bf-9a5d-715945b23414"), new Guid("2fa87016-bafe-44f7-b4b3-d41fb0f0e202"), new Guid("6540c67e-7949-4751-adbc-bef4ce1d4286") },
+                    { new Guid("c22a378a-feb2-4a97-82b9-3b0a0588ddcd"), new Guid("2fa87016-bafe-44f7-b4b3-d41fb0f0e202"), new Guid("959491d7-de56-4884-89d4-a6a165e1702b") },
+                    { new Guid("cac3bf78-86a7-4255-9ed1-36a3cd89f1e9"), new Guid("2fa87016-bafe-44f7-b4b3-d41fb0f0e202"), new Guid("0e5ee4f5-0b78-4652-a309-3bf4552f4517") },
+                    { new Guid("ea6706b9-32a3-4a17-ab7f-0598c87b522b"), new Guid("2fa87016-bafe-44f7-b4b3-d41fb0f0e202"), new Guid("4529fea9-e740-4d71-8d45-68700f64bb62") },
+                    { new Guid("183bc93e-89f7-41b0-9948-724194af2302"), new Guid("364dfceb-7779-4190-a5bc-2bd4aba39af4"), new Guid("50b869d9-70e1-4fb1-890f-a934c3c3e446") },
+                    { new Guid("50817957-ef43-4393-b1a4-d557dc936daa"), new Guid("364dfceb-7779-4190-a5bc-2bd4aba39af4"), new Guid("d28912c3-077d-4d4f-9a34-5490a6dfceff") },
+                    { new Guid("549eec1c-c4b5-41ae-944b-f5398fbb1106"), new Guid("364dfceb-7779-4190-a5bc-2bd4aba39af4"), new Guid("5043a598-7354-4659-8e05-8149824d1ccf") },
+                    { new Guid("9b93570a-bb7b-43ff-b46c-bb74dff4c17e"), new Guid("364dfceb-7779-4190-a5bc-2bd4aba39af4"), new Guid("7e368856-b2e8-4924-9798-c12f709d579d") },
+                    { new Guid("a79f4031-3902-47ac-bbf9-252c665a6b94"), new Guid("364dfceb-7779-4190-a5bc-2bd4aba39af4"), new Guid("217bd2b3-ac7c-4bd7-b1db-b5d2a08bcc2c") },
+                    { new Guid("a9bedfe8-2813-465f-acd8-eadc61519e4d"), new Guid("364dfceb-7779-4190-a5bc-2bd4aba39af4"), new Guid("fc42ef26-9ef0-435a-9cd8-191ec033986c") },
+                    { new Guid("c38fa488-ad8f-4821-a869-f2be2ff2dcc5"), new Guid("364dfceb-7779-4190-a5bc-2bd4aba39af4"), new Guid("87ebc07f-6e0d-4622-b32f-2a430cb8612f") },
+                    { new Guid("cac3bf78-86a7-4255-9ed1-36a3cd89f1e9"), new Guid("364dfceb-7779-4190-a5bc-2bd4aba39af4"), new Guid("3f742155-c308-41fe-82e1-1d435d598f5b") },
+                    { new Guid("0636175f-b650-4d48-a5e3-37f08b394b45"), new Guid("36a36642-44db-4e8d-8cc8-adc387d73150"), new Guid("16e0452c-953b-4090-89c5-1f5eb6a82637") },
+                    { new Guid("0eefd2b0-d280-4ee7-906d-0baa3dcd0c88"), new Guid("36a36642-44db-4e8d-8cc8-adc387d73150"), new Guid("dcf1134d-a616-4bb9-8c70-ce9c0e7799a0") },
+                    { new Guid("36b6bbda-3c16-47a7-8353-88fd19eaf2e1"), new Guid("36a36642-44db-4e8d-8cc8-adc387d73150"), new Guid("6ff89af9-fc23-4a3e-b5af-47b24b72df33") },
+                    { new Guid("6deeccfd-7c92-4699-bbae-de86f83f6237"), new Guid("36a36642-44db-4e8d-8cc8-adc387d73150"), new Guid("b3a9b08e-b3f3-4e68-af0f-8bf6f5ee6745") },
+                    { new Guid("9a1edd05-bd24-462e-9754-534ec573745f"), new Guid("36a36642-44db-4e8d-8cc8-adc387d73150"), new Guid("d57a2c99-27e5-464c-8715-3f7fb6f1a57f") },
+                    { new Guid("9b07b2fd-259c-43bf-9a5d-715945b23414"), new Guid("36a36642-44db-4e8d-8cc8-adc387d73150"), new Guid("d57a2c99-27e5-464c-8715-3f7fb6f1a57f") },
+                    { new Guid("c22a378a-feb2-4a97-82b9-3b0a0588ddcd"), new Guid("36a36642-44db-4e8d-8cc8-adc387d73150"), new Guid("78dde744-3ae6-494d-a69b-35c4835ef5e5") },
                     { new Guid("0eefd2b0-d280-4ee7-906d-0baa3dcd0c88"), new Guid("e73f1844-04be-4d7f-8e6e-65a1a20b2a83"), new Guid("30f2d5a9-31ca-44d9-a195-e43b7e2ad229") },
                     { new Guid("1e63d635-ecb8-4f3e-972e-14e932fab8c0"), new Guid("e73f1844-04be-4d7f-8e6e-65a1a20b2a83"), new Guid("0f15ebcb-9045-4adb-bdcd-d43040d7d335") },
                     { new Guid("5b665dc9-28a0-451f-af9d-05fdd64ac704"), new Guid("e73f1844-04be-4d7f-8e6e-65a1a20b2a83"), new Guid("9cd3b4eb-e728-479b-9969-6ea18399b28f") },
@@ -392,35 +387,22 @@ namespace DotNetStarter.Migrations
                     { new Guid("82bc464a-0d13-482e-97a7-7237a37e94c2"), new Guid("e73f1844-04be-4d7f-8e6e-65a1a20b2a83"), new Guid("a19318be-5b65-41a8-bc69-82d710e88121") },
                     { new Guid("9483ac95-4f7a-4b5a-93cf-636a230a662d"), new Guid("e73f1844-04be-4d7f-8e6e-65a1a20b2a83"), new Guid("76d53216-a09b-4121-9b52-53e0fd893032") },
                     { new Guid("cac3bf78-86a7-4255-9ed1-36a3cd89f1e9"), new Guid("e73f1844-04be-4d7f-8e6e-65a1a20b2a83"), new Guid("2df791c0-468c-46d3-b987-51c2c85ff1fc") },
-                    { new Guid("e46fc4b7-c5ac-499d-80f1-1a983e672839"), new Guid("e73f1844-04be-4d7f-8e6e-65a1a20b2a83"), new Guid("d03d7948-1538-442a-bde1-d03d251067bb") },
-                    { new Guid("183bc93e-89f7-41b0-9948-724194af2302"), new Guid("f23606a0-c943-4645-a4d5-2be674b64956"), new Guid("50b869d9-70e1-4fb1-890f-a934c3c3e446") },
-                    { new Guid("50817957-ef43-4393-b1a4-d557dc936daa"), new Guid("f23606a0-c943-4645-a4d5-2be674b64956"), new Guid("d28912c3-077d-4d4f-9a34-5490a6dfceff") },
-                    { new Guid("549eec1c-c4b5-41ae-944b-f5398fbb1106"), new Guid("f23606a0-c943-4645-a4d5-2be674b64956"), new Guid("5043a598-7354-4659-8e05-8149824d1ccf") },
-                    { new Guid("9b93570a-bb7b-43ff-b46c-bb74dff4c17e"), new Guid("f23606a0-c943-4645-a4d5-2be674b64956"), new Guid("7e368856-b2e8-4924-9798-c12f709d579d") },
-                    { new Guid("a79f4031-3902-47ac-bbf9-252c665a6b94"), new Guid("f23606a0-c943-4645-a4d5-2be674b64956"), new Guid("217bd2b3-ac7c-4bd7-b1db-b5d2a08bcc2c") },
-                    { new Guid("a9bedfe8-2813-465f-acd8-eadc61519e4d"), new Guid("f23606a0-c943-4645-a4d5-2be674b64956"), new Guid("fc42ef26-9ef0-435a-9cd8-191ec033986c") },
-                    { new Guid("c38fa488-ad8f-4821-a869-f2be2ff2dcc5"), new Guid("f23606a0-c943-4645-a4d5-2be674b64956"), new Guid("87ebc07f-6e0d-4622-b32f-2a430cb8612f") },
-                    { new Guid("cac3bf78-86a7-4255-9ed1-36a3cd89f1e9"), new Guid("f23606a0-c943-4645-a4d5-2be674b64956"), new Guid("3f742155-c308-41fe-82e1-1d435d598f5b") }
+                    { new Guid("e46fc4b7-c5ac-499d-80f1-1a983e672839"), new Guid("e73f1844-04be-4d7f-8e6e-65a1a20b2a83"), new Guid("d03d7948-1538-442a-bde1-d03d251067bb") }
                 });
-
-            migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "CreatedBy", "CreatedDate", "Firstname", "Gender", "Lastname", "Password", "PhoneNumber", "RoleId", "Status", "UpdatedBy", "UpdatedDate", "Username" },
-                values: new object[] { new Guid("bf67a27c-72ab-4411-b871-6ef56c16e826"), "System", new DateTime(2023, 9, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), "Admin", 1, "Yopmail", "$2a$11$61sJj9Y7idWPUoWTysZ81u7B0veE3dPhfdPGIJbi.TB0r/NtgR0k2", "0333333333", new Guid("f23606a0-c943-4645-a4d5-2be674b64956"), 1, "System", new DateTime(2023, 9, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin.dotnetstarter@yopmail.com" });
 
             migrationBuilder.InsertData(
                 table: "UserPrivileges",
                 columns: new[] { "PrivilegeId", "UserId", "Id" },
                 values: new object[,]
                 {
-                    { new Guid("183bc93e-89f7-41b0-9948-724194af2302"), new Guid("bf67a27c-72ab-4411-b871-6ef56c16e826"), new Guid("0a77139b-14ea-4ec9-bd40-eafc16beef85") },
-                    { new Guid("50817957-ef43-4393-b1a4-d557dc936daa"), new Guid("bf67a27c-72ab-4411-b871-6ef56c16e826"), new Guid("4551aef9-fa14-453d-82ea-483c25f8e859") },
-                    { new Guid("549eec1c-c4b5-41ae-944b-f5398fbb1106"), new Guid("bf67a27c-72ab-4411-b871-6ef56c16e826"), new Guid("b58ccdec-23ed-43c7-814b-a1910d10dc2b") },
-                    { new Guid("9b93570a-bb7b-43ff-b46c-bb74dff4c17e"), new Guid("bf67a27c-72ab-4411-b871-6ef56c16e826"), new Guid("baf75ba0-60fe-41bf-8add-1b1e4f4302dd") },
-                    { new Guid("a79f4031-3902-47ac-bbf9-252c665a6b94"), new Guid("bf67a27c-72ab-4411-b871-6ef56c16e826"), new Guid("fdf3b651-daed-4858-8ef1-87232b3cfdd1") },
-                    { new Guid("a9bedfe8-2813-465f-acd8-eadc61519e4d"), new Guid("bf67a27c-72ab-4411-b871-6ef56c16e826"), new Guid("9267ce41-b3fe-4698-9b55-353e198174ce") },
-                    { new Guid("c38fa488-ad8f-4821-a869-f2be2ff2dcc5"), new Guid("bf67a27c-72ab-4411-b871-6ef56c16e826"), new Guid("304ec4d6-4935-4a84-8d65-5401c802154c") },
-                    { new Guid("cac3bf78-86a7-4255-9ed1-36a3cd89f1e9"), new Guid("bf67a27c-72ab-4411-b871-6ef56c16e826"), new Guid("b32f469e-a4ea-46c8-a486-bca9168720ab") }
+                    { new Guid("183bc93e-89f7-41b0-9948-724194af2302"), new Guid("a3edc636-8153-42af-85a1-65dac56cded7"), new Guid("0a77139b-14ea-4ec9-bd40-eafc16beef85") },
+                    { new Guid("50817957-ef43-4393-b1a4-d557dc936daa"), new Guid("a3edc636-8153-42af-85a1-65dac56cded7"), new Guid("4551aef9-fa14-453d-82ea-483c25f8e859") },
+                    { new Guid("549eec1c-c4b5-41ae-944b-f5398fbb1106"), new Guid("a3edc636-8153-42af-85a1-65dac56cded7"), new Guid("b58ccdec-23ed-43c7-814b-a1910d10dc2b") },
+                    { new Guid("9b93570a-bb7b-43ff-b46c-bb74dff4c17e"), new Guid("a3edc636-8153-42af-85a1-65dac56cded7"), new Guid("baf75ba0-60fe-41bf-8add-1b1e4f4302dd") },
+                    { new Guid("a79f4031-3902-47ac-bbf9-252c665a6b94"), new Guid("a3edc636-8153-42af-85a1-65dac56cded7"), new Guid("fdf3b651-daed-4858-8ef1-87232b3cfdd1") },
+                    { new Guid("a9bedfe8-2813-465f-acd8-eadc61519e4d"), new Guid("a3edc636-8153-42af-85a1-65dac56cded7"), new Guid("9267ce41-b3fe-4698-9b55-353e198174ce") },
+                    { new Guid("c38fa488-ad8f-4821-a869-f2be2ff2dcc5"), new Guid("a3edc636-8153-42af-85a1-65dac56cded7"), new Guid("304ec4d6-4935-4a84-8d65-5401c802154c") },
+                    { new Guid("cac3bf78-86a7-4255-9ed1-36a3cd89f1e9"), new Guid("a3edc636-8153-42af-85a1-65dac56cded7"), new Guid("b32f469e-a4ea-46c8-a486-bca9168720ab") }
                 });
         }
 
@@ -430,87 +412,127 @@ namespace DotNetStarter.Migrations
             migrationBuilder.DeleteData(
                 table: "RolePrivileges",
                 keyColumns: new[] { "PrivilegeId", "RoleId" },
-                keyValues: new object[] { new Guid("0636175f-b650-4d48-a5e3-37f08b394b45"), new Guid("b765548f-dde2-4fbc-b8ad-f7e412f18d03") });
+                keyValues: new object[] { new Guid("0eefd2b0-d280-4ee7-906d-0baa3dcd0c88"), new Guid("2fa87016-bafe-44f7-b4b3-d41fb0f0e202") });
 
             migrationBuilder.DeleteData(
                 table: "RolePrivileges",
                 keyColumns: new[] { "PrivilegeId", "RoleId" },
-                keyValues: new object[] { new Guid("0eefd2b0-d280-4ee7-906d-0baa3dcd0c88"), new Guid("b765548f-dde2-4fbc-b8ad-f7e412f18d03") });
+                keyValues: new object[] { new Guid("1e63d635-ecb8-4f3e-972e-14e932fab8c0"), new Guid("2fa87016-bafe-44f7-b4b3-d41fb0f0e202") });
 
             migrationBuilder.DeleteData(
                 table: "RolePrivileges",
                 keyColumns: new[] { "PrivilegeId", "RoleId" },
-                keyValues: new object[] { new Guid("36b6bbda-3c16-47a7-8353-88fd19eaf2e1"), new Guid("b765548f-dde2-4fbc-b8ad-f7e412f18d03") });
+                keyValues: new object[] { new Guid("36b6bbda-3c16-47a7-8353-88fd19eaf2e1"), new Guid("2fa87016-bafe-44f7-b4b3-d41fb0f0e202") });
 
             migrationBuilder.DeleteData(
                 table: "RolePrivileges",
                 keyColumns: new[] { "PrivilegeId", "RoleId" },
-                keyValues: new object[] { new Guid("6deeccfd-7c92-4699-bbae-de86f83f6237"), new Guid("b765548f-dde2-4fbc-b8ad-f7e412f18d03") });
+                keyValues: new object[] { new Guid("78416000-2b67-4b1f-89e7-3dbe3fd726b7"), new Guid("2fa87016-bafe-44f7-b4b3-d41fb0f0e202") });
 
             migrationBuilder.DeleteData(
                 table: "RolePrivileges",
                 keyColumns: new[] { "PrivilegeId", "RoleId" },
-                keyValues: new object[] { new Guid("9a1edd05-bd24-462e-9754-534ec573745f"), new Guid("b765548f-dde2-4fbc-b8ad-f7e412f18d03") });
+                keyValues: new object[] { new Guid("9483ac95-4f7a-4b5a-93cf-636a230a662d"), new Guid("2fa87016-bafe-44f7-b4b3-d41fb0f0e202") });
 
             migrationBuilder.DeleteData(
                 table: "RolePrivileges",
                 keyColumns: new[] { "PrivilegeId", "RoleId" },
-                keyValues: new object[] { new Guid("9b07b2fd-259c-43bf-9a5d-715945b23414"), new Guid("b765548f-dde2-4fbc-b8ad-f7e412f18d03") });
+                keyValues: new object[] { new Guid("9a1edd05-bd24-462e-9754-534ec573745f"), new Guid("2fa87016-bafe-44f7-b4b3-d41fb0f0e202") });
 
             migrationBuilder.DeleteData(
                 table: "RolePrivileges",
                 keyColumns: new[] { "PrivilegeId", "RoleId" },
-                keyValues: new object[] { new Guid("c22a378a-feb2-4a97-82b9-3b0a0588ddcd"), new Guid("b765548f-dde2-4fbc-b8ad-f7e412f18d03") });
+                keyValues: new object[] { new Guid("9b07b2fd-259c-43bf-9a5d-715945b23414"), new Guid("2fa87016-bafe-44f7-b4b3-d41fb0f0e202") });
 
             migrationBuilder.DeleteData(
                 table: "RolePrivileges",
                 keyColumns: new[] { "PrivilegeId", "RoleId" },
-                keyValues: new object[] { new Guid("0eefd2b0-d280-4ee7-906d-0baa3dcd0c88"), new Guid("c6aef375-97dc-4992-b6b4-a389a216842e") });
+                keyValues: new object[] { new Guid("c22a378a-feb2-4a97-82b9-3b0a0588ddcd"), new Guid("2fa87016-bafe-44f7-b4b3-d41fb0f0e202") });
 
             migrationBuilder.DeleteData(
                 table: "RolePrivileges",
                 keyColumns: new[] { "PrivilegeId", "RoleId" },
-                keyValues: new object[] { new Guid("1e63d635-ecb8-4f3e-972e-14e932fab8c0"), new Guid("c6aef375-97dc-4992-b6b4-a389a216842e") });
+                keyValues: new object[] { new Guid("cac3bf78-86a7-4255-9ed1-36a3cd89f1e9"), new Guid("2fa87016-bafe-44f7-b4b3-d41fb0f0e202") });
 
             migrationBuilder.DeleteData(
                 table: "RolePrivileges",
                 keyColumns: new[] { "PrivilegeId", "RoleId" },
-                keyValues: new object[] { new Guid("36b6bbda-3c16-47a7-8353-88fd19eaf2e1"), new Guid("c6aef375-97dc-4992-b6b4-a389a216842e") });
+                keyValues: new object[] { new Guid("ea6706b9-32a3-4a17-ab7f-0598c87b522b"), new Guid("2fa87016-bafe-44f7-b4b3-d41fb0f0e202") });
 
             migrationBuilder.DeleteData(
                 table: "RolePrivileges",
                 keyColumns: new[] { "PrivilegeId", "RoleId" },
-                keyValues: new object[] { new Guid("78416000-2b67-4b1f-89e7-3dbe3fd726b7"), new Guid("c6aef375-97dc-4992-b6b4-a389a216842e") });
+                keyValues: new object[] { new Guid("183bc93e-89f7-41b0-9948-724194af2302"), new Guid("364dfceb-7779-4190-a5bc-2bd4aba39af4") });
 
             migrationBuilder.DeleteData(
                 table: "RolePrivileges",
                 keyColumns: new[] { "PrivilegeId", "RoleId" },
-                keyValues: new object[] { new Guid("9483ac95-4f7a-4b5a-93cf-636a230a662d"), new Guid("c6aef375-97dc-4992-b6b4-a389a216842e") });
+                keyValues: new object[] { new Guid("50817957-ef43-4393-b1a4-d557dc936daa"), new Guid("364dfceb-7779-4190-a5bc-2bd4aba39af4") });
 
             migrationBuilder.DeleteData(
                 table: "RolePrivileges",
                 keyColumns: new[] { "PrivilegeId", "RoleId" },
-                keyValues: new object[] { new Guid("9a1edd05-bd24-462e-9754-534ec573745f"), new Guid("c6aef375-97dc-4992-b6b4-a389a216842e") });
+                keyValues: new object[] { new Guid("549eec1c-c4b5-41ae-944b-f5398fbb1106"), new Guid("364dfceb-7779-4190-a5bc-2bd4aba39af4") });
 
             migrationBuilder.DeleteData(
                 table: "RolePrivileges",
                 keyColumns: new[] { "PrivilegeId", "RoleId" },
-                keyValues: new object[] { new Guid("9b07b2fd-259c-43bf-9a5d-715945b23414"), new Guid("c6aef375-97dc-4992-b6b4-a389a216842e") });
+                keyValues: new object[] { new Guid("9b93570a-bb7b-43ff-b46c-bb74dff4c17e"), new Guid("364dfceb-7779-4190-a5bc-2bd4aba39af4") });
 
             migrationBuilder.DeleteData(
                 table: "RolePrivileges",
                 keyColumns: new[] { "PrivilegeId", "RoleId" },
-                keyValues: new object[] { new Guid("c22a378a-feb2-4a97-82b9-3b0a0588ddcd"), new Guid("c6aef375-97dc-4992-b6b4-a389a216842e") });
+                keyValues: new object[] { new Guid("a79f4031-3902-47ac-bbf9-252c665a6b94"), new Guid("364dfceb-7779-4190-a5bc-2bd4aba39af4") });
 
             migrationBuilder.DeleteData(
                 table: "RolePrivileges",
                 keyColumns: new[] { "PrivilegeId", "RoleId" },
-                keyValues: new object[] { new Guid("cac3bf78-86a7-4255-9ed1-36a3cd89f1e9"), new Guid("c6aef375-97dc-4992-b6b4-a389a216842e") });
+                keyValues: new object[] { new Guid("a9bedfe8-2813-465f-acd8-eadc61519e4d"), new Guid("364dfceb-7779-4190-a5bc-2bd4aba39af4") });
 
             migrationBuilder.DeleteData(
                 table: "RolePrivileges",
                 keyColumns: new[] { "PrivilegeId", "RoleId" },
-                keyValues: new object[] { new Guid("ea6706b9-32a3-4a17-ab7f-0598c87b522b"), new Guid("c6aef375-97dc-4992-b6b4-a389a216842e") });
+                keyValues: new object[] { new Guid("c38fa488-ad8f-4821-a869-f2be2ff2dcc5"), new Guid("364dfceb-7779-4190-a5bc-2bd4aba39af4") });
+
+            migrationBuilder.DeleteData(
+                table: "RolePrivileges",
+                keyColumns: new[] { "PrivilegeId", "RoleId" },
+                keyValues: new object[] { new Guid("cac3bf78-86a7-4255-9ed1-36a3cd89f1e9"), new Guid("364dfceb-7779-4190-a5bc-2bd4aba39af4") });
+
+            migrationBuilder.DeleteData(
+                table: "RolePrivileges",
+                keyColumns: new[] { "PrivilegeId", "RoleId" },
+                keyValues: new object[] { new Guid("0636175f-b650-4d48-a5e3-37f08b394b45"), new Guid("36a36642-44db-4e8d-8cc8-adc387d73150") });
+
+            migrationBuilder.DeleteData(
+                table: "RolePrivileges",
+                keyColumns: new[] { "PrivilegeId", "RoleId" },
+                keyValues: new object[] { new Guid("0eefd2b0-d280-4ee7-906d-0baa3dcd0c88"), new Guid("36a36642-44db-4e8d-8cc8-adc387d73150") });
+
+            migrationBuilder.DeleteData(
+                table: "RolePrivileges",
+                keyColumns: new[] { "PrivilegeId", "RoleId" },
+                keyValues: new object[] { new Guid("36b6bbda-3c16-47a7-8353-88fd19eaf2e1"), new Guid("36a36642-44db-4e8d-8cc8-adc387d73150") });
+
+            migrationBuilder.DeleteData(
+                table: "RolePrivileges",
+                keyColumns: new[] { "PrivilegeId", "RoleId" },
+                keyValues: new object[] { new Guid("6deeccfd-7c92-4699-bbae-de86f83f6237"), new Guid("36a36642-44db-4e8d-8cc8-adc387d73150") });
+
+            migrationBuilder.DeleteData(
+                table: "RolePrivileges",
+                keyColumns: new[] { "PrivilegeId", "RoleId" },
+                keyValues: new object[] { new Guid("9a1edd05-bd24-462e-9754-534ec573745f"), new Guid("36a36642-44db-4e8d-8cc8-adc387d73150") });
+
+            migrationBuilder.DeleteData(
+                table: "RolePrivileges",
+                keyColumns: new[] { "PrivilegeId", "RoleId" },
+                keyValues: new object[] { new Guid("9b07b2fd-259c-43bf-9a5d-715945b23414"), new Guid("36a36642-44db-4e8d-8cc8-adc387d73150") });
+
+            migrationBuilder.DeleteData(
+                table: "RolePrivileges",
+                keyColumns: new[] { "PrivilegeId", "RoleId" },
+                keyValues: new object[] { new Guid("c22a378a-feb2-4a97-82b9-3b0a0588ddcd"), new Guid("36a36642-44db-4e8d-8cc8-adc387d73150") });
 
             migrationBuilder.DeleteData(
                 table: "RolePrivileges",
@@ -553,84 +575,44 @@ namespace DotNetStarter.Migrations
                 keyValues: new object[] { new Guid("e46fc4b7-c5ac-499d-80f1-1a983e672839"), new Guid("e73f1844-04be-4d7f-8e6e-65a1a20b2a83") });
 
             migrationBuilder.DeleteData(
-                table: "RolePrivileges",
-                keyColumns: new[] { "PrivilegeId", "RoleId" },
-                keyValues: new object[] { new Guid("183bc93e-89f7-41b0-9948-724194af2302"), new Guid("f23606a0-c943-4645-a4d5-2be674b64956") });
-
-            migrationBuilder.DeleteData(
-                table: "RolePrivileges",
-                keyColumns: new[] { "PrivilegeId", "RoleId" },
-                keyValues: new object[] { new Guid("50817957-ef43-4393-b1a4-d557dc936daa"), new Guid("f23606a0-c943-4645-a4d5-2be674b64956") });
-
-            migrationBuilder.DeleteData(
-                table: "RolePrivileges",
-                keyColumns: new[] { "PrivilegeId", "RoleId" },
-                keyValues: new object[] { new Guid("549eec1c-c4b5-41ae-944b-f5398fbb1106"), new Guid("f23606a0-c943-4645-a4d5-2be674b64956") });
-
-            migrationBuilder.DeleteData(
-                table: "RolePrivileges",
-                keyColumns: new[] { "PrivilegeId", "RoleId" },
-                keyValues: new object[] { new Guid("9b93570a-bb7b-43ff-b46c-bb74dff4c17e"), new Guid("f23606a0-c943-4645-a4d5-2be674b64956") });
-
-            migrationBuilder.DeleteData(
-                table: "RolePrivileges",
-                keyColumns: new[] { "PrivilegeId", "RoleId" },
-                keyValues: new object[] { new Guid("a79f4031-3902-47ac-bbf9-252c665a6b94"), new Guid("f23606a0-c943-4645-a4d5-2be674b64956") });
-
-            migrationBuilder.DeleteData(
-                table: "RolePrivileges",
-                keyColumns: new[] { "PrivilegeId", "RoleId" },
-                keyValues: new object[] { new Guid("a9bedfe8-2813-465f-acd8-eadc61519e4d"), new Guid("f23606a0-c943-4645-a4d5-2be674b64956") });
-
-            migrationBuilder.DeleteData(
-                table: "RolePrivileges",
-                keyColumns: new[] { "PrivilegeId", "RoleId" },
-                keyValues: new object[] { new Guid("c38fa488-ad8f-4821-a869-f2be2ff2dcc5"), new Guid("f23606a0-c943-4645-a4d5-2be674b64956") });
-
-            migrationBuilder.DeleteData(
-                table: "RolePrivileges",
-                keyColumns: new[] { "PrivilegeId", "RoleId" },
-                keyValues: new object[] { new Guid("cac3bf78-86a7-4255-9ed1-36a3cd89f1e9"), new Guid("f23606a0-c943-4645-a4d5-2be674b64956") });
+                table: "UserPrivileges",
+                keyColumns: new[] { "PrivilegeId", "UserId" },
+                keyValues: new object[] { new Guid("183bc93e-89f7-41b0-9948-724194af2302"), new Guid("a3edc636-8153-42af-85a1-65dac56cded7") });
 
             migrationBuilder.DeleteData(
                 table: "UserPrivileges",
                 keyColumns: new[] { "PrivilegeId", "UserId" },
-                keyValues: new object[] { new Guid("183bc93e-89f7-41b0-9948-724194af2302"), new Guid("bf67a27c-72ab-4411-b871-6ef56c16e826") });
+                keyValues: new object[] { new Guid("50817957-ef43-4393-b1a4-d557dc936daa"), new Guid("a3edc636-8153-42af-85a1-65dac56cded7") });
 
             migrationBuilder.DeleteData(
                 table: "UserPrivileges",
                 keyColumns: new[] { "PrivilegeId", "UserId" },
-                keyValues: new object[] { new Guid("50817957-ef43-4393-b1a4-d557dc936daa"), new Guid("bf67a27c-72ab-4411-b871-6ef56c16e826") });
+                keyValues: new object[] { new Guid("549eec1c-c4b5-41ae-944b-f5398fbb1106"), new Guid("a3edc636-8153-42af-85a1-65dac56cded7") });
 
             migrationBuilder.DeleteData(
                 table: "UserPrivileges",
                 keyColumns: new[] { "PrivilegeId", "UserId" },
-                keyValues: new object[] { new Guid("549eec1c-c4b5-41ae-944b-f5398fbb1106"), new Guid("bf67a27c-72ab-4411-b871-6ef56c16e826") });
+                keyValues: new object[] { new Guid("9b93570a-bb7b-43ff-b46c-bb74dff4c17e"), new Guid("a3edc636-8153-42af-85a1-65dac56cded7") });
 
             migrationBuilder.DeleteData(
                 table: "UserPrivileges",
                 keyColumns: new[] { "PrivilegeId", "UserId" },
-                keyValues: new object[] { new Guid("9b93570a-bb7b-43ff-b46c-bb74dff4c17e"), new Guid("bf67a27c-72ab-4411-b871-6ef56c16e826") });
+                keyValues: new object[] { new Guid("a79f4031-3902-47ac-bbf9-252c665a6b94"), new Guid("a3edc636-8153-42af-85a1-65dac56cded7") });
 
             migrationBuilder.DeleteData(
                 table: "UserPrivileges",
                 keyColumns: new[] { "PrivilegeId", "UserId" },
-                keyValues: new object[] { new Guid("a79f4031-3902-47ac-bbf9-252c665a6b94"), new Guid("bf67a27c-72ab-4411-b871-6ef56c16e826") });
+                keyValues: new object[] { new Guid("a9bedfe8-2813-465f-acd8-eadc61519e4d"), new Guid("a3edc636-8153-42af-85a1-65dac56cded7") });
 
             migrationBuilder.DeleteData(
                 table: "UserPrivileges",
                 keyColumns: new[] { "PrivilegeId", "UserId" },
-                keyValues: new object[] { new Guid("a9bedfe8-2813-465f-acd8-eadc61519e4d"), new Guid("bf67a27c-72ab-4411-b871-6ef56c16e826") });
+                keyValues: new object[] { new Guid("c38fa488-ad8f-4821-a869-f2be2ff2dcc5"), new Guid("a3edc636-8153-42af-85a1-65dac56cded7") });
 
             migrationBuilder.DeleteData(
                 table: "UserPrivileges",
                 keyColumns: new[] { "PrivilegeId", "UserId" },
-                keyValues: new object[] { new Guid("c38fa488-ad8f-4821-a869-f2be2ff2dcc5"), new Guid("bf67a27c-72ab-4411-b871-6ef56c16e826") });
-
-            migrationBuilder.DeleteData(
-                table: "UserPrivileges",
-                keyColumns: new[] { "PrivilegeId", "UserId" },
-                keyValues: new object[] { new Guid("cac3bf78-86a7-4255-9ed1-36a3cd89f1e9"), new Guid("bf67a27c-72ab-4411-b871-6ef56c16e826") });
+                keyValues: new object[] { new Guid("cac3bf78-86a7-4255-9ed1-36a3cd89f1e9"), new Guid("a3edc636-8153-42af-85a1-65dac56cded7") });
 
             migrationBuilder.DeleteData(
                 table: "Privileges",
@@ -745,27 +727,11 @@ namespace DotNetStarter.Migrations
             migrationBuilder.DeleteData(
                 table: "Roles",
                 keyColumn: "Id",
-                keyValue: new Guid("b765548f-dde2-4fbc-b8ad-f7e412f18d03"));
-
-            migrationBuilder.DeleteData(
-                table: "Roles",
-                keyColumn: "Id",
-                keyValue: new Guid("c6aef375-97dc-4992-b6b4-a389a216842e"));
-
-            migrationBuilder.DeleteData(
-                table: "Roles",
-                keyColumn: "Id",
                 keyValue: new Guid("e73f1844-04be-4d7f-8e6e-65a1a20b2a83"));
 
-            migrationBuilder.DeleteData(
-                table: "Users",
-                keyColumn: "Id",
-                keyValue: new Guid("bf67a27c-72ab-4411-b871-6ef56c16e826"));
-
-            migrationBuilder.DeleteData(
-                table: "Roles",
-                keyColumn: "Id",
-                keyValue: new Guid("f23606a0-c943-4645-a4d5-2be674b64956"));
+            migrationBuilder.DropColumn(
+                name: "Gender",
+                table: "Users");
 
             migrationBuilder.InsertData(
                 table: "Privileges",
@@ -792,9 +758,6 @@ namespace DotNetStarter.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("2fa87016-bafe-44f7-b4b3-d41fb0f0e202"), "PROJECT_MANAGER" },
-                    { new Guid("364dfceb-7779-4190-a5bc-2bd4aba39af4"), "ADMINISTRATOR" },
-                    { new Guid("36a36642-44db-4e8d-8cc8-adc387d73150"), "TALENT" },
                     { new Guid("752b3a92-dc11-487f-b2c9-0e5119e71604"), "RESOURCE_MANAGER" },
                     { new Guid("75b9c8bd-68ff-49a2-ba3b-f3adf6b01d07"), "LOCALIZATION_TEAM" }
                 });
@@ -835,11 +798,6 @@ namespace DotNetStarter.Migrations
                     { new Guid("844ef058-9bf3-4989-8717-101bf1887f85"), new Guid("75b9c8bd-68ff-49a2-ba3b-f3adf6b01d07"), new Guid("5b789d79-3444-4437-8d33-270f5024c57a") },
                     { new Guid("ce641717-7ab9-46b4-8188-2ec28d1985a4"), new Guid("75b9c8bd-68ff-49a2-ba3b-f3adf6b01d07"), new Guid("63fb0ea1-c5a2-44b4-85ae-e9ba1a0d2c93") }
                 });
-
-            migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "CreatedBy", "CreatedDate", "Firstname", "Gender", "Lastname", "Password", "PhoneNumber", "RoleId", "Status", "UpdatedBy", "UpdatedDate", "Username" },
-                values: new object[] { new Guid("a3edc636-8153-42af-85a1-65dac56cded7"), "System", new DateTime(2023, 9, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), "Admin", 1, "Yopmail", "$2a$11$61sJj9Y7idWPUoWTysZ81u7B0veE3dPhfdPGIJbi.TB0r/NtgR0k2", "0333333333", new Guid("364dfceb-7779-4190-a5bc-2bd4aba39af4"), 1, "System", new DateTime(2023, 9, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin.dotnetstarter@yopmail.com" });
 
             migrationBuilder.InsertData(
                 table: "UserPrivileges",

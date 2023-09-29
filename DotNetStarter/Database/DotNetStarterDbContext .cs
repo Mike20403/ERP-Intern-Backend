@@ -216,12 +216,12 @@ namespace DotNetStarter.Database
             #region Role
             var administratorRole = new Role
             {
-                Id = new Guid("f23606a0-c943-4645-a4d5-2be674b64956"),
+                Id = new Guid("364dfceb-7779-4190-a5bc-2bd4aba39af4"),
                 Name = RoleNames.Administrator,
             };
             var projectManagerRole = new Role
             {
-                Id = new Guid("c6aef375-97dc-4992-b6b4-a389a216842e"),
+                Id = new Guid("2fa87016-bafe-44f7-b4b3-d41fb0f0e202"),
                 Name = RoleNames.ProjectManager,
             };
             var agencyMemberRole = new Role
@@ -231,7 +231,7 @@ namespace DotNetStarter.Database
             };
             var talentRole = new Role
             {
-                Id = new Guid("b765548f-dde2-4fbc-b8ad-f7e412f18d03"),
+                Id = new Guid("36a36642-44db-4e8d-8cc8-adc387d73150"),
                 Name = RoleNames.Talent,
             };
 
@@ -353,7 +353,7 @@ namespace DotNetStarter.Database
                 PrivilegeId = FinalizePaymentsPrivilege.Id,
             };
 
-            var agencyMemberViewTalensRolePrivilege = new RolePrivilege
+            var agencyMemberViewTalentsRolePrivilege = new RolePrivilege
             {
                 Id = new Guid("2df791c0-468c-46d3-b987-51c2c85ff1fc"),
                 RoleId = agencyMemberRole.Id,
@@ -466,7 +466,7 @@ namespace DotNetStarter.Database
                 projectManagerDeleteTasksRolePrivilege,
                 projectManagerFinalizePaymentRolePrivilege,
 
-                agencyMemberViewTalensRolePrivilege,
+                agencyMemberViewTalentsRolePrivilege,
                 agencyMemberInviteTalentsRolePrivilege,
                 agencyMemberRemoveTalentsRolePrivilege,
                 agencyMemberAcceptPaymentRolePrivilege,
@@ -489,7 +489,7 @@ namespace DotNetStarter.Database
             var dateTime = new DateTime(2023, 9, 14, 0, 0, 0);
             var admin = new User
             {
-                Id = new Guid("bf67a27c-72ab-4411-b871-6ef56c16e826"),
+                Id = new Guid("a3edc636-8153-42af-85a1-65dac56cded7"),
                 Username = "admin.dotnetstarter@yopmail.com",
                 Firstname = "Admin",
                 Lastname = "Yopmail",
