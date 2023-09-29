@@ -307,7 +307,8 @@ namespace DotNetStarter.Migrations
                 name: "Gender",
                 table: "Users",
                 type: "int",
-                nullable: true);
+                nullable: false,
+                defaultValue: 0);
 
             migrationBuilder.InsertData(
                 table: "Privileges",
@@ -347,8 +348,8 @@ namespace DotNetStarter.Migrations
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: new Guid("a3edc636-8153-42af-85a1-65dac56cded7"),
-                column: "Gender",
-                value: 1);
+                columns: new[] { "Gender", "Status" },
+                values: new object[] { 1, 0 });
 
             migrationBuilder.InsertData(
                 table: "RolePrivileges",
@@ -761,6 +762,13 @@ namespace DotNetStarter.Migrations
                     { new Guid("752b3a92-dc11-487f-b2c9-0e5119e71604"), "RESOURCE_MANAGER" },
                     { new Guid("75b9c8bd-68ff-49a2-ba3b-f3adf6b01d07"), "LOCALIZATION_TEAM" }
                 });
+
+            migrationBuilder.UpdateData(
+                table: "Users",
+                keyColumn: "Id",
+                keyValue: new Guid("a3edc636-8153-42af-85a1-65dac56cded7"),
+                column: "Status",
+                value: 1);
 
             migrationBuilder.InsertData(
                 table: "RolePrivileges",

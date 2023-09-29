@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DotNetStarter.Migrations
 {
     [DbContext(typeof(DotNetStarterDbContext))]
-    [Migration("20230929024924_FixRolesAndPrivilegesData")]
+    [Migration("20230929031054_FixRolesAndPrivilegesData")]
     partial class FixRolesAndPrivilegesData
     {
         /// <inheritdoc />
@@ -503,7 +503,7 @@ namespace DotNetStarter.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Gender")
+                    b.Property<int>("Gender")
                         .HasColumnType("int");
 
                     b.Property<string>("Lastname")
@@ -559,7 +559,7 @@ namespace DotNetStarter.Migrations
                             Password = "$2a$11$61sJj9Y7idWPUoWTysZ81u7B0veE3dPhfdPGIJbi.TB0r/NtgR0k2",
                             PhoneNumber = "0333333333",
                             RoleId = new Guid("364dfceb-7779-4190-a5bc-2bd4aba39af4"),
-                            Status = 1,
+                            Status = 0,
                             UpdatedBy = "System",
                             UpdatedDate = new DateTime(2023, 9, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Username = "admin.dotnetstarter@yopmail.com"
