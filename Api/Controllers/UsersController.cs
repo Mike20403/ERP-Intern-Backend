@@ -17,7 +17,6 @@ using System.Net;
 namespace Api.Controllers
 {
     [Authorize(Roles = RoleNames.Administrator)]
-    [HasPrivilege(PrivilegeNames.ManageUsers)]
     [ApiVersion(ApiVersions.Version1)]
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
