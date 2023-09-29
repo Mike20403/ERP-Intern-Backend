@@ -7,10 +7,10 @@
         public const string CreateTalents = "CREATE_TALENTS";
         public const string UpdateTalents = "UPDATE_TALENTS";
         public const string DeleteTalents = "DELETE_TALENTS";
-        public const string ViewAgencyMembers = "VIEW_AGENCY_MEMBERS";
-        public const string CreateAgencyMembers = "CREATE_AGENCY_MEMBERS";
-        public const string UpdateAgencyMembers = "UPDATE_AGENCY_MEMBERS";
-        public const string DeleteAgencyMembers = "DELETE_AGENCY_MEMBERS";
+        public const string ViewStaffMembers = "VIEW_STAFF_MEMBERS";
+        public const string CreateStaffMembers = "CREATE_STAFF_MEMBERS";
+        public const string UpdateStaffMembers = "UPDATE_STAFF_MEMBERS";
+        public const string DeleteStaffMembers = "DELETE_STAFF_MEMBERS";
         public const string ViewProjects = "VIEW_PROJECTS";
         public const string CreateProjects = "CREATE_PROJECTS";
         public const string UpdateProjects = "UPDATE_PROJECTS";

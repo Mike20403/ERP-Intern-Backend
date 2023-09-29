@@ -75,22 +75,22 @@ namespace DotNetStarter.Database
             var viewAgencyMembersPrivilege = new Privilege
             {
                 Id = new Guid("a79f4031-3902-47ac-bbf9-252c665a6b94"),
-                Name = PrivilegeNames.ViewAgencyMembers,
+                Name = PrivilegeNames.ViewStaffMembers,
             };
             var createAgencyMembersPrivilege = new Privilege
             {
                 Id = new Guid("9b93570a-bb7b-43ff-b46c-bb74dff4c17e"),
-                Name = PrivilegeNames.CreateAgencyMembers,
+                Name = PrivilegeNames.CreateStaffMembers,
             };
             var updateAgencyMembersPrivilege = new Privilege
             {
                 Id = new Guid("c38fa488-ad8f-4821-a869-f2be2ff2dcc5"),
-                Name = PrivilegeNames.UpdateAgencyMembers,
+                Name = PrivilegeNames.UpdateStaffMembers,
             };
             var deleteAgencyMembersPrivilege = new Privilege
             {
                 Id = new Guid("549eec1c-c4b5-41ae-944b-f5398fbb1106"),
-                Name = PrivilegeNames.DeleteAgencyMembers,
+                Name = PrivilegeNames.DeleteStaffMembers,
             };
 
             var viewTalentsPrivilege = new Privilege
