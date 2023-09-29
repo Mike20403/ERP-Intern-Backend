@@ -19,6 +19,9 @@ namespace DotNetStarter.Entities
         public string? PhoneNumber { get; set; }
 
         [Required]
+        public Gender? Gender { get; set; }
+
+        [Required]
         public Status? Status { get; set; }
 
         [Required]

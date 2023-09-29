@@ -72,86 +72,145 @@ namespace DotNetStarter.Database
             #endregion
 
             #region Privilege
-            var manageUsersPrivilege = new Privilege
+            var viewAgencyMembersPrivilege = new Privilege
             {
-                Id = new Guid("31abfcd0-ed97-4118-a168-f61682cc8034"),
-                Name = PrivilegeNames.ManageUsers,
+                Id = new Guid("a79f4031-3902-47ac-bbf9-252c665a6b94"),
+                Name = PrivilegeNames.ViewAgencyMembers,
             };
-            var managePaidLinguisticAssetsPrivilege = new Privilege
+            var createAgencyMembersPrivilege = new Privilege
             {
-                Id = new Guid("4f3095bc-4a7c-4444-a36d-1395183b9e32"),
-                Name = PrivilegeNames.ManagePaidLinguisticAssets,
+                Id = new Guid("9b93570a-bb7b-43ff-b46c-bb74dff4c17e"),
+                Name = PrivilegeNames.CreateAgencyMembers,
             };
-            var manageVendorsPrivilege = new Privilege
+            var updateAgencyMembersPrivilege = new Privilege
             {
-                Id = new Guid("c57f94c2-342b-423a-8fe8-e08dd5ce96b9"),
-                Name = PrivilegeNames.ManageVendors,
+                Id = new Guid("c38fa488-ad8f-4821-a869-f2be2ff2dcc5"),
+                Name = PrivilegeNames.UpdateAgencyMembers,
             };
-            var manageClientsAndProjectTagsPrivilege = new Privilege
+            var deleteAgencyMembersPrivilege = new Privilege
             {
-                Id = new Guid("fa1dd2fd-8037-4eba-8c51-2a1ee338a739"),
-                Name = PrivilegeNames.ManageClientsAndProjectTags,
+                Id = new Guid("549eec1c-c4b5-41ae-944b-f5398fbb1106"),
+                Name = PrivilegeNames.DeleteAgencyMembers,
             };
-            var createAnyProjectsPrivilege = new Privilege
+
+            var viewTalentsPrivilege = new Privilege
             {
-                Id = new Guid("844ef058-9bf3-4989-8717-101bf1887f85"),
-                Name = PrivilegeNames.CreateAnyProjects,
+                Id = new Guid("cac3bf78-86a7-4255-9ed1-36a3cd89f1e9"),
+                Name = PrivilegeNames.ViewTalents,
             };
-            var viewAllProjectsPrivilege = new Privilege
+            var createTalentsPrivilege = new Privilege
             {
-                Id = new Guid("36ef0463-7435-4d8c-abc8-65a15824ed4e"),
-                Name = PrivilegeNames.ViewAllProjects,
+                Id = new Guid("50817957-ef43-4393-b1a4-d557dc936daa"),
+                Name = PrivilegeNames.CreateTalents,
             };
-            var manageLinguisticAssetsInAllProjectsPrivilege = new Privilege
+            var updateTalentsPrivilege = new Privilege
             {
-                Id = new Guid("7925dde1-b983-46c3-a9fa-59d08d497c3f"),
-                Name = PrivilegeNames.ManageLinguisticAssetsInAllProjects,
+                Id = new Guid("a9bedfe8-2813-465f-acd8-eadc61519e4d"),
+                Name = PrivilegeNames.UpdateTalents,
             };
-            var manageAllGlossariesPrivilege = new Privilege
+            var deleteTalentsPrivilege = new Privilege
             {
-                Id = new Guid("ce641717-7ab9-46b4-8188-2ec28d1985a4"),
-                Name = PrivilegeNames.ManageAllGlossaries,
+                Id = new Guid("183bc93e-89f7-41b0-9948-724194af2302"),
+                Name = PrivilegeNames.DeleteTalents,
             };
-            var manageAllTmsPrivilege = new Privilege
+
+            var viewProjectsPrivilege = new Privilege
             {
-                Id = new Guid("19208f3f-0c95-416f-a095-99650fb94490"),
-                Name = PrivilegeNames.ManageAllTms,
+                Id = new Guid("0eefd2b0-d280-4ee7-906d-0baa3dcd0c88"),
+                Name = PrivilegeNames.ViewProjects,
             };
-            var suggestTermsWithoutSpecifyingAGlossaryPrivilege = new Privilege
+            var createProjectsPrivilege = new Privilege
             {
-                Id = new Guid("06e6bc20-7534-4e47-b914-8a0dd0867a24"),
-                Name = PrivilegeNames.SuggestTermsWithoutSpecifyingAGlossary,
+                Id = new Guid("82bc464a-0d13-482e-97a7-7237a37e94c2"),
+                Name = PrivilegeNames.CreateProjects,
             };
-            var manageProjectTemplatesPrivilege = new Privilege
+            var updateProjectsPrivilege = new Privilege
             {
-                Id = new Guid("3f4a03fe-05ac-49e3-ac32-692ed12d1510"),
-                Name = PrivilegeNames.ManageProjectTemplates,
+                Id = new Guid("1e63d635-ecb8-4f3e-972e-14e932fab8c0"),
+                Name = PrivilegeNames.UpdateProjects,
             };
-            var manageOrdersPrivilege = new Privilege
+            var deleteProjectsPrivilege = new Privilege
             {
-                Id = new Guid("1e9c547e-f245-46e4-b4c6-779ce7a3774e"),
-                Name = PrivilegeNames.ManageOrders,
+                Id = new Guid("e46fc4b7-c5ac-499d-80f1-1a983e672839"),
+                Name = PrivilegeNames.DeleteProjects,
             };
-            var manageServiceTemplatesPrivilege = new Privilege
+
+            var viewTasksPrivilege = new Privilege
             {
-                Id = new Guid("391a2af6-a576-43fd-9d3d-90baf5c52594"),
-                Name = PrivilegeNames.ManageServiceTemplates,
+                Id = new Guid("c22a378a-feb2-4a97-82b9-3b0a0588ddcd"),
+                Name = PrivilegeNames.ViewTasks,
+            };
+            var createTasksPrivilege = new Privilege
+            {
+                Id = new Guid("36b6bbda-3c16-47a7-8353-88fd19eaf2e1"),
+                Name = PrivilegeNames.CreateTasks,
+            };
+            var updateTasksPrivilege = new Privilege
+            {
+                Id = new Guid("9a1edd05-bd24-462e-9754-534ec573745f"),
+                Name = PrivilegeNames.UpdateTasks,
+            };
+            var deleteTasksPrivilege = new Privilege
+            {
+                Id = new Guid("9b07b2fd-259c-43bf-9a5d-715945b23414"),
+                Name = PrivilegeNames.DeleteTasks,
+            };
+
+            var inviteTalentsPrivilege = new Privilege
+            {
+                Id = new Guid("78416000-2b67-4b1f-89e7-3dbe3fd726b7"),
+                Name = PrivilegeNames.InviteTalents,
+            };
+            var removeTalentsFromProjectPrivilege = new Privilege
+            {
+                Id = new Guid("9483ac95-4f7a-4b5a-93cf-636a230a662d"),
+                Name = PrivilegeNames.RemoveTalentsFromProject,
+            };
+            var CreatePaymentsPrivilege = new Privilege
+            {
+                Id = new Guid("6deeccfd-7c92-4699-bbae-de86f83f6237"),
+                Name = PrivilegeNames.CreatePayments,
+            };
+            var UpdatePaymentsPrivilege = new Privilege
+            {
+                Id = new Guid("0636175f-b650-4d48-a5e3-37f08b394b45"),
+                Name = PrivilegeNames.UpdatePayments,
+            };
+            var AcceptPaymentsPrivilege = new Privilege
+            {
+                Id = new Guid("5b665dc9-28a0-451f-af9d-05fdd64ac704"),
+                Name = PrivilegeNames.AcceptPayments,
+            };
+            var FinalizePaymentsPrivilege = new Privilege
+            {
+                Id = new Guid("ea6706b9-32a3-4a17-ab7f-0598c87b522b"),
+                Name = PrivilegeNames.FinalizePayments,
             };
 
             modelBuilder.Entity<Privilege>().HasData(
-                manageUsersPrivilege,
-                managePaidLinguisticAssetsPrivilege,
-                manageVendorsPrivilege,
-                manageClientsAndProjectTagsPrivilege,
-                createAnyProjectsPrivilege,
-                viewAllProjectsPrivilege,
-                manageLinguisticAssetsInAllProjectsPrivilege,
-                manageAllGlossariesPrivilege,
-                manageAllTmsPrivilege,
-                suggestTermsWithoutSpecifyingAGlossaryPrivilege,
-                manageProjectTemplatesPrivilege,
-                manageOrdersPrivilege,
-                manageServiceTemplatesPrivilege);
+                viewAgencyMembersPrivilege,
+                createAgencyMembersPrivilege,
+                updateAgencyMembersPrivilege,
+                deleteAgencyMembersPrivilege,
+                viewTalentsPrivilege,
+                createTalentsPrivilege,
+                updateTalentsPrivilege,
+                deleteTalentsPrivilege,
+                viewProjectsPrivilege,
+                createProjectsPrivilege,
+                updateProjectsPrivilege,
+                deleteProjectsPrivilege,
+                viewTasksPrivilege,
+                createTasksPrivilege,
+                updateTasksPrivilege,
+                deleteTasksPrivilege,
+                inviteTalentsPrivilege,
+                removeTalentsFromProjectPrivilege,
+                CreatePaymentsPrivilege,
+                UpdatePaymentsPrivilege,
+                AcceptPaymentsPrivilege,
+                FinalizePaymentsPrivilege
+            );
             #endregion
 
             #region Role
@@ -165,15 +224,10 @@ namespace DotNetStarter.Database
                 Id = new Guid("2fa87016-bafe-44f7-b4b3-d41fb0f0e202"),
                 Name = RoleNames.ProjectManager,
             };
-            var resourceManagerRole = new Role
+            var agencyMemberRole = new Role
             {
-                Id = new Guid("752b3a92-dc11-487f-b2c9-0e5119e71604"),
-                Name = RoleNames.ResourceManager,
-            };
-            var localizationTeamRole = new Role
-            {
-                Id = new Guid("75b9c8bd-68ff-49a2-ba3b-f3adf6b01d07"),
-                Name = RoleNames.LocalizationTeam,
+                Id = new Guid("e73f1844-04be-4d7f-8e6e-65a1a20b2a83"),
+                Name = RoleNames.AgencyMember,
             };
             var talentRole = new Role
             {
@@ -184,227 +238,251 @@ namespace DotNetStarter.Database
             modelBuilder.Entity<Role>().HasData(
                 administratorRole,
                 projectManagerRole,
-                resourceManagerRole,
-                localizationTeamRole,
+                agencyMemberRole,
                 talentRole);
             #endregion
 
             #region RolePrivilege
-            var administratorManageUsersRolePrivilege = new RolePrivilege
+            var administratorViewAgencyMembersRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("9dbbfae8-7017-4a95-923d-c439b08d7110"),
+                Id = new Guid("217bd2b3-ac7c-4bd7-b1db-b5d2a08bcc2c"),
                 RoleId = administratorRole.Id,
-                PrivilegeId = manageUsersPrivilege.Id,
+                PrivilegeId = viewAgencyMembersPrivilege.Id,
             };
-            var administratorManagePaidLinguisticAssetsRolePrivilege = new RolePrivilege
+            var administratorCreateAgencyMembersRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("8d378b56-9c39-4c7e-8620-38c314821fef"),
+                Id = new Guid("7e368856-b2e8-4924-9798-c12f709d579d"),
                 RoleId = administratorRole.Id,
-                PrivilegeId = managePaidLinguisticAssetsPrivilege.Id,
+                PrivilegeId = createAgencyMembersPrivilege.Id,
             };
-            var administratorManageVendorsRolePrivilege = new RolePrivilege
+            var administratorUpdateAgencyMembersRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("849c8950-e066-4543-9ed8-410a26916c0a"),
+                Id = new Guid("87ebc07f-6e0d-4622-b32f-2a430cb8612f"),
                 RoleId = administratorRole.Id,
-                PrivilegeId = manageVendorsPrivilege.Id,
+                PrivilegeId = updateAgencyMembersPrivilege.Id,
             };
-            var administratorManageClientsAndProjectTagsRolePrivilege = new RolePrivilege
+            var administratorDeleteAgencyMembersRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("44c3bfa4-0843-4c98-8c73-4106e452f305"),
+                Id = new Guid("5043a598-7354-4659-8e05-8149824d1ccf"),
                 RoleId = administratorRole.Id,
-                PrivilegeId = manageClientsAndProjectTagsPrivilege.Id,
+                PrivilegeId = deleteAgencyMembersPrivilege.Id,
             };
-            var administratorCreateAnyProjectsRolePrivilege = new RolePrivilege
+            var administratorViewTalentsRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("b8af3f12-42b5-4464-85bc-07d2315a61e1"),
+                Id = new Guid("3f742155-c308-41fe-82e1-1d435d598f5b"),
                 RoleId = administratorRole.Id,
-                PrivilegeId = createAnyProjectsPrivilege.Id,
+                PrivilegeId = viewTalentsPrivilege.Id,
             };
-            var administratorViewAllProjectsRolePrivilege = new RolePrivilege
+            var administratorCreateTalentsRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("b5855e40-ece8-4cb4-9acc-c87fa39c7543"),
+                Id = new Guid("d28912c3-077d-4d4f-9a34-5490a6dfceff"),
                 RoleId = administratorRole.Id,
-                PrivilegeId = viewAllProjectsPrivilege.Id,
+                PrivilegeId = createTalentsPrivilege.Id,
             };
-            var administratorManageLinguisticAssetsInAllProjectsRolePrivilege = new RolePrivilege
+            var administratorUpdateTalentsRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("d7a9c6f5-c519-4235-97f7-941c826f97d5"),
+                Id = new Guid("fc42ef26-9ef0-435a-9cd8-191ec033986c"),
                 RoleId = administratorRole.Id,
-                PrivilegeId = manageLinguisticAssetsInAllProjectsPrivilege.Id,
+                PrivilegeId = updateTalentsPrivilege.Id,
             };
-            var administratorManageAllGlossariesRolePrivilege = new RolePrivilege
+            var administratorDeleteTalentsRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("0f467342-1e68-4cf5-85f3-46fce0948dad"),
+                Id = new Guid("50b869d9-70e1-4fb1-890f-a934c3c3e446"),
                 RoleId = administratorRole.Id,
-                PrivilegeId = manageAllGlossariesPrivilege.Id,
-            };
-            var administratorManageAllTmsRolePrivilege = new RolePrivilege
-            {
-                Id = new Guid("dd11ec0b-3c25-44a7-bda0-c281e75683a6"),
-                RoleId = administratorRole.Id,
-                PrivilegeId = manageAllTmsPrivilege.Id,
-            };
-            var administratorSuggestTermsWithoutSpecifyingAGlossaryRolePrivilege = new RolePrivilege
-            {
-                Id = new Guid("9de33dad-f693-4be9-9e0d-69b687c6b682"),
-                RoleId = administratorRole.Id,
-                PrivilegeId = suggestTermsWithoutSpecifyingAGlossaryPrivilege.Id,
-            };
-            var administratorManageProjectTemplatesRolePrivilege = new RolePrivilege
-            {
-                Id = new Guid("d0b42a06-af2f-4348-b299-fcfddc72a142"),
-                RoleId = administratorRole.Id,
-                PrivilegeId = manageProjectTemplatesPrivilege.Id,
-            };
-            var administratorManageOrdersRolePrivilege = new RolePrivilege
-            {
-                Id = new Guid("b240f7dd-75dc-4595-a491-144cb1678406"),
-                RoleId = administratorRole.Id,
-                PrivilegeId = manageOrdersPrivilege.Id,
-            };
-            var administratorManageServiceTemplatesRolePrivilege = new RolePrivilege
-            {
-                Id = new Guid("9543579e-5ef5-472b-acc2-de08a867c38c"),
-                RoleId = administratorRole.Id,
-                PrivilegeId = manageServiceTemplatesPrivilege.Id,
+                PrivilegeId = deleteTalentsPrivilege.Id,
             };
 
-            var projectManagerManageClientsAndProjectTagsRolePrivilege = new RolePrivilege
+            var projectManagerViewTalentsRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("75041757-4085-42ce-8800-10610b1f6091"),
+                Id = new Guid("0e5ee4f5-0b78-4652-a309-3bf4552f4517"),
                 RoleId = projectManagerRole.Id,
-                PrivilegeId = manageClientsAndProjectTagsPrivilege.Id,
+                PrivilegeId = viewTalentsPrivilege.Id,
             };
-            var projectManagerCreateAnyProjectsRolePrivilege = new RolePrivilege
+            var projectManagerInviteTalentsRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("87491c80-15df-482c-87a2-e4770a7c1e5a"),
+                Id = new Guid("2a8a21fd-5cbb-4eb8-b738-f57f0807eccf"),
                 RoleId = projectManagerRole.Id,
-                PrivilegeId = createAnyProjectsPrivilege.Id,
+                PrivilegeId = inviteTalentsPrivilege.Id,
             };
-            var projectManagerViewAllProjectsRolePrivilege = new RolePrivilege
+            var projectManagerRemoveTalentsFromProjectRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("3a9f0b14-19df-4e2a-b522-c63e813510a9"),
+                Id = new Guid("a9b10dcf-3cce-4814-810c-c2f6c0de1270"),
                 RoleId = projectManagerRole.Id,
-                PrivilegeId = viewAllProjectsPrivilege.Id,
+                PrivilegeId = removeTalentsFromProjectPrivilege.Id,
             };
-            var projectManagerManageLinguisticAssetsInAllProjectsRolePrivilege = new RolePrivilege
+            var projectManagerViewProjectsRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("e3ad16fb-0983-4b76-b900-e1512a1de3f9"),
+                Id = new Guid("de0b1da2-34af-4844-8e3b-e03f99e172ab"),
                 RoleId = projectManagerRole.Id,
-                PrivilegeId = manageLinguisticAssetsInAllProjectsPrivilege.Id,
+                PrivilegeId = viewProjectsPrivilege.Id,
             };
-            var projectManagerManageAllGlossariesRolePrivilege = new RolePrivilege
+            var projectManagerUpdateProjectRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("15306c3c-4888-4fef-b12c-8e307929cd1f"),
+                Id = new Guid("8436c0ac-fab5-41fe-a914-720622f80ca4"),
                 RoleId = projectManagerRole.Id,
-                PrivilegeId = manageAllGlossariesPrivilege.Id,
+                PrivilegeId = updateProjectsPrivilege.Id,
             };
-            var projectManagerManageAllTmsRolePrivilege = new RolePrivilege
+            var projectManagerViewTasksRolePrivilege = new RolePrivilege
+            {
+                Id = new Guid("959491d7-de56-4884-89d4-a6a165e1702b"),
+                RoleId = projectManagerRole.Id,
+                PrivilegeId = viewTasksPrivilege.Id,
+            };
+            var projectManagerCreateTasksRolePrivilege = new RolePrivilege
+            {
+                Id = new Guid("aa196dfb-e122-4e83-9fd7-d6786bade7cc"),
+                RoleId = projectManagerRole.Id,
+                PrivilegeId = createTasksPrivilege.Id,
+            };
+            var projectManagerUpdateTasksRolePrivilege = new RolePrivilege
+            {
+                Id = new Guid("e695b354-009f-4b01-a759-297ec22c417a"),
+                RoleId = projectManagerRole.Id,
+                PrivilegeId = updateTasksPrivilege.Id,
+            };
+            var projectManagerDeleteTasksRolePrivilege = new RolePrivilege
+            {
+                Id = new Guid("6540c67e-7949-4751-adbc-bef4ce1d4286"),
+                RoleId = projectManagerRole.Id,
+                PrivilegeId = deleteTasksPrivilege.Id,
+            };
+            var projectManagerFinalizePaymentRolePrivilege = new RolePrivilege
+            {
+                Id = new Guid("4529fea9-e740-4d71-8d45-68700f64bb62"),
+                RoleId = projectManagerRole.Id,
+                PrivilegeId = FinalizePaymentsPrivilege.Id,
+            };
+
+            var agencyMemberViewTalentsRolePrivilege = new RolePrivilege
+            {
+                Id = new Guid("2df791c0-468c-46d3-b987-51c2c85ff1fc"),
+                RoleId = agencyMemberRole.Id,
+                PrivilegeId = viewTalentsPrivilege.Id,
+            };
+            var agencyMemberInviteTalentsRolePrivilege = new RolePrivilege
+            {
+                Id = new Guid("ceb7aee5-01ed-4b6d-8dcd-1207b8809433"),
+                RoleId = agencyMemberRole.Id,
+                PrivilegeId = inviteTalentsPrivilege.Id,
+            };
+            var agencyMemberRemoveTalentsRolePrivilege = new RolePrivilege
+            {
+                Id = new Guid("76d53216-a09b-4121-9b52-53e0fd893032"),
+                RoleId = agencyMemberRole.Id,
+                PrivilegeId = removeTalentsFromProjectPrivilege.Id,
+            };
+            var agencyMemberAcceptPaymentRolePrivilege = new RolePrivilege
+            {
+                Id = new Guid("9cd3b4eb-e728-479b-9969-6ea18399b28f"),
+                RoleId = agencyMemberRole.Id,
+                PrivilegeId = AcceptPaymentsPrivilege.Id,
+            };
+            var agencyMemberViewProjectsRolePrivilege = new RolePrivilege
+            {
+                Id = new Guid("30f2d5a9-31ca-44d9-a195-e43b7e2ad229"),
+                RoleId = agencyMemberRole.Id,
+                PrivilegeId = viewProjectsPrivilege.Id,
+            };
+            var agencyMemberCreateProjectsRolePrivilege = new RolePrivilege
+            {
+                Id = new Guid("a19318be-5b65-41a8-bc69-82d710e88121"),
+                RoleId = agencyMemberRole.Id,
+                PrivilegeId = createProjectsPrivilege.Id,
+            };
+            var agencyMemberUpdateProjectsRolePrivilege = new RolePrivilege
+            {
+                Id = new Guid("0f15ebcb-9045-4adb-bdcd-d43040d7d335"),
+                RoleId = agencyMemberRole.Id,
+                PrivilegeId = updateProjectsPrivilege.Id,
+            };
+            var agencyMemberDeleteProjectsRolePrivilege = new RolePrivilege
+            {
+                Id = new Guid("d03d7948-1538-442a-bde1-d03d251067bb"),
+                RoleId = agencyMemberRole.Id,
+                PrivilegeId = deleteProjectsPrivilege.Id,
+            };
+
+            var talentViewProjectsRolePrivilege = new RolePrivilege
+            {
+                Id = new Guid("dcf1134d-a616-4bb9-8c70-ce9c0e7799a0"),
+                RoleId = talentRole.Id,
+                PrivilegeId = viewProjectsPrivilege.Id,
+            };
+            var talentCreatePaymentRolePrivilege = new RolePrivilege
+            {
+                Id = new Guid("b3a9b08e-b3f3-4e68-af0f-8bf6f5ee6745"),
+                RoleId = talentRole.Id,
+                PrivilegeId = CreatePaymentsPrivilege.Id,
+            };
+            var talentUpatePaymentRolePrivilege = new RolePrivilege
+            {
+                Id = new Guid("16e0452c-953b-4090-89c5-1f5eb6a82637"),
+                RoleId = talentRole.Id,
+                PrivilegeId = UpdatePaymentsPrivilege.Id,
+            };
+            var talentViewTasksRolePrivilege = new RolePrivilege
+            {
+                Id = new Guid("78dde744-3ae6-494d-a69b-35c4835ef5e5"),
+                RoleId = talentRole.Id,
+                PrivilegeId = viewTasksPrivilege.Id,
+            };
+            var talentCreateTasksRolePrivilege = new RolePrivilege
+            {
+                Id = new Guid("6ff89af9-fc23-4a3e-b5af-47b24b72df33"),
+                RoleId = talentRole.Id,
+                PrivilegeId = createTasksPrivilege.Id,
+            };
+            var talentUpdateTasksRolePrivilege = new RolePrivilege
             {
                 Id = new Guid("d57a2c99-27e5-464c-8715-3f7fb6f1a57f"),
-                RoleId = projectManagerRole.Id,
-                PrivilegeId = manageAllTmsPrivilege.Id,
+                RoleId = talentRole.Id,
+                PrivilegeId = updateTasksPrivilege.Id,
             };
-            var projectManagerSuggestTermsWithoutSpecifyingAGlossaryRolePrivilege = new RolePrivilege
+            var talentDeleteTasksRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("1f0e1d76-2f51-40f3-9571-92bd0ba288b9"),
-                RoleId = projectManagerRole.Id,
-                PrivilegeId = suggestTermsWithoutSpecifyingAGlossaryPrivilege.Id,
-            };
-            var projectManagerManageProjectTemplatesRolePrivilege = new RolePrivilege
-            {
-                Id = new Guid("391b873b-247f-4e41-8fc7-8d8697e5240c"),
-                RoleId = projectManagerRole.Id,
-                PrivilegeId = manageProjectTemplatesPrivilege.Id,
-            };
-            var projectManagerManageOrdersRolePrivilege = new RolePrivilege
-            {
-                Id = new Guid("8bfee646-f1eb-41d5-a045-8fb7773d09a9"),
-                RoleId = projectManagerRole.Id,
-                PrivilegeId = manageOrdersPrivilege.Id,
-            };
-
-            var resourceManagerManageAllGlossariesRolePrivilege = new RolePrivilege
-            {
-                Id = new Guid("526e8242-f5a4-481d-8c16-5a8d953cd713"),
-                RoleId = resourceManagerRole.Id,
-                PrivilegeId = manageAllGlossariesPrivilege.Id,
-            };
-            var resourceManagerManageAllTmsRolePrivilege = new RolePrivilege
-            {
-                Id = new Guid("92e615d3-2fe3-4a34-94dd-88d1f17792de"),
-                RoleId = resourceManagerRole.Id,
-                PrivilegeId = manageAllTmsPrivilege.Id,
-            };
-            var resourceManagerSuggestTermsWithoutSpecifyingAGlossaryRolePrivilege = new RolePrivilege
-            {
-                Id = new Guid("d843a16e-59b8-4fe3-b860-9a6200f68a4b"),
-                RoleId = resourceManagerRole.Id,
-                PrivilegeId = suggestTermsWithoutSpecifyingAGlossaryPrivilege.Id,
-            };
-
-            var localizationTeamManageAllGlossariesRolePrivilege = new RolePrivilege
-            {
-                Id = new Guid("63fb0ea1-c5a2-44b4-85ae-e9ba1a0d2c93"),
-                RoleId = localizationTeamRole.Id,
-                PrivilegeId = manageAllGlossariesPrivilege.Id,
-            };
-            var localizationTeamCreateAnyProjectsRolePrivilege = new RolePrivilege
-            {
-                Id = new Guid("5b789d79-3444-4437-8d33-270f5024c57a"),
-                RoleId = localizationTeamRole.Id,
-                PrivilegeId = createAnyProjectsPrivilege.Id,
-            };
-            var localizationTeamViewAllProjectsRolePrivilege = new RolePrivilege
-            {
-                Id = new Guid("c4426758-be79-4e70-a980-2f555103fb98"),
-                RoleId = localizationTeamRole.Id,
-                PrivilegeId = viewAllProjectsPrivilege.Id,
-            };
-            var localizationTeamManageAllTmsRolePrivilege = new RolePrivilege
-            {
-                Id = new Guid("1f96dc48-84f7-4dfd-a45e-e5c17a6f45a6"),
-                RoleId = localizationTeamRole.Id,
-                PrivilegeId = manageAllTmsPrivilege.Id,
-            };
-            var localizationTeamManageLinguisticAssetsInAllProjectsRolePrivilege = new RolePrivilege
-            {
-                Id = new Guid("14d9869e-7283-4a86-afbf-b93a1cbcbbcb"),
-                RoleId = localizationTeamRole.Id,
-                PrivilegeId = manageLinguisticAssetsInAllProjectsPrivilege.Id,
+                Id = new Guid("d57a2c99-27e5-464c-8715-3f7fb6f1a57f"),
+                RoleId = talentRole.Id,
+                PrivilegeId = deleteTasksPrivilege.Id,
             };
 
             modelBuilder.Entity<RolePrivilege>().HasData(
-                administratorManageUsersRolePrivilege,
-                administratorManagePaidLinguisticAssetsRolePrivilege,
-                administratorManageVendorsRolePrivilege,
-                administratorManageClientsAndProjectTagsRolePrivilege,
-                administratorCreateAnyProjectsRolePrivilege,
-                administratorViewAllProjectsRolePrivilege,
-                administratorManageLinguisticAssetsInAllProjectsRolePrivilege,
-                administratorManageAllGlossariesRolePrivilege,
-                administratorManageAllTmsRolePrivilege,
-                administratorSuggestTermsWithoutSpecifyingAGlossaryRolePrivilege,
-                administratorManageProjectTemplatesRolePrivilege,
-                administratorManageOrdersRolePrivilege,
-                administratorManageServiceTemplatesRolePrivilege,
-                projectManagerManageClientsAndProjectTagsRolePrivilege,
-                projectManagerCreateAnyProjectsRolePrivilege,
-                projectManagerViewAllProjectsRolePrivilege,
-                projectManagerManageLinguisticAssetsInAllProjectsRolePrivilege,
-                projectManagerManageAllGlossariesRolePrivilege,
-                projectManagerManageAllTmsRolePrivilege,
-                projectManagerSuggestTermsWithoutSpecifyingAGlossaryRolePrivilege,
-                projectManagerManageProjectTemplatesRolePrivilege,
-                projectManagerManageOrdersRolePrivilege,
-                resourceManagerManageAllGlossariesRolePrivilege,
-                resourceManagerManageAllTmsRolePrivilege,
-                resourceManagerSuggestTermsWithoutSpecifyingAGlossaryRolePrivilege,
-                localizationTeamManageAllGlossariesRolePrivilege,
-                localizationTeamCreateAnyProjectsRolePrivilege,
-                localizationTeamViewAllProjectsRolePrivilege,
-                localizationTeamManageAllTmsRolePrivilege,
-                localizationTeamManageLinguisticAssetsInAllProjectsRolePrivilege);
+                administratorViewAgencyMembersRolePrivilege,
+                administratorCreateAgencyMembersRolePrivilege,
+                administratorUpdateAgencyMembersRolePrivilege,
+                administratorDeleteAgencyMembersRolePrivilege,
+                administratorViewTalentsRolePrivilege,
+                administratorCreateTalentsRolePrivilege,
+                administratorUpdateTalentsRolePrivilege,
+                administratorDeleteTalentsRolePrivilege,
+
+                projectManagerViewTalentsRolePrivilege,
+                projectManagerInviteTalentsRolePrivilege,
+                projectManagerRemoveTalentsFromProjectRolePrivilege,
+                projectManagerViewProjectsRolePrivilege,
+                projectManagerUpdateProjectRolePrivilege,
+                projectManagerViewTasksRolePrivilege,
+                projectManagerCreateTasksRolePrivilege,
+                projectManagerUpdateTasksRolePrivilege,
+                projectManagerDeleteTasksRolePrivilege,
+                projectManagerFinalizePaymentRolePrivilege,
+
+                agencyMemberViewTalentsRolePrivilege,
+                agencyMemberInviteTalentsRolePrivilege,
+                agencyMemberRemoveTalentsRolePrivilege,
+                agencyMemberAcceptPaymentRolePrivilege,
+                agencyMemberViewProjectsRolePrivilege,
+                agencyMemberCreateProjectsRolePrivilege,
+                agencyMemberUpdateProjectsRolePrivilege,
+                agencyMemberDeleteProjectsRolePrivilege,
+
+                talentViewProjectsRolePrivilege,
+                talentCreatePaymentRolePrivilege,
+                talentUpatePaymentRolePrivilege,
+                talentViewTasksRolePrivilege,
+                talentCreateTasksRolePrivilege,
+                talentUpdateTasksRolePrivilege,
+                talentDeleteTasksRolePrivilege
+            );
             #endregion
 
             #region User
@@ -417,6 +495,7 @@ namespace DotNetStarter.Database
                 Lastname = "Yopmail",
                 Password = "$2a$11$61sJj9Y7idWPUoWTysZ81u7B0veE3dPhfdPGIJbi.TB0r/NtgR0k2",
                 PhoneNumber = "0333333333",
+                Gender = Gender.Male,
                 CreatedDate = dateTime,
                 CreatedBy = "System",
                 UpdatedDate = dateTime,
@@ -429,99 +508,66 @@ namespace DotNetStarter.Database
             #endregion
 
             #region UserPrivilege
-            var adminManageUsersUserPrivilege = new UserPrivilege
+            var administratorViewAgencyMemberUserPrivilege = new UserPrivilege
             {
-                Id = new Guid("aa58599d-743d-4f39-b3c1-9f4f0f561d5e"),
+                Id = new Guid("fdf3b651-daed-4858-8ef1-87232b3cfdd1"),
                 UserId = admin.Id,
-                PrivilegeId = manageUsersPrivilege.Id,
+                PrivilegeId = viewAgencyMembersPrivilege.Id,
             };
-            var adminManagePaidLinguisticAssetsUserPrivilege = new UserPrivilege
+            var administratorCreateAgencyMemberUserPrivilege = new UserPrivilege
             {
-                Id = new Guid("8c620425-8f7d-43e5-82fa-17794c22a208"),
+                Id = new Guid("baf75ba0-60fe-41bf-8add-1b1e4f4302dd"),
                 UserId = admin.Id,
-                PrivilegeId = managePaidLinguisticAssetsPrivilege.Id,
+                PrivilegeId = createAgencyMembersPrivilege.Id,
             };
-            var adminManageVendorsUserPrivilege = new UserPrivilege
+            var administratorUpdateAgencyMemberUserPrivilege = new UserPrivilege
             {
-                Id = new Guid("999c7d5e-f5f1-48dc-90bc-32bcc524e463"),
+                Id = new Guid("304ec4d6-4935-4a84-8d65-5401c802154c"),
                 UserId = admin.Id,
-                PrivilegeId = manageVendorsPrivilege.Id,
+                PrivilegeId = updateAgencyMembersPrivilege.Id,
             };
-            var adminManageClientsAndProjectTagsUserPrivilege = new UserPrivilege
+            var administratorDeleteAgencyMemberUserPrivilege = new UserPrivilege
             {
-                Id = new Guid("438dff74-2a59-43a8-a5fc-c63000fafa6d"),
+                Id = new Guid("b58ccdec-23ed-43c7-814b-a1910d10dc2b"),
                 UserId = admin.Id,
-                PrivilegeId = manageClientsAndProjectTagsPrivilege.Id,
+                PrivilegeId = deleteAgencyMembersPrivilege.Id,
             };
-            var adminCreateAnyProjectsUserPrivilege = new UserPrivilege
-            {
-                Id = new Guid("81cba8a1-9a35-456e-971e-5cfa7030c7a4"),
+
+            var administratorViewTalentsUserPrivilege = new UserPrivilege
+            {   
+                Id = new Guid("b32f469e-a4ea-46c8-a486-bca9168720ab"),
                 UserId = admin.Id,
-                PrivilegeId = createAnyProjectsPrivilege.Id,
+                PrivilegeId = viewTalentsPrivilege.Id,
             };
-            var adminViewAllProjectsUserPrivilege = new UserPrivilege
+            var administratorCreateTalentsUserPrivilege = new UserPrivilege
             {
-                Id = new Guid("1beafe73-0317-44d1-b8c0-12e2e7a85236"),
+                Id = new Guid("4551aef9-fa14-453d-82ea-483c25f8e859"),
                 UserId = admin.Id,
-                PrivilegeId = viewAllProjectsPrivilege.Id,
+                PrivilegeId = createTalentsPrivilege.Id,
             };
-            var adminManageLinguisticAssetsInAllProjectsUserPrivilege = new UserPrivilege
+            var administratorUpdateTalentsUserPrivilege = new UserPrivilege
             {
-                Id = new Guid("c65a5602-5d5e-4ae7-947a-1372a5b27dd2"),
+                Id = new Guid("9267ce41-b3fe-4698-9b55-353e198174ce"),
                 UserId = admin.Id,
-                PrivilegeId = manageLinguisticAssetsInAllProjectsPrivilege.Id,
+                PrivilegeId = updateTalentsPrivilege.Id,
             };
-            var adminManageAllGlossariesUserPrivilege = new UserPrivilege
+            var administratorDeleteTalentsUserPrivilege = new UserPrivilege
             {
-                Id = new Guid("b5ba8a36-6c3c-4ee2-bb4d-a938dd546395"),
+                Id = new Guid("0a77139b-14ea-4ec9-bd40-eafc16beef85"),
                 UserId = admin.Id,
-                PrivilegeId = manageAllGlossariesPrivilege.Id,
-            };
-            var adminManageAllTmsUserPrivilege = new UserPrivilege
-            {
-                Id = new Guid("bfd1ddc4-d92e-40d5-be7c-52863a4529d1"),
-                UserId = admin.Id,
-                PrivilegeId = manageAllTmsPrivilege.Id,
-            };
-            var adminSuggestTermsWithoutSpecifyingAGlossaryUserPrivilege = new UserPrivilege
-            {
-                Id = new Guid("06346a5f-2681-4177-8ed1-5fc487007911"),
-                UserId = admin.Id,
-                PrivilegeId = suggestTermsWithoutSpecifyingAGlossaryPrivilege.Id,
-            };
-            var adminManageProjectTemplatesUserPrivilege = new UserPrivilege
-            {
-                Id = new Guid("810fd972-1080-4943-9383-60f0961fea4c"),
-                UserId = admin.Id,
-                PrivilegeId = manageProjectTemplatesPrivilege.Id,
-            };
-            var adminManageOrdersUserPrivilege = new UserPrivilege
-            {
-                Id = new Guid("72af926f-b0a5-421b-85ff-293fdca1cc4e"),
-                UserId = admin.Id,
-                PrivilegeId = manageOrdersPrivilege.Id,
-            };
-            var adminManageServiceTemplatesUserPrivilege = new UserPrivilege
-            {
-                Id = new Guid("e23e2a09-31be-4516-b570-c0e17290ace4"),
-                UserId = admin.Id,
-                PrivilegeId = manageServiceTemplatesPrivilege.Id,
+                PrivilegeId = deleteTalentsPrivilege.Id,
             };
 
             modelBuilder.Entity<UserPrivilege>().HasData(
-                adminManageUsersUserPrivilege,
-                adminManagePaidLinguisticAssetsUserPrivilege,
-                adminManageVendorsUserPrivilege,
-                adminManageClientsAndProjectTagsUserPrivilege,
-                adminCreateAnyProjectsUserPrivilege,
-                adminViewAllProjectsUserPrivilege,
-                adminManageLinguisticAssetsInAllProjectsUserPrivilege,
-                adminManageAllGlossariesUserPrivilege,
-                adminManageAllTmsUserPrivilege,
-                adminSuggestTermsWithoutSpecifyingAGlossaryUserPrivilege,
-                adminManageProjectTemplatesUserPrivilege,
-                adminManageOrdersUserPrivilege,
-                adminManageServiceTemplatesUserPrivilege);
+                administratorViewAgencyMemberUserPrivilege,
+                administratorCreateAgencyMemberUserPrivilege,
+                administratorUpdateAgencyMemberUserPrivilege,
+                administratorDeleteAgencyMemberUserPrivilege,
+                administratorViewTalentsUserPrivilege,
+                administratorCreateTalentsUserPrivilege,
+                administratorUpdateTalentsUserPrivilege,
+                administratorDeleteTalentsUserPrivilege
+            );
             #endregion
         }
 

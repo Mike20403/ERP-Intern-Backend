@@ -2,18 +2,33 @@
 {
     public static class PrivilegeNames
     {
-        public const string ManageUsers = "MANAGE_USERS";
-        public const string ManagePaidLinguisticAssets = "MANAGE_PAID_LINGUISTIC_ASSETS";
-        public const string ManageVendors = "MANAGE_VENDORS";
-        public const string ManageClientsAndProjectTags = "MANAGE_CLIENTS_AND_PROJECT_TAGS";
-        public const string CreateAnyProjects = "CREATE_ANY_PROJECTS";
-        public const string ViewAllProjects = "VIEW_ALL_PROJECTS";
-        public const string ManageLinguisticAssetsInAllProjects = "MANAGE_LINGUISTIC_ASSETS_IN_ALL_PROJECTS";
-        public const string ManageAllGlossaries = "MANAGE_ALL_GLOSSARIES";
-        public const string ManageAllTms = "MANAGE_ALL_TMS";
-        public const string SuggestTermsWithoutSpecifyingAGlossary = "SUGGEST_TERMS_WITHOUT_SPECIFYING_A_GLOSSARY";
-        public const string ManageProjectTemplates = "MANAGE_PROJECT_TEMPLATES";
-        public const string ManageOrders = "MANAGE_ORDERS";
-        public const string ManageServiceTemplates = "MANAGE_SERVICE_TEMPLATES";
+        #region CRUD Actions
+        public const string ViewTalents = "VIEW_TALENTS";
+        public const string CreateTalents = "CREATE_TALENTS";
+        public const string UpdateTalents = "UPDATE_TALENTS";
+        public const string DeleteTalents = "DELETE_TALENTS";
+        public const string ViewAgencyMembers = "VIEW_AGENCY_MEMBERS";
+        public const string CreateAgencyMembers = "CREATE_AGENCY_MEMBERS";
+        public const string UpdateAgencyMembers = "UPDATE_AGENCY_MEMBERS";
+        public const string DeleteAgencyMembers = "DELETE_AGENCY_MEMBERS";
+        public const string ViewProjects = "VIEW_PROJECTS";
+        public const string CreateProjects = "CREATE_PROJECTS";
+        public const string UpdateProjects = "UPDATE_PROJECTS";
+        public const string DeleteProjects = "DELETE_PROJECTS";
+        public const string ViewTasks = "VIEW_TASKS";
+        public const string CreateTasks = "CREATE_TASKS";
+        public const string UpdateTasks = "UPDATE_TASKS";
+        public const string DeleteTasks = "DELETE_TASKS";
+        #endregion
+
+        #region Other actions
+        public const string InviteTalents = "INVITE_TALENTS";
+        public const string RemoveTalentsFromProject = "REMOVE_TALENTS_FROM_PROJECT";
+        public const string CreatePayments = "CREATE_PAYMENTS";
+        public const string UpdatePayments = "UPDATE_PAYMENTS";
+        public const string AcceptPayments = "ACCEPT_PAYMENTS";
+        public const string FinalizePayments = "FINALIZE_PAYMENTS";
+        #endregion
+
     }
 }

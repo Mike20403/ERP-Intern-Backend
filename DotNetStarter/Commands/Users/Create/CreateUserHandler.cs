@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DotNetStarter.Common;
+using DotNetStarter.Common.Enums;
 using DotNetStarter.Database.UnitOfWork;
 using DotNetStarter.Entities;
 
@@ -24,6 +25,7 @@ namespace DotNetStarter.Commands.Users.Create
             var user = new User
             {
                 RoleId = role!.Id,
+                Gender = Gender.PreferNotToSay,
             };
 
             _mapper.Map(request, user);
