@@ -16,5 +16,7 @@ namespace DotNetStarter.Database.UnitOfWork
         GenericRepository<DotNetStarterDbContext, Privilege> PrivilegeRepository { get; }
 
         GenericRepository<DotNetStarterDbContext, AuthToken> AuthTokenRepository { get; }
+
+        GenericRepository<DotNetStarterDbContext, Project> ProjectRepository { get; }
     }
 }

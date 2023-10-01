@@ -20,6 +20,8 @@ namespace DotNetStarter.Database.UnitOfWork
 
         public GenericRepository<DotNetStarterDbContext, AuthToken> AuthTokenRepository { get; private set; }
 
+        public GenericRepository<DotNetStarterDbContext, Project> ProjectRepository { get; private set; }
+
         public DotNetStarterUnitOfWork(DotNetStarterDbContext context)
         {
             _context = context;
@@ -30,6 +32,7 @@ namespace DotNetStarter.Database.UnitOfWork
             RoleRepository = new GenericRepository<DotNetStarterDbContext, Role>(_context);
             PrivilegeRepository = new GenericRepository<DotNetStarterDbContext, Privilege>(_context);
             AuthTokenRepository = new GenericRepository<DotNetStarterDbContext, AuthToken>(_context);
+            ProjectRepository = new GenericRepository<DotNetStarterDbContext, Project>(_context);
         }
 
         public async Task SaveChangesAsync()

@@ -1,5 +1,7 @@
 ﻿using Api.Dtos;
 using AutoMapper;
+using DotNetStarter.Commands.Projects.Create;
+using DotNetStarter.Commands.Projects.Update;
 using DotNetStarter.Commands.Users.Create;
 using DotNetStarter.Commands.Users.Update;
 using DotNetStarter.Entities;
@@ -18,6 +20,12 @@ namespace Api.Common
 
             #region Account
             CreateMap<User, AccountDto>();
+            #endregion
+
+            #region Project
+            CreateMap<Project, ProjectDto>();
+            CreateMap<CreateProject, Project>();
+            CreateMap<UpdateProject, Project>();
             #endregion
         }
     }

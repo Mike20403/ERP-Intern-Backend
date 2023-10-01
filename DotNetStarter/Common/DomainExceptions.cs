@@ -40,6 +40,24 @@ namespace DotNetStarter.Common
             Message = "User not found",
         };
 
+        public static readonly DomainException AgencyMemberNotFound = new DomainException
+        {
+            Code = "AgencyMemberNotFound",
+            Message = "Agency member not found",
+        };
+
+        public static readonly DomainException ProjectManagerNotFound = new DomainException
+        {
+            Code = "ProjectManagerNotFound",
+            Message = "Project manager not found",
+        };
+
+        public static readonly DomainException ProjectNotFound = new DomainException
+        {
+            Code = "ProjectNotFound",
+            Message = "Project not found",
+        };
+
         public static readonly DomainException InvalidOtp = new DomainException
         {
             Code = "InvalidOtp",

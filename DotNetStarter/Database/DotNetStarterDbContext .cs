@@ -597,6 +597,8 @@ namespace DotNetStarter.Database
 
         public DbSet<AuthToken> AuthTokens { get; set; }
 
+        public DbSet<Project> Projects { get; set; }
+
         private void SetAuditing()
         {
             var now = DateTime.Now;
