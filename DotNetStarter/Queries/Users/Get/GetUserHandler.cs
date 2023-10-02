@@ -15,7 +15,7 @@ namespace DotNetStarter.Queries.Users.Get
 
         public override async Task<User> Process(GetUser request, CancellationToken cancellationToken)
         {
-            return await _unitOfWork.UserRepository.GetByIdAsync(request.UserId);
+            return await _unitOfWork.UserRepository.FindAsync(ClassUtils.GetPropertyName<User>(u => u.Role), u => u.Id == request.UserId);
         }
     }
 }

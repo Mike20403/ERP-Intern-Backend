@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using DotNetStarter.Common;
-using DotNetStarter.Common.Enums;
 using DotNetStarter.Database.UnitOfWork;
 using DotNetStarter.Entities;
 
@@ -20,12 +19,12 @@ namespace DotNetStarter.Commands.Users.Create
 
         public override async Task<User> Process(CreateUser request, CancellationToken cancellationToken)
         {
-            var role = await _unitOfWork.RoleRepository.FindAsync(filter: r => r.Name == RoleNames.ProjectManager);
+            var role = await _unitOfWork.RoleRepository.FindAsync(ClassUtils.GetPropertyName<Role>(u => u.Privileges), r => r.Name == request.RoleName);
 
             var user = new User
             {
                 RoleId = role!.Id,
-                Gender = Gender.PreferNotToSay,
+                Privileges = role!.Privileges,
             };
 
             _mapper.Map(request, user);

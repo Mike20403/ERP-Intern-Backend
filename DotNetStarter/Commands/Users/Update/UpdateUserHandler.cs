@@ -19,7 +19,7 @@ namespace DotNetStarter.Commands.Users.Update
 
         public override async Task<User> Process(UpdateUser request, CancellationToken cancellationToken)
         {
-            var user = await _unitOfWork.UserRepository.GetByIdAsync(request.UserId);
+            var user = await _unitOfWork.UserRepository.FindAsync(ClassUtils.GetPropertyName<User>(u => u.Role), u => u.Id == request.UserId);
 
             _mapper.Map(request, user);
 

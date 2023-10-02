@@ -2,7 +2,7 @@
 
 namespace DotNetStarter.Entities
 {
-    public class UserPrivilege : BaseEntity
+    public class UserPrivilege
     {
         [Required]
         public Guid? UserId { get; set; }

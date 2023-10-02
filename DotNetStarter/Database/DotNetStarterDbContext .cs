@@ -245,202 +245,169 @@ namespace DotNetStarter.Database
             #region RolePrivilege
             var administratorViewAgencyMembersRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("217bd2b3-ac7c-4bd7-b1db-b5d2a08bcc2c"),
                 RoleId = administratorRole.Id,
                 PrivilegeId = viewAgencyMembersPrivilege.Id,
             };
             var administratorCreateAgencyMembersRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("7e368856-b2e8-4924-9798-c12f709d579d"),
                 RoleId = administratorRole.Id,
                 PrivilegeId = createAgencyMembersPrivilege.Id,
             };
             var administratorUpdateAgencyMembersRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("87ebc07f-6e0d-4622-b32f-2a430cb8612f"),
                 RoleId = administratorRole.Id,
                 PrivilegeId = updateAgencyMembersPrivilege.Id,
             };
             var administratorDeleteAgencyMembersRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("5043a598-7354-4659-8e05-8149824d1ccf"),
                 RoleId = administratorRole.Id,
                 PrivilegeId = deleteAgencyMembersPrivilege.Id,
             };
             var administratorViewTalentsRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("3f742155-c308-41fe-82e1-1d435d598f5b"),
                 RoleId = administratorRole.Id,
                 PrivilegeId = viewTalentsPrivilege.Id,
             };
             var administratorCreateTalentsRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("d28912c3-077d-4d4f-9a34-5490a6dfceff"),
                 RoleId = administratorRole.Id,
                 PrivilegeId = createTalentsPrivilege.Id,
             };
             var administratorUpdateTalentsRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("fc42ef26-9ef0-435a-9cd8-191ec033986c"),
                 RoleId = administratorRole.Id,
                 PrivilegeId = updateTalentsPrivilege.Id,
             };
             var administratorDeleteTalentsRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("50b869d9-70e1-4fb1-890f-a934c3c3e446"),
                 RoleId = administratorRole.Id,
                 PrivilegeId = deleteTalentsPrivilege.Id,
             };
 
             var projectManagerViewTalentsRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("0e5ee4f5-0b78-4652-a309-3bf4552f4517"),
                 RoleId = projectManagerRole.Id,
                 PrivilegeId = viewTalentsPrivilege.Id,
             };
             var projectManagerInviteTalentsRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("2a8a21fd-5cbb-4eb8-b738-f57f0807eccf"),
                 RoleId = projectManagerRole.Id,
                 PrivilegeId = inviteTalentsPrivilege.Id,
             };
             var projectManagerRemoveTalentsFromProjectRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("a9b10dcf-3cce-4814-810c-c2f6c0de1270"),
                 RoleId = projectManagerRole.Id,
                 PrivilegeId = removeTalentsFromProjectPrivilege.Id,
             };
             var projectManagerViewProjectsRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("de0b1da2-34af-4844-8e3b-e03f99e172ab"),
                 RoleId = projectManagerRole.Id,
                 PrivilegeId = viewProjectsPrivilege.Id,
             };
             var projectManagerUpdateProjectRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("8436c0ac-fab5-41fe-a914-720622f80ca4"),
                 RoleId = projectManagerRole.Id,
                 PrivilegeId = updateProjectsPrivilege.Id,
             };
             var projectManagerViewTasksRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("959491d7-de56-4884-89d4-a6a165e1702b"),
                 RoleId = projectManagerRole.Id,
                 PrivilegeId = viewTasksPrivilege.Id,
             };
             var projectManagerCreateTasksRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("aa196dfb-e122-4e83-9fd7-d6786bade7cc"),
                 RoleId = projectManagerRole.Id,
                 PrivilegeId = createTasksPrivilege.Id,
             };
             var projectManagerUpdateTasksRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("e695b354-009f-4b01-a759-297ec22c417a"),
                 RoleId = projectManagerRole.Id,
                 PrivilegeId = updateTasksPrivilege.Id,
             };
             var projectManagerDeleteTasksRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("6540c67e-7949-4751-adbc-bef4ce1d4286"),
                 RoleId = projectManagerRole.Id,
                 PrivilegeId = deleteTasksPrivilege.Id,
             };
             var projectManagerFinalizePaymentRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("4529fea9-e740-4d71-8d45-68700f64bb62"),
                 RoleId = projectManagerRole.Id,
                 PrivilegeId = FinalizePaymentsPrivilege.Id,
             };
 
             var agencyMemberViewTalentsRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("2df791c0-468c-46d3-b987-51c2c85ff1fc"),
                 RoleId = agencyMemberRole.Id,
                 PrivilegeId = viewTalentsPrivilege.Id,
             };
             var agencyMemberInviteTalentsRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("ceb7aee5-01ed-4b6d-8dcd-1207b8809433"),
                 RoleId = agencyMemberRole.Id,
                 PrivilegeId = inviteTalentsPrivilege.Id,
             };
             var agencyMemberRemoveTalentsRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("76d53216-a09b-4121-9b52-53e0fd893032"),
                 RoleId = agencyMemberRole.Id,
                 PrivilegeId = removeTalentsFromProjectPrivilege.Id,
             };
             var agencyMemberAcceptPaymentRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("9cd3b4eb-e728-479b-9969-6ea18399b28f"),
                 RoleId = agencyMemberRole.Id,
                 PrivilegeId = AcceptPaymentsPrivilege.Id,
             };
             var agencyMemberViewProjectsRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("30f2d5a9-31ca-44d9-a195-e43b7e2ad229"),
                 RoleId = agencyMemberRole.Id,
                 PrivilegeId = viewProjectsPrivilege.Id,
             };
             var agencyMemberCreateProjectsRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("a19318be-5b65-41a8-bc69-82d710e88121"),
                 RoleId = agencyMemberRole.Id,
                 PrivilegeId = createProjectsPrivilege.Id,
             };
             var agencyMemberUpdateProjectsRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("0f15ebcb-9045-4adb-bdcd-d43040d7d335"),
                 RoleId = agencyMemberRole.Id,
                 PrivilegeId = updateProjectsPrivilege.Id,
             };
             var agencyMemberDeleteProjectsRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("d03d7948-1538-442a-bde1-d03d251067bb"),
                 RoleId = agencyMemberRole.Id,
                 PrivilegeId = deleteProjectsPrivilege.Id,
             };
 
             var talentViewProjectsRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("dcf1134d-a616-4bb9-8c70-ce9c0e7799a0"),
                 RoleId = talentRole.Id,
                 PrivilegeId = viewProjectsPrivilege.Id,
             };
             var talentCreatePaymentRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("b3a9b08e-b3f3-4e68-af0f-8bf6f5ee6745"),
                 RoleId = talentRole.Id,
                 PrivilegeId = CreatePaymentsPrivilege.Id,
             };
             var talentUpatePaymentRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("16e0452c-953b-4090-89c5-1f5eb6a82637"),
                 RoleId = talentRole.Id,
                 PrivilegeId = UpdatePaymentsPrivilege.Id,
             };
             var talentViewTasksRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("78dde744-3ae6-494d-a69b-35c4835ef5e5"),
                 RoleId = talentRole.Id,
                 PrivilegeId = viewTasksPrivilege.Id,
             };
             var talentCreateTasksRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("6ff89af9-fc23-4a3e-b5af-47b24b72df33"),
                 RoleId = talentRole.Id,
                 PrivilegeId = createTasksPrivilege.Id,
             };
             var talentUpdateTasksRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("d57a2c99-27e5-464c-8715-3f7fb6f1a57f"),
                 RoleId = talentRole.Id,
                 PrivilegeId = updateTasksPrivilege.Id,
             };
             var talentDeleteTasksRolePrivilege = new RolePrivilege
             {
-                Id = new Guid("d57a2c99-27e5-464c-8715-3f7fb6f1a57f"),
                 RoleId = talentRole.Id,
                 PrivilegeId = deleteTasksPrivilege.Id,
             };
@@ -510,50 +477,42 @@ namespace DotNetStarter.Database
             #region UserPrivilege
             var administratorViewAgencyMemberUserPrivilege = new UserPrivilege
             {
-                Id = new Guid("fdf3b651-daed-4858-8ef1-87232b3cfdd1"),
                 UserId = admin.Id,
                 PrivilegeId = viewAgencyMembersPrivilege.Id,
             };
             var administratorCreateAgencyMemberUserPrivilege = new UserPrivilege
             {
-                Id = new Guid("baf75ba0-60fe-41bf-8add-1b1e4f4302dd"),
                 UserId = admin.Id,
                 PrivilegeId = createAgencyMembersPrivilege.Id,
             };
             var administratorUpdateAgencyMemberUserPrivilege = new UserPrivilege
             {
-                Id = new Guid("304ec4d6-4935-4a84-8d65-5401c802154c"),
                 UserId = admin.Id,
                 PrivilegeId = updateAgencyMembersPrivilege.Id,
             };
             var administratorDeleteAgencyMemberUserPrivilege = new UserPrivilege
             {
-                Id = new Guid("b58ccdec-23ed-43c7-814b-a1910d10dc2b"),
                 UserId = admin.Id,
                 PrivilegeId = deleteAgencyMembersPrivilege.Id,
             };
 
             var administratorViewTalentsUserPrivilege = new UserPrivilege
-            {   
-                Id = new Guid("b32f469e-a4ea-46c8-a486-bca9168720ab"),
+            {
                 UserId = admin.Id,
                 PrivilegeId = viewTalentsPrivilege.Id,
             };
             var administratorCreateTalentsUserPrivilege = new UserPrivilege
             {
-                Id = new Guid("4551aef9-fa14-453d-82ea-483c25f8e859"),
                 UserId = admin.Id,
                 PrivilegeId = createTalentsPrivilege.Id,
             };
             var administratorUpdateTalentsUserPrivilege = new UserPrivilege
             {
-                Id = new Guid("9267ce41-b3fe-4698-9b55-353e198174ce"),
                 UserId = admin.Id,
                 PrivilegeId = updateTalentsPrivilege.Id,
             };
             var administratorDeleteTalentsUserPrivilege = new UserPrivilege
             {
-                Id = new Guid("0a77139b-14ea-4ec9-bd40-eafc16beef85"),
                 UserId = admin.Id,
                 PrivilegeId = deleteTalentsPrivilege.Id,
             };

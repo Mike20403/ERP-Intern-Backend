@@ -1,4 +1,6 @@
-﻿namespace Api.Dtos
+﻿using DotNetStarter.Common.Enums;
+
+namespace Api.Dtos
 {
     public class AccountDto
     {
@@ -11,5 +13,7 @@
         public string? Lastname { get; set; }
 
         public string? PhoneNumber { get; set; }
+
+        public Gender? Gender { get; set; }
     }
 }
