@@ -44,6 +44,12 @@ namespace DotNetStarter.Commands.Users.Create
                 })
                 .WithErrorCode(DomainExceptions.PhoneNumberAlreadyExists.Code)
                 .WithMessage(DomainExceptions.PhoneNumberAlreadyExists.Message);
+
+            RuleFor(x => x.RoleName)
+                .NotEmpty()
+                .MustAsync((roleName, cancellation) => unitOfWork.RoleRepository.AnyAsync(u => u.Name == roleName))
+                .WithErrorCode(DomainExceptions.InvalidRoleName.Code)
+                .WithMessage(DomainExceptions.InvalidRoleName.Message);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DotNetStarter.Common;
+using DotNetStarter.Common.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace Api.Models.Account
@@ -14,5 +15,9 @@ namespace Api.Models.Account
         [Required]
         [RegularExpression(RegexPatterns.PhoneNumber)]
         public string? PhoneNumber { get; set; }
+
+        //TODO: make required
+        //[Required]
+        public Gender? Gender { get; set; }
     }
 }

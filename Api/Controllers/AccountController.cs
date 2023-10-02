@@ -44,7 +44,7 @@ namespace Api.Controllers
         {
             var user = await _mediator.Send(new GetUser(HttpContext.GetCurrentUserId()!.Value));
 
-            var result = await _mediator.Send(new UpdateUser(user.Id, request.Firstname!, request.Lastname!, request.PhoneNumber!, user.Status!.Value));
+            var result = await _mediator.Send(new UpdateUser(user.Id, request.Firstname!, request.Lastname!, request.PhoneNumber!, request.Gender.GetValueOrDefault(), user.Status!.Value));
 
             return Ok(_mapper.Map<AccountDto>(result));
         }
@@ -70,8 +70,8 @@ namespace Api.Controllers
         public async Task<ActionResult> ActivateNewEmail(ActivateEmailRequest request) // Activate new Email after change email by any one has authorized
         {
             await _mediator.Send(new ActivateEmail(request.Email!, request.ActiveCode!));
-            
-            return Ok();    
+
+            return Ok();
         }
 
         [HttpPut]
@@ -79,7 +79,7 @@ namespace Api.Controllers
         public async Task<ActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
         {
             await _mediator.Send(new ChangePassword(HttpContext.GetCurrentUserId()!.Value, request.CurrentPassword!, request.NewPassword!));
-            
+
             return Ok();
         }
     }

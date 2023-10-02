@@ -105,5 +105,11 @@ namespace DotNetStarter.Common
             Code = "IncorrectPassword",
             Message = "Current password is incorrect",
         };
+
+        public static readonly DomainException InvalidRoleName = new DomainException
+        {
+            Code = "InvalidRoleName",
+            Message = "This role name is invalid!",
+        };
     }
 }

@@ -14,6 +14,8 @@ namespace Api.Dtos
 
         public string? PhoneNumber { get; set; }
 
+        public Gender? Gender { get; set; }
+
         public Status? Status { get; set; }
 
         public DateTime? CreatedDate { get; set; }

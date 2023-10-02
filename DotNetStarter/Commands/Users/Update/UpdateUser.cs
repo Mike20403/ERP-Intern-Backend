@@ -14,14 +14,17 @@ namespace DotNetStarter.Commands.Users.Update
 
         public string PhoneNumber { get; }
 
+        public Gender Gender { get; }
+
         public Status Status { get; }
 
-        public UpdateUser(Guid userId, string firstname, string lastname, string phoneNumber, Status status)
+        public UpdateUser(Guid userId, string firstname, string lastname, string phoneNumber, Gender gender, Status status)
         {
             UserId = userId;
             Firstname = firstname;
             Lastname = lastname;
             PhoneNumber = phoneNumber;
+            Gender = gender;
             Status = status;
         }
     }

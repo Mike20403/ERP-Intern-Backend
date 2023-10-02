@@ -1,6 +1,8 @@
 ﻿using DotNetStarter.Common;
 using DotNetStarter.Database.UnitOfWork;
+using DotNetStarter.Entities;
 using FluentValidation;
+using System.Linq;
 
 namespace DotNetStarter.Commands.Users.Delete
 {

@@ -19,6 +19,7 @@ namespace Api.Controllers
     [Authorize(Roles = RoleNames.Administrator)]
     [ApiVersion(ApiVersions.Version1)]
     [ApiController]
+    [Obsolete]
     [Route("api/v{version:apiVersion}/[controller]")]
     public class UsersController : ControllerBase
     {
@@ -35,14 +36,7 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<ActionResult<List<UserDto>>> List([FromQuery] ListUsersQueryParams queryParams)
         {
-            var orderBy = (queryParams.OrderBy ?? new List<string>()).ToArray();
-            var result = await _mediator.Send(new ListUsers(
-                queryParams.PageNumber,
-                queryParams.PageSize,
-                queryParams.SearchQuery,
-                string.Join(";", orderBy),
-                queryParams.Status
-                ));
+            var result = await _mediator.Send(new ListUsers(queryParams.PageNumber, queryParams.PageSize, queryParams.SearchQuery, null, queryParams.Gender, queryParams.Status));
 
             Response.Headers.Add(DomainConstraints.XPagination, result.PaginationMetadata.SerializeWithCamelCase());
             return Ok(result.Select(_mapper.Map<UserDto>).ToList());
@@ -52,7 +46,7 @@ namespace Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.Created)]
         public async Task<ActionResult<UserDto>> Create([FromBody] CreateUserRequest request)
         {
-            var result = await _mediator.Send(new CreateUser(request.Username!, request.Firstname!, request.Lastname!, request.Password!, request.PhoneNumber!, request.Status!.Value));
+            var result = await _mediator.Send(new CreateUser(RoleNames.ProjectManager, request.Username!, request.Firstname!, request.Lastname!, request.Password!, request.PhoneNumber!, request.Gender.GetValueOrDefault(), request.Status!.Value));
 
             return CreatedAtAction(nameof(Get), new { userId = result.Id }, _mapper.Map<UserDto>(result));
         }
@@ -68,7 +62,7 @@ namespace Api.Controllers
         [HttpPut("{userId}")]
         public async Task<ActionResult<UserDto>> Update([FromRoute] Guid userId, [FromBody] UpdateUserRequest request)
         {
-            var result = await _mediator.Send(new UpdateUser(userId, request.Firstname!, request.Lastname!, request.PhoneNumber!, request.Status!.Value));
+            var result = await _mediator.Send(new UpdateUser(userId, request.Firstname!, request.Lastname!, request.PhoneNumber!, request.Gender.GetValueOrDefault(),  request.Status!.Value));
 
             return Ok(_mapper.Map<UserDto>(result));
         }
