@@ -35,7 +35,14 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<ActionResult<List<UserDto>>> List([FromQuery] ListUsersQueryParams queryParams)
         {
-            var result = await _mediator.Send(new ListUsers(queryParams.PageNumber, queryParams.PageSize, queryParams.SearchQuery, queryParams.Status));
+            var orderBy = (queryParams.OrderBy ?? new List<string>()).ToArray();
+            var result = await _mediator.Send(new ListUsers(
+                queryParams.PageNumber,
+                queryParams.PageSize,
+                queryParams.SearchQuery,
+                string.Join(";", orderBy),
+                queryParams.Status
+                ));
 
             Response.Headers.Add(DomainConstraints.XPagination, result.PaginationMetadata.SerializeWithCamelCase());
             return Ok(result.Select(_mapper.Map<UserDto>).ToList());

@@ -2,7 +2,6 @@
 using DotNetStarter.Common.Models;
 using DotNetStarter.Database.UnitOfWork;
 using DotNetStarter.Entities;
-using Microsoft.Data.SqlClient;
 using System.Linq.Expressions;
 
 namespace DotNetStarter.Queries.Users.List
@@ -35,7 +34,7 @@ namespace DotNetStarter.Queries.Users.List
             }
 
             return await _unitOfWork.UserRepository.GetPagedListAsync(
-                $"{ClassUtils.GetPropertyName<User>(u => u.CreatedDate)},{Enum.GetName(typeof(SortOrder), SortOrder.Descending)}",
+                request.OrderBy,
                 pageNumber: request.PageNumber,
                 pageSize: request.PageSize,
                 filter: filter.ToArray()

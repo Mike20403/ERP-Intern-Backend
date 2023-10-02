@@ -11,11 +11,14 @@ namespace DotNetStarter.Queries
 
         public string? SearchQuery { get; }
 
-        public ListRequest(int pageNumber, int pageSize, string? searchQuery)
+        public string? OrderBy { get; }
+
+        public ListRequest(int pageNumber, int pageSize, string? searchQuery, string? orderBy)
         {
             PageNumber = pageNumber;
             PageSize = pageSize;
             SearchQuery = searchQuery;
+            OrderBy = orderBy;
         }
     }
 }

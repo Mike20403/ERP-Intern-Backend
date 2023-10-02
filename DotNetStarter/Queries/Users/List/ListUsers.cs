@@ -7,7 +7,7 @@ namespace DotNetStarter.Queries.Users.List
     {
         public Status? Status { get; }
 
-        public ListUsers(int pageNumber, int pageSize, string? searchQuery, Status? status) : base(pageNumber, pageSize, searchQuery)
+        public ListUsers(int pageNumber, int pageSize, string? searchQuery, string? orderBy, Status? status) : base(pageNumber, pageSize, searchQuery, orderBy)
         {
             Status = status;
         }

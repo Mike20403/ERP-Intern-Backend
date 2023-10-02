@@ -11,7 +11,7 @@ namespace DotNetStarter.Queries.Projects.List
 
         public ProjectStatus? Status { get; }
 
-        public ListProjects(Guid? agencyMemberId, Guid? projectManagerId, int pageNumber, int pageSize, string? searchQuery, ProjectStatus? status) : base(pageNumber, pageSize, searchQuery)
+        public ListProjects(int pageNumber, int pageSize, string? searchQuery, string? orderBy, Guid? agencyMemberId, Guid? projectManagerId, ProjectStatus? status) : base(pageNumber, pageSize, searchQuery, orderBy)
         {
             AgencyMemberId = agencyMemberId;
             ProjectManagerId = projectManagerId;

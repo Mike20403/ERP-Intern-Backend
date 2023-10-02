@@ -11,5 +11,7 @@ namespace Api.Models
         public int PageSize { get; set; } = 25;
 
         public string? SearchQuery { get; set; }
+
+        public List<string>? OrderBy { get; set; }
     }
 }
