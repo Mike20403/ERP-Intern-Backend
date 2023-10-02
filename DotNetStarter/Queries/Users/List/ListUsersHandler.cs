@@ -47,7 +47,7 @@ namespace DotNetStarter.Queries.Users.List
             }
 
             return await _unitOfWork.UserRepository.GetPagedListAsync(
-                $"{ClassUtils.GetPropertyName<User>(u => u.CreatedDate)},{Enum.GetName(typeof(SortOrder), SortOrder.Descending)}",
+                request.OrderBy,
                 ClassUtils.GetPropertyName<User>(u => u.Role),
                 pageNumber: request.PageNumber,
                 pageSize: request.PageSize,

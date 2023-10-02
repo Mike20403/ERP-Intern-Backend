@@ -40,7 +40,7 @@ namespace DotNetStarter.Queries.Projects.List
             }
 
             return await _unitOfWork.ProjectRepository.GetPagedListAsync(
-                $"{ClassUtils.GetPropertyName<Project>(u => u.CreatedDate)},{Enum.GetName(typeof(SortOrder), SortOrder.Descending)}",
+                request.OrderBy,
                 pageNumber: request.PageNumber,
                 pageSize: request.PageSize,
                 filter: filter.ToArray()

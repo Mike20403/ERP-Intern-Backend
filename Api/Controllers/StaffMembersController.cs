@@ -37,7 +37,15 @@ namespace Api.Controllers
         [HasPrivilege(PrivilegeNames.ViewStaffMembers)]
         public async Task<ActionResult<List<StaffMemberDto>>> List([FromQuery] ListStaffMembersQueryParams queryParams)
         {
-            var result = await _mediator.Send(new ListUsers(queryParams.PageNumber, queryParams.PageSize, queryParams.SearchQuery, queryParams.Type.ToRoleNames(), queryParams.Gender, queryParams.Status));
+            var result = await _mediator.Send(new ListUsers(
+                queryParams.PageNumber,
+                queryParams.PageSize,
+                queryParams.SearchQuery,
+                queryParams.OrderBy.ToOrderBy(),
+                queryParams.Type.ToRoleNames(),
+                queryParams.Gender,
+                queryParams.Status
+                ));
 
             Response.Headers.Add(DomainConstraints.XPagination, result.PaginationMetadata.SerializeWithCamelCase());
             return Ok(result.Select(_mapper.Map<StaffMemberDto>).ToList());

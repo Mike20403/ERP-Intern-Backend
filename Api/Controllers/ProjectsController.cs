@@ -39,13 +39,12 @@ namespace Api.Controllers
         {
             Guid? agencyMenberId = User.IsInRole(RoleNames.AgencyMember) ? HttpContext.GetCurrentUserId()!.Value : null;
             Guid? projectManagerId = User.IsInRole(RoleNames.ProjectManager) ? HttpContext.GetCurrentUserId()!.Value : null;
-            var orderBy = (queryParams.OrderBy ?? new List<string>()).ToArray();
 
             var result = await _mediator.Send(new ListProjects(
                 queryParams.PageNumber,
                 queryParams.PageSize,
                 queryParams.SearchQuery,
-                string.Join(";", orderBy),
+                queryParams.OrderBy.ToOrderBy(),
                 agencyMenberId,
                 projectManagerId,
                 queryParams.Status

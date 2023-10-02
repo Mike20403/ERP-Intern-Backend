@@ -31,16 +31,20 @@ namespace DotNetStarter.Extensions
                 .Where(pair => typeof(TEntity).GetProperty(pair.propertyName) != null)
                 .ToList();
 
-            foreach (var pair in pairs)
+            foreach (var pair in pairs.Select((value, index) => new { index, value }))
             {
-                if (pair.sortOrder == SortOrder.Ascending)
+                if (pair.value.sortOrder == SortOrder.Ascending)
                 {
-                    @this = @this.OrderByPropertyName(pair.propertyName);
+                    @this = pair.index == 0
+                        ? @this.OrderByPropertyName(pair.value.propertyName)
+                        : ((IOrderedQueryable<TEntity>)@this).ThenByPropertyName(pair.value.propertyName);
                 }
 
-                if (pair.sortOrder == SortOrder.Descending)
+                if (pair.value.sortOrder == SortOrder.Descending)
                 {
-                    @this = @this.OrderByPropertyNameDescending(pair.propertyName);
+                    @this = pair.index == 0
+                        ? @this.OrderByPropertyNameDescending(pair.value.propertyName)
+                        : ((IOrderedQueryable<TEntity>)@this).ThenByPropertyNameDescending(pair.value.propertyName);
                 }
             }
 
@@ -69,16 +73,16 @@ namespace DotNetStarter.Extensions
         }
 
         public static IOrderedQueryable<TEntity> OrderByPropertyName<TEntity>(this IQueryable<TEntity> @this, string propertyName)
-            where TEntity : BaseEntity
-        {
-            return @this.OrderBy(ToLambda<TEntity>(propertyName));
-        }
+            where TEntity : BaseEntity => @this.OrderBy(ToLambda<TEntity>(propertyName));
 
         public static IOrderedQueryable<TEntity> OrderByPropertyNameDescending<TEntity>(this IQueryable<TEntity> @this, string propertyName)
-            where TEntity : BaseEntity
-        {
-            return @this.OrderByDescending(ToLambda<TEntity>(propertyName));
-        }
+            where TEntity : BaseEntity => @this.OrderByDescending(ToLambda<TEntity>(propertyName));
+
+        public static IOrderedQueryable<TEntity> ThenByPropertyName<TEntity>(this IOrderedQueryable<TEntity> @this, string propertyName)
+            where TEntity : BaseEntity => @this.ThenBy(ToLambda<TEntity>(propertyName));
+
+        public static IOrderedQueryable<TEntity> ThenByPropertyNameDescending<TEntity>(this IOrderedQueryable<TEntity> @this, string propertyName)
+            where TEntity : BaseEntity => @this.ThenByDescending(ToLambda<TEntity>(propertyName));
 
         private static Expression<Func<TEntity, object>> ToLambda<TEntity>(string propertyName)
             where TEntity : BaseEntity

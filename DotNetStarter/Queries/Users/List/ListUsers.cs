@@ -11,7 +11,7 @@ namespace DotNetStarter.Queries.Users.List
 
         public Status? Status { get; }
 
-        public ListUsers(int pageNumber, int pageSize, string? searchQuery, List<string>? roleNames, Gender? gender, Status? status) : base(pageNumber, pageSize, searchQuery)
+        public ListUsers(int pageNumber, int pageSize, string? searchQuery, string? orderBy, List<string>? roleNames, Gender? gender, Status? status) : base(pageNumber, pageSize, searchQuery, orderBy)
         {
             RoleNames = roleNames;
             Gender = gender;
