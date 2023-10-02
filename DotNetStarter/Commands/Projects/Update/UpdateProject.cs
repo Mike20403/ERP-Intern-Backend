@@ -12,13 +12,16 @@ namespace DotNetStarter.Commands.Projects.Update
 
         public string Name { get; }
 
+        public Guid? ProjectManagerId { get; }
+
         public ProjectStatus Status { get; }
 
-        public UpdateProject(Guid agencyMemberId, Guid projectId, string name, ProjectStatus status)
+        public UpdateProject(Guid agencyMemberId, Guid projectId, string name, Guid? projectManagerId,ProjectStatus status)
         {
             AgencyMemberId = agencyMemberId;
             ProjectId = projectId;
             Name = name;
+            ProjectManagerId = projectManagerId;
             Status = status;
         }
     }

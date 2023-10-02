@@ -10,6 +10,8 @@ namespace Api.Dtos
 
         public ProjectStatus? Status { get; set; }
 
+        public Guid? ProjectManagerId { get; set; }
+
         public DateTime? CreatedDate { get; set; }
 
         public string? CreatedBy { get; set; }

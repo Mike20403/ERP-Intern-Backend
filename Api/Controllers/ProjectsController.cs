@@ -74,9 +74,9 @@ namespace Api.Controllers
         [Authorize(Roles = RoleNames.AgencyMember)]
         [HasPrivilege(PrivilegeNames.UpdateProjects)]
         [HttpPut("{projectId}")]
-        public async Task<ActionResult<ProjectDto>> UpdateByAgencyMember([FromRoute] Guid projectId, [FromBody] UpdateProjectRequest request)
+        public async Task<ActionResult<ProjectDto>> Update([FromRoute] Guid projectId, [FromBody] UpdateProjectRequest request)
         {
-            var result = await _mediator.Send(new UpdateProject(HttpContext.GetCurrentUserId()!.Value, projectId, request.Name!, request.Status!.Value));
+            var result = await _mediator.Send(new UpdateProject(HttpContext.GetCurrentUserId()!.Value, projectId, request.Name!, request.ProjectManagerId, request.Status!.Value));
 
             return Ok(_mapper.Map<ProjectDto>(result));
         }
