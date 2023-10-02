@@ -44,7 +44,7 @@ namespace DotNetStarter.Services.Email
             {
                 { "firstName", firstName },
                 { "newEmail", newEmail },
-                { "url", $"{_configuration["Urls:BasePortal"]}/account/change-email?current-email={currentEmail}&new-email={newEmail}&code={code}" },
+                { "url", $"{_configuration["Urls:BasePortal"]}/account/change-email?email={newEmail}&code={code}" },
             };
 
             await SendEmailAsync(currentEmail, templateId!, templateData);

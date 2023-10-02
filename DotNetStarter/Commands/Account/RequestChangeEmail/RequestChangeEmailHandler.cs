@@ -34,7 +34,7 @@ namespace DotNetStarter.Commands.Account.ChangeEmailRequires
             await _unitOfWork.OtpRepository.CreateAsync(otp);
             await _unitOfWork.SaveChangesAsync();
 
-            await _emailService.SendChangeEmailRequestAsync(user.Username, request.NewEmail, user.Firstname, otp.Code);
+            await _emailService.SendChangeEmailRequestAsync(user.Username, request.Email, user.Firstname, otp.Code);
         }
     }
 }

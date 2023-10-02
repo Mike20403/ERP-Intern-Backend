@@ -16,7 +16,7 @@ namespace DotNetStarter.Commands.Account.ConfirmChangeEmail
                 .WithErrorCode(DomainExceptions.UserNotFound.Code)
                 .WithMessage(DomainExceptions.UserNotFound.Message);
 
-            RuleFor(x => x.NewEmail)
+            RuleFor(x => x.Email)
                 .NotEmpty()
                 .EmailAddress()
                 .WithMessage("New email must be an email address")

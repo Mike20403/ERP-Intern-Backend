@@ -6,11 +6,7 @@ namespace Api.Models.Account
     {
         [Required]
         [EmailAddress]
-        public string? CurrentEmail { get; set; }
-
-        [Required]
-        [EmailAddress]
-        public string? NewEmail { get; set; }
+        public string? Email { get; set; }
 
         [Required]
         public string? ActiveCode { get; set; }

@@ -21,13 +21,15 @@ namespace DotNetStarter.Commands.Account.ConfirmChangeEmail
         public override async Task Process(ConfirmChangeEmail request, CancellationToken cancellationToken)
         {
             var user = await _unitOfWork.UserRepository.
-                FindAsync(filter: u => u.Username == request.CurrentEmail);
+                FindAsync(filter: u => u.Id == request.UserId);
             
             var otp = await _unitOfWork.OtpRepository.
                 FindAsync(filter: o => o.Code == request.ActiveCode && o.UserId == user!.Id);
 
+            var oldEmail = user!.Username;
+
             otp!.IsUsed = true;
-            user!.Username = request.NewEmail;
+            user!.Username = request.Email;
             user!.Status = Status.Inactive;
 
             var activeOtp = new Otp
@@ -46,8 +48,8 @@ namespace DotNetStarter.Commands.Account.ConfirmChangeEmail
 
             // Send notification to old email - Send active code to new email
             string message = "Congratulation! you have changed your email, this email will no longer available";
-            await _emailService.SendNotificationAsync(request.CurrentEmail, user.Firstname, message);
-            await _emailService.SendActivateEmailAsync(request.NewEmail, user.Firstname, activeOtp.Code);
+            await _emailService.SendNotificationAsync(oldEmail, user.Firstname, message);
+            await _emailService.SendActivateEmailAsync(request.Email, user.Firstname, activeOtp.Code);
         }
     }
 }

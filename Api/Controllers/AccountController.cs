@@ -52,7 +52,7 @@ namespace Api.Controllers
         [HttpPost("request-change-email")]
         public async Task<ActionResult> RequestChangeEmail(ChangeEmailRequest request) // Request to change email then recieve active code via current email
         {
-            await _mediator.Send(new RequestChangeEmail(HttpContext.GetCurrentUserId()!.Value, request.NewEmail!));
+            await _mediator.Send(new RequestChangeEmail(HttpContext.GetCurrentUserId()!.Value, request.Email!));
 
             return Ok();
         }
@@ -60,7 +60,7 @@ namespace Api.Controllers
         [HttpPost("change-email")]
         public async Task<ActionResult> ConfirmChangeEmail(ConfirmChangeEmailRequest request) // Change Email via active code then set user to inactice
         {
-            await _mediator.Send(new ConfirmChangeEmail(request.CurrentEmail!, request.NewEmail!, request.ActiveCode!));
+            await _mediator.Send(new ConfirmChangeEmail(HttpContext.GetCurrentUserId()!.Value, request.Email!, request.ActiveCode!));
 
             return Ok();
         }

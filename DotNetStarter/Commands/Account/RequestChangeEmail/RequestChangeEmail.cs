@@ -6,11 +6,11 @@ namespace DotNetStarter.Commands.Account.ChangeEmailRequires
     {
         public Guid UserId { get; }
 
-        public string NewEmail { get; }
+        public string Email { get; }
         
-        public RequestChangeEmail(Guid userId, string NewEmail) {
-            this.UserId = userId;
-            this.NewEmail = NewEmail;
+        public RequestChangeEmail(Guid userId, string email) {
+            UserId = userId;
+            Email = email;
         }
     }
 }
