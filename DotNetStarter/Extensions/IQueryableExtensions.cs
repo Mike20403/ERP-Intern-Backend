@@ -22,11 +22,13 @@ namespace DotNetStarter.Extensions
                 {
                     var arrayPair = stringPair.Split(",");
                     var propertyName = arrayPair[0];
+
                     var sortOrder = SortOrder.Unspecified;
                     if (arrayPair.Length > 1)
                     {
                         Enum.TryParse(arrayPair[1], true, out sortOrder);
                     }
+
                     return (propertyName, sortOrder);
                 })
                 .Where(pair => typeof(TEntity).GetProperty(pair.propertyName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase) != null)
