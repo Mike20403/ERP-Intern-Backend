@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace DotNetStarter.Extensions
 {
@@ -28,7 +29,7 @@ namespace DotNetStarter.Extensions
                     }
                     return (propertyName, sortOrder);
                 })
-                .Where(pair => typeof(TEntity).GetProperty(pair.propertyName) != null)
+                .Where(pair => typeof(TEntity).GetProperty(pair.propertyName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase) != null)
                 .ToList();
 
             foreach (var pair in pairs.Select((value, index) => new { index, value }))
@@ -61,7 +62,7 @@ namespace DotNetStarter.Extensions
 
             var properties = includeProperties
                 .Split(',', StringSplitOptions.RemoveEmptyEntries)
-                .Where(property => typeof(TEntity).GetProperty(property) != null)
+                .Where(property => typeof(TEntity).GetProperty(property, BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase) != null)
                 .ToList();
 
             foreach (var includeProperty in properties)
