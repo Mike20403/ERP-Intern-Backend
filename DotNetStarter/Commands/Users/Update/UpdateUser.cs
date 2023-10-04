@@ -18,7 +18,9 @@ namespace DotNetStarter.Commands.Users.Update
 
         public Status Status { get; }
 
-        public UpdateUser(Guid userId, string firstname, string lastname, string phoneNumber, Gender gender, Status status)
+        public List<string> RoleNames { get; }
+
+        public UpdateUser(List<string> roleNames, Guid userId, string firstname, string lastname, string phoneNumber, Gender gender, Status status)
         {
             UserId = userId;
             Firstname = firstname;
@@ -26,6 +28,7 @@ namespace DotNetStarter.Commands.Users.Update
             PhoneNumber = phoneNumber;
             Gender = gender;
             Status = status;
+            RoleNames = roleNames;
         }
     }
 }

@@ -6,9 +6,12 @@ namespace DotNetStarter.Commands.Users.Delete
     {
         public Guid UserId { get; }
 
-        public DeleteUser(Guid userId)
+        public List<string> RoleNames { get; }
+
+        public DeleteUser(List<string> roleNames, Guid userId)
         {
             UserId = userId;
+            RoleNames = roleNames;
         }
     }
 }

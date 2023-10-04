@@ -62,7 +62,7 @@ namespace Api.Controllers
         [HttpGet("{userId}")]
         public async Task<ActionResult<UserDto>> Get([FromRoute] Guid userId)
         {
-            var result = await _mediator.Send(new GetUser(userId));
+            var result = await _mediator.Send(new GetUser(null, userId));
 
             return Ok(_mapper.Map<UserDto>(result));
         }
@@ -70,7 +70,7 @@ namespace Api.Controllers
         [HttpPut("{userId}")]
         public async Task<ActionResult<UserDto>> Update([FromRoute] Guid userId, [FromBody] UpdateUserRequest request)
         {
-            var result = await _mediator.Send(new UpdateUser(userId, request.Firstname!, request.Lastname!, request.PhoneNumber!, request.Gender.GetValueOrDefault(),  request.Status!.Value));
+            var result = await _mediator.Send(new UpdateUser(null, userId, request.Firstname!, request.Lastname!, request.PhoneNumber!, request.Gender.GetValueOrDefault(), request.Status!.Value));
 
             return Ok(_mapper.Map<UserDto>(result));
         }
@@ -78,7 +78,7 @@ namespace Api.Controllers
         [HttpDelete("{userId}")]
         public async Task<ActionResult> Delete([FromRoute] Guid userId)
         {
-            await _mediator.Send(new DeleteUser(userId));
+            await _mediator.Send(new DeleteUser(null, userId));
 
             return Ok();
         }

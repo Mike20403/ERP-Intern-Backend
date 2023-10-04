@@ -16,7 +16,7 @@ namespace DotNetStarter.Extensions
         {
             StaffMemberType.AgencyMember => new List<string> { @this!.Value.ToRoleName() },
             StaffMemberType.ProjectManager => new List<string> { @this!.Value.ToRoleName() },
-            _ => new List<string> { RoleNames.AgencyMember, RoleNames.ProjectManager },
+            _ => DomainConstraints.StaffMemberRoleNames,
         };
 
         public static StaffMemberType ToStaffMemberType(this string @this) => @this switch

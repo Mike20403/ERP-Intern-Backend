@@ -3,10 +3,12 @@ using Api.Dtos;
 using Api.Models.StaffMembers;
 using Api.Models.Users;
 using AutoMapper;
+using DotNetStarter.Commands.Account.ActivateEmail;
 using DotNetStarter.Commands.Users.Create;
 using DotNetStarter.Commands.Users.Delete;
 using DotNetStarter.Commands.Users.Update;
 using DotNetStarter.Common;
+using DotNetStarter.Common.Enums;
 using DotNetStarter.Extensions;
 using DotNetStarter.Queries.Users.Get;
 using DotNetStarter.Queries.Users.List;
@@ -55,7 +57,7 @@ namespace Api.Controllers
         [HasPrivilege(PrivilegeNames.ViewStaffMembers)]
         public async Task<ActionResult<StaffMemberDto>> Get([FromRoute] Guid staffMemberId)
         {
-            var result = await _mediator.Send(new GetUser(staffMemberId));
+            var result = await _mediator.Send(new GetUser(DomainConstraints.StaffMemberRoleNames, staffMemberId));
 
             return Ok(_mapper.Map<StaffMemberDto>(result));
         }
@@ -81,15 +83,17 @@ namespace Api.Controllers
 
         [HttpPut("{staffMemberId}")]
         [HasPrivilege(PrivilegeNames.UpdateStaffMembers)]
-        public async Task<ActionResult<StaffMemberDto>> Update([FromRoute] Guid staffMemberId, [FromBody] UpdateUserRequest request)
+        public async Task<ActionResult<StaffMemberDto>> Update([FromRoute] Guid staffMemberId, [FromBody] UpdateStaffMemberRequest request)
         {
             var result = await _mediator.Send(new UpdateUser(
+                DomainConstraints.StaffMemberRoleNames,
                 staffMemberId,
                 request.Firstname!,
                 request.Lastname!,
                 request.PhoneNumber!,
                 request.Gender.GetValueOrDefault(),
-                request.Status!.Value));
+                request.Status!.Value
+                ));
 
             return Ok(_mapper.Map<StaffMemberDto>(result));
         }
@@ -98,7 +102,7 @@ namespace Api.Controllers
         [HasPrivilege(PrivilegeNames.DeleteStaffMembers)]
         public async Task<ActionResult> Delete([FromRoute] Guid staffMemberId)
         {
-            await _mediator.Send(new DeleteUser(staffMemberId));
+            await _mediator.Send(new DeleteUser(DomainConstraints.StaffMemberRoleNames, staffMemberId));
 
             return Ok();
         }

@@ -111,5 +111,11 @@ namespace DotNetStarter.Common
             Code = "InvalidRoleName",
             Message = "This role name is invalid!",
         };
+
+        public static readonly DomainException InvalidPrivilege = new DomainException
+        {
+            Code = "InvalidPrivilege",
+            Message = "Invalid Privilege for doing this",
+        };
     }
 }

@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using DotNetStarter.Common;
+using DotNetStarter.Common.Enums;
 using DotNetStarter.Database.UnitOfWork;
 using DotNetStarter.Entities;
+using DotNetStarter.Services.Email;
 
 namespace DotNetStarter.Commands.Users.Create
 {
@@ -11,10 +13,13 @@ namespace DotNetStarter.Commands.Users.Create
 
         private readonly IMapper _mapper;
 
-        public CreateUserHandler(IServiceProvider serviceProvider, IDotNetStarterUnitOfWork unitOfWork, IMapper mapper) : base(serviceProvider)
+        private readonly IEmailService _emailService;
+
+        public CreateUserHandler(IServiceProvider serviceProvider, IDotNetStarterUnitOfWork unitOfWork, IMapper mapper, IEmailService emailService) : base(serviceProvider)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _emailService = emailService;
         }
 
         public override async Task<User> Process(CreateUser request, CancellationToken cancellationToken)
@@ -33,6 +38,24 @@ namespace DotNetStarter.Commands.Users.Create
             await _unitOfWork.UserRepository.CreateAsync(user);
             await _unitOfWork.SaveChangesAsync();
 
+            if (request.Status == Status.Active)
+            {
+                string message = "Your account is created successfully!";
+                await _emailService.SendNotificationAsync(request.Username, request.Firstname, message);
+            }
+
+            else if (request.Status == Status.Inactive) {
+                var activeOtp = new Otp
+                {
+                    UserId = user!.Id,
+                    Type = OtpType.ActivateEmail,
+                    Code = new Random().Next(0, 1000000).ToString("D6"),
+                    IsUsed = false,
+                    ExpiredDate = DateTime.Now.AddHours(1),
+                };
+
+                await _emailService.SendActivateEmailAsync(request.Username, request.Firstname, activeOtp.Code);
+            }
             return user;
         }
     }
