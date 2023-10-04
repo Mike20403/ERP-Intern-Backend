@@ -4,6 +4,7 @@ using DotNetStarter.Common.Enums;
 using DotNetStarter.Database.UnitOfWork;
 using DotNetStarter.Entities;
 using DotNetStarter.Services.Email;
+using Microsoft.Extensions.Configuration;
 
 namespace DotNetStarter.Commands.Users.Create
 {
@@ -15,11 +16,20 @@ namespace DotNetStarter.Commands.Users.Create
 
         private readonly IEmailService _emailService;
 
-        public CreateUserHandler(IServiceProvider serviceProvider, IDotNetStarterUnitOfWork unitOfWork, IMapper mapper, IEmailService emailService) : base(serviceProvider)
+        private readonly IConfiguration _configuration;
+
+        public CreateUserHandler(
+            IServiceProvider serviceProvider, 
+            IDotNetStarterUnitOfWork unitOfWork, 
+            IMapper mapper, 
+            IEmailService emailService,
+            IConfiguration configuration
+        ) : base(serviceProvider)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _emailService = emailService;
+            _configuration = configuration;
         }
 
         public override async Task<User> Process(CreateUser request, CancellationToken cancellationToken)
@@ -51,7 +61,7 @@ namespace DotNetStarter.Commands.Users.Create
                     Type = OtpType.ActivateEmail,
                     Code = new Random().Next(0, 1000000).ToString("D6"),
                     IsUsed = false,
-                    ExpiredDate = DateTime.Now.AddHours(1),
+                    ExpiredDate = DateTime.Now.AddMinutes(int.Parse(_configuration["Otp:ActiveOtpLifetimeDuration"]!)),
                 };
 
                 await _emailService.SendActivateEmailAsync(request.Username, request.Firstname, activeOtp.Code);

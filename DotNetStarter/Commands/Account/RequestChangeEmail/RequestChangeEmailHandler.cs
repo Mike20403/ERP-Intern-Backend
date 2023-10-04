@@ -3,6 +3,7 @@ using DotNetStarter.Common.Enums;
 using DotNetStarter.Database.UnitOfWork;
 using DotNetStarter.Entities;
 using DotNetStarter.Services.Email;
+using Microsoft.Extensions.Configuration;
 
 namespace DotNetStarter.Commands.Account.ChangeEmailRequires
 {
@@ -12,10 +13,13 @@ namespace DotNetStarter.Commands.Account.ChangeEmailRequires
 
         private readonly IEmailService _emailService;
 
-        public RequestChangeEmailHandler(IServiceProvider serviceProvider, IDotNetStarterUnitOfWork unitOfWork, IEmailService emailService) : base(serviceProvider)
+        private readonly IConfiguration _configuration;
+
+        public RequestChangeEmailHandler(IServiceProvider serviceProvider, IDotNetStarterUnitOfWork unitOfWork, IEmailService emailService, IConfiguration configuration) : base(serviceProvider)
         {
             _unitOfWork = unitOfWork;
             _emailService = emailService;
+            _configuration = configuration;
         }
 
         public override async Task Process(RequestChangeEmail request, CancellationToken cancellationToken)
@@ -28,7 +32,7 @@ namespace DotNetStarter.Commands.Account.ChangeEmailRequires
                 Type = OtpType.ChangeEmail,
                 Code = new Random().Next(0, 1000000).ToString("D6"),
                 IsUsed = false,
-                ExpiredDate = DateTime.Now.AddHours(1),
+                ExpiredDate = DateTime.Now.AddMinutes(int.Parse(_configuration["Otp:ActiveOtpLifetimeDuration"]!)),
             };
 
             await _unitOfWork.OtpRepository.CreateAsync(otp);
