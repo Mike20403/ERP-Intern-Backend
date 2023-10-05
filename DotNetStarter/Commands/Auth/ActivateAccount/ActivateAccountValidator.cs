@@ -3,11 +3,11 @@ using DotNetStarter.Common;
 using DotNetStarter.Common.Enums;
 using DotNetStarter.Database.UnitOfWork;
 
-namespace DotNetStarter.Commands.Account.ActivateEmail
+namespace DotNetStarter.Commands.Auth.ActivateAccount
 {
-    public sealed class ForgotPasswordValidator : AbstractValidator<ActivateEmail>
+    public sealed class ActivateAccountValidator : AbstractValidator<ActivateAccount>
     {
-        public ForgotPasswordValidator(IDotNetStarterUnitOfWork unitOfWork)
+        public ActivateAccountValidator(IDotNetStarterUnitOfWork unitOfWork)
         {
             RuleFor(x => x.Email)
                 .NotEmpty()

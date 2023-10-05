@@ -2,17 +2,15 @@
 using Api.Dtos;
 using Api.Models.Account;
 using AutoMapper;
-using DotNetStarter.Commands.Account.ActivateEmail;
-using DotNetStarter.Commands.Account.ConfirmChangeEmail;
 using DotNetStarter.Commands.Account.ChangeEmailRequires;
 using DotNetStarter.Commands.Account.ChangePassword;
+using DotNetStarter.Commands.Account.ConfirmChangeEmail;
 using DotNetStarter.Commands.Users.Update;
 using DotNetStarter.Extensions;
 using DotNetStarter.Queries.Users.Get;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using DotNetStarter.Common;
 
 namespace Api.Controllers
 {
@@ -62,14 +60,6 @@ namespace Api.Controllers
         public async Task<ActionResult> ConfirmChangeEmail(ConfirmChangeEmailRequest request) // Change Email via active code then set user to inactice
         {
             await _mediator.Send(new ConfirmChangeEmail(HttpContext.GetCurrentUserId()!.Value, request.Email!, request.ActiveCode!));
-
-            return Ok();
-        }
-        [HttpPost("activate-email")]
-        [AllowAnonymous]
-        public async Task<ActionResult> ActivateNewEmail(ActivateEmailRequest request) // Activate new Email after change email by any one has authorized
-        {
-            await _mediator.Send(new ActivateEmail(request.Email!, request.ActiveCode!));
 
             return Ok();
         }

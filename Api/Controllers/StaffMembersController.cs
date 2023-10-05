@@ -1,14 +1,11 @@
 ﻿using Api.Common;
 using Api.Dtos;
 using Api.Models.StaffMembers;
-using Api.Models.Users;
 using AutoMapper;
-using DotNetStarter.Commands.Account.ActivateEmail;
 using DotNetStarter.Commands.Users.Create;
 using DotNetStarter.Commands.Users.Delete;
 using DotNetStarter.Commands.Users.Update;
 using DotNetStarter.Common;
-using DotNetStarter.Common.Enums;
 using DotNetStarter.Extensions;
 using DotNetStarter.Queries.Users.Get;
 using DotNetStarter.Queries.Users.List;

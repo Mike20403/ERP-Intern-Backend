@@ -2,18 +2,18 @@
 using DotNetStarter.Common.Enums;
 using DotNetStarter.Database.UnitOfWork;
 
-namespace DotNetStarter.Commands.Account.ActivateEmail
+namespace DotNetStarter.Commands.Auth.ActivateAccount
 {
-    public sealed class ActivateEmailHandler : BaseRequestHandler<ActivateEmail>
+    public sealed class ActivateAccountHandler : BaseRequestHandler<ActivateAccount>
     {
         private readonly IDotNetStarterUnitOfWork _unitOfWork;
 
-        public ActivateEmailHandler(IServiceProvider serviceProvider, IDotNetStarterUnitOfWork unitOfWork) : base(serviceProvider)
+        public ActivateAccountHandler(IServiceProvider serviceProvider, IDotNetStarterUnitOfWork unitOfWork) : base(serviceProvider)
         {
             _unitOfWork = unitOfWork;
         }
 
-        public override async Task Process(ActivateEmail request, CancellationToken cancellationToken)
+        public override async Task Process(ActivateAccount request, CancellationToken cancellationToken)
         {
             var user = await _unitOfWork.UserRepository.FindAsync(filter: u => u.Username == request.Email);
             var otp = await _unitOfWork.OtpRepository.FindAsync(filter: u => u.Code == request.ActiveCode);

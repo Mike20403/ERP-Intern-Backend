@@ -1,10 +1,13 @@
 ﻿using Api.Common;
+using Api.Models.Account;
 using Api.Models.Auth;
+using DotNetStarter.Commands.Auth.ActivateAccount;
 using DotNetStarter.Commands.Auth.ForgotPassword;
 using DotNetStarter.Commands.Auth.Login;
 using DotNetStarter.Commands.Auth.RefreshToken;
 using DotNetStarter.Commands.Auth.ResetPassword;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -54,6 +57,15 @@ namespace Api.Controllers
             var result = await _mediator.Send(new RefreshToken(request.UserId!, request.TokenId!, request.Secret!));
 
             return Ok(result);
+        }
+
+        [HttpPost("activate-account")]
+        [AllowAnonymous]
+        public async Task<ActionResult> ActivateAccount(ActivateAccountRequest request) // Activate new Email after change email by any one has authorized
+        {
+            await _mediator.Send(new ActivateAccount(request.Email!, request.ActiveCode!));
+
+            return Ok();
         }
     }
 }

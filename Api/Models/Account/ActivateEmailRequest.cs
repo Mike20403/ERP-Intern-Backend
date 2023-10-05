@@ -2,7 +2,7 @@
 
 namespace Api.Models.Account
 {
-    public class ActivateEmailRequest
+    public class ActivateAccountRequest
     {
         [Required]
         [EmailAddress]
