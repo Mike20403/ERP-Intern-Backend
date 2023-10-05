@@ -334,7 +334,11 @@ namespace DotNetStarter.Database
                 RoleId = projectManagerRole.Id,
                 PrivilegeId = FinalizePaymentsPrivilege.Id,
             };
-
+            var agencyMemberViewProjectManagerPrivilege = new RolePrivilege
+            {
+                RoleId = agencyMemberRole.Id,
+                PrivilegeId = viewAgencyMembersPrivilege.Id,
+            };
             var agencyMemberViewTalentsRolePrivilege = new RolePrivilege
             {
                 RoleId = agencyMemberRole.Id,
@@ -441,6 +445,7 @@ namespace DotNetStarter.Database
                 agencyMemberCreateProjectsRolePrivilege,
                 agencyMemberUpdateProjectsRolePrivilege,
                 agencyMemberDeleteProjectsRolePrivilege,
+                agencyMemberViewProjectManagerPrivilege,
 
                 talentViewProjectsRolePrivilege,
                 talentCreatePaymentRolePrivilege,

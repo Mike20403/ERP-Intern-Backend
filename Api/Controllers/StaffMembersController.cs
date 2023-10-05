@@ -46,7 +46,8 @@ namespace Api.Controllers
                 queryParams.OrderBy.ToOrderBy(),
                 queryParams.Type.ToRoleNames(),
                 queryParams.Gender,
-                queryParams.Status
+                queryParams.Status,
+                false
                 ));
 
             Response.Headers.Add(DomainConstraints.XPagination, result.PaginationMetadata.SerializeWithCamelCase());

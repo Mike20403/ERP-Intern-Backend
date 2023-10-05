@@ -13,6 +13,7 @@ namespace Api.Common
             CreateMap<User, UserDto>();
             CreateMap<User, StaffMemberDto>()
                 .ForMember(s => s.Type, opt => opt.MapFrom(u => u.Role!.Name.ToStaffMemberType()));
+            CreateMap<User, PersonDto>();
             #endregion
 
             #region Account

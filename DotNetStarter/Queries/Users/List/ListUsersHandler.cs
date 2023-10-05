@@ -2,7 +2,6 @@
 using DotNetStarter.Common.Models;
 using DotNetStarter.Database.UnitOfWork;
 using DotNetStarter.Entities;
-using Microsoft.Data.SqlClient;
 using System.Linq.Expressions;
 
 namespace DotNetStarter.Queries.Users.List
@@ -22,10 +21,19 @@ namespace DotNetStarter.Queries.Users.List
 
             if (!string.IsNullOrEmpty(request.SearchQuery))
             {
-                filter.Add(u => u.Username.Contains(request.SearchQuery)
-                                || u.Firstname.Contains(request.SearchQuery)
-                                || u.Lastname.Contains(request.SearchQuery)
-                                || u.PhoneNumber.Contains(request.SearchQuery));
+                if (request.IsAutocomplete)
+                {
+                    filter.Add(u => u.Username.Contains(request.SearchQuery)
+                                    || u.Firstname.Contains(request.SearchQuery)
+                                    || u.Lastname.Contains(request.SearchQuery));
+                }
+                else
+                {
+                    filter.Add(u => u.Username.Contains(request.SearchQuery)
+                                    || u.Firstname.Contains(request.SearchQuery)
+                                    || u.Lastname.Contains(request.SearchQuery)
+                                    || u.PhoneNumber.Contains(request.SearchQuery));
+                }
             }
 
             if (request.RoleNames?.Count > 0)

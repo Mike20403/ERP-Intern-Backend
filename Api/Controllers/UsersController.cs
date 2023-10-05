@@ -43,7 +43,8 @@ namespace Api.Controllers
                 queryParams.OrderBy.ToOrderBy(),
                 null,
                 queryParams.Gender,
-                queryParams.Status
+                queryParams.Status,
+                false
                 ));
 
             Response.Headers.Add(DomainConstraints.XPagination, result.PaginationMetadata.SerializeWithCamelCase());

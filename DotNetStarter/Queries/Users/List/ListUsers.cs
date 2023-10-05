@@ -11,11 +11,23 @@ namespace DotNetStarter.Queries.Users.List
 
         public Status? Status { get; }
 
-        public ListUsers(int pageNumber, int pageSize, string? searchQuery, string? orderBy, List<string>? roleNames, Gender? gender, Status? status) : base(pageNumber, pageSize, searchQuery, orderBy)
+        public bool IsAutocomplete { get; }
+
+        public ListUsers(
+            int pageNumber,
+            int pageSize,
+            string? searchQuery,
+            string? orderBy,
+            List<string>? roleNames,
+            Gender? gender,
+            Status? status,
+            bool isAutocomplete
+        ) : base(pageNumber, pageSize, searchQuery, orderBy)
         {
             RoleNames = roleNames;
             Gender = gender;
             Status = status;
+            IsAutocomplete = isAutocomplete;
         }
     }
 }
