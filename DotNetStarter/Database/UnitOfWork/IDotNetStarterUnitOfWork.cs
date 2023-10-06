@@ -9,6 +9,8 @@ namespace DotNetStarter.Database.UnitOfWork
 
         GenericRepository<DotNetStarterDbContext, User> UserRepository { get; }
 
+        GenericRepository<DotNetStarterDbContext, Talent> TalentRepository { get; }
+
         GenericRepository<DotNetStarterDbContext, Otp> OtpRepository { get; }
 
         GenericRepository<DotNetStarterDbContext, Role> RoleRepository { get; }

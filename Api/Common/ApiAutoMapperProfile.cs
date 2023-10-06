@@ -16,6 +16,10 @@ namespace Api.Common
             CreateMap<User, PersonDto>();
             #endregion
 
+            #region Talent
+            CreateMap<Talent, TalentDto>();
+            #endregion
+
             #region Account
             CreateMap<User, AccountDto>();
             #endregion

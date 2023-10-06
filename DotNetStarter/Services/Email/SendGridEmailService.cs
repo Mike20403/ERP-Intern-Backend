@@ -50,7 +50,7 @@ namespace DotNetStarter.Services.Email
             await SendEmailAsync(currentEmail, templateId!, templateData);
         }
 
-        public async Task SendActivateEmailAsync(string email, string firstName, string code)
+        public async Task SendActivateAccountAsync(string email, string firstName, string code)
         {
             var templateId = _configuration["Email:SendGrid:TemplateIds:ActivateEmail"];
             var templateData = new Dictionary<string, string>

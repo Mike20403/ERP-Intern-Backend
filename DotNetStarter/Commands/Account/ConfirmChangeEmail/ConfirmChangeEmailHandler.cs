@@ -53,7 +53,7 @@ namespace DotNetStarter.Commands.Account.ConfirmChangeEmail
             // Send notification to old email - Send active code to new email
             string message = "Congratulation! you have changed your email, this email will no longer available";
             await _emailService.SendNotificationAsync(oldEmail, user.Firstname, message);
-            await _emailService.SendActivateEmailAsync(request.Email, user.Firstname, activeOtp.Code);
+            await _emailService.SendActivateAccountAsync(request.Email, user.Firstname, activeOtp.Code);
         }
     }
 }

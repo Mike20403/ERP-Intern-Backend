@@ -12,6 +12,8 @@ namespace DotNetStarter.Database.UnitOfWork
 
         public GenericRepository<DotNetStarterDbContext, User> UserRepository { get; private set; }
 
+        public GenericRepository<DotNetStarterDbContext, Talent> TalentRepository { get; private set; }
+
         public GenericRepository<DotNetStarterDbContext, Otp> OtpRepository { get; private set; }
 
         public GenericRepository<DotNetStarterDbContext, Role> RoleRepository { get; private set; }
@@ -28,6 +30,7 @@ namespace DotNetStarter.Database.UnitOfWork
 
             DataSource = context.Database.GetDbConnection().DataSource;
             UserRepository = new GenericRepository<DotNetStarterDbContext, User>(_context);
+            TalentRepository = new GenericRepository<DotNetStarterDbContext, Talent>(_context);
             OtpRepository = new GenericRepository<DotNetStarterDbContext, Otp>(_context);
             RoleRepository = new GenericRepository<DotNetStarterDbContext, Role>(_context);
             PrivilegeRepository = new GenericRepository<DotNetStarterDbContext, Privilege>(_context);

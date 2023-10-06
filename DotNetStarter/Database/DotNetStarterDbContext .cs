@@ -68,6 +68,11 @@ namespace DotNetStarter.Database
                 .WithMany(e => e.Users)
                 .UsingEntity<UserPrivilege>();
 
+            modelBuilder.Entity<Talent>()
+                .ToTable(
+                    "Talents",
+                    tableBuilder => tableBuilder.Property(talent => talent.Id).HasColumnName("TalentId"));
+
             modelBuilder.Entity<UserPrivilege>().HasKey(sc => new { sc.UserId, sc.PrivilegeId });
             #endregion
 
@@ -554,6 +559,8 @@ namespace DotNetStarter.Database
         public DbSet<RolePrivilege> RolePrivileges { get; set; }
 
         public DbSet<User> Users { get; set; }
+
+        public DbSet<Talent> Talents { get; set; }
 
         public DbSet<UserPrivilege> UserPrivileges { get; set; }
 
