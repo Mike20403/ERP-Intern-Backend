@@ -27,6 +27,10 @@ namespace Api.Common
             #region Project
             CreateMap<Project, ProjectDto>();
             #endregion
+
+            #region Stage
+            CreateMap<Stage, StageDto>();
+            #endregion
         }
     }
 }

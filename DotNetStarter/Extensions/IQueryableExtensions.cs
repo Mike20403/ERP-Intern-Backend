@@ -34,20 +34,20 @@ namespace DotNetStarter.Extensions
                 .Where(pair => typeof(TEntity).GetProperty(pair.propertyName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase) != null)
                 .ToList();
 
-            foreach (var pair in pairs.Select((value, index) => new { index, value }))
+            foreach (var pair in pairs.Select((value, index) => new { Index = index, Value = value }))
             {
-                if (pair.value.sortOrder == SortOrder.Ascending)
+                if (pair.Value.sortOrder == SortOrder.Ascending)
                 {
-                    @this = pair.index == 0
-                        ? @this.OrderByPropertyName(pair.value.propertyName)
-                        : ((IOrderedQueryable<TEntity>)@this).ThenByPropertyName(pair.value.propertyName);
+                    @this = pair.Index == 0
+                        ? @this.OrderByPropertyName(pair.Value.propertyName)
+                        : ((IOrderedQueryable<TEntity>)@this).ThenByPropertyName(pair.Value.propertyName);
                 }
 
-                if (pair.value.sortOrder == SortOrder.Descending)
+                if (pair.Value.sortOrder == SortOrder.Descending)
                 {
-                    @this = pair.index == 0
-                        ? @this.OrderByPropertyNameDescending(pair.value.propertyName)
-                        : ((IOrderedQueryable<TEntity>)@this).ThenByPropertyNameDescending(pair.value.propertyName);
+                    @this = pair.Index == 0
+                        ? @this.OrderByPropertyNameDescending(pair.Value.propertyName)
+                        : ((IOrderedQueryable<TEntity>)@this).ThenByPropertyNameDescending(pair.Value.propertyName);
                 }
             }
 

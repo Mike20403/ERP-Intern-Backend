@@ -63,6 +63,12 @@ namespace DotNetStarter.Database
                 entity.HasIndex(e => e.PhoneNumber).IsUnique();
             });
 
+            modelBuilder.Entity<Stage>(entity =>
+            {
+                entity.HasIndex(e => new { e.ProjectId, e.Name }).IsUnique();
+                entity.HasIndex(e => new { e.ProjectId, e.Order }).IsUnique();
+            });
+
             modelBuilder.Entity<User>()
                 .HasMany(e => e.Privileges)
                 .WithMany(e => e.Users)
@@ -171,25 +177,35 @@ namespace DotNetStarter.Database
                 Id = new Guid("9483ac95-4f7a-4b5a-93cf-636a230a662d"),
                 Name = PrivilegeNames.RemoveTalentsFromProject,
             };
-            var CreatePaymentsPrivilege = new Privilege
+            var createPaymentsPrivilege = new Privilege
             {
                 Id = new Guid("6deeccfd-7c92-4699-bbae-de86f83f6237"),
                 Name = PrivilegeNames.CreatePayments,
             };
-            var UpdatePaymentsPrivilege = new Privilege
+            var updatePaymentsPrivilege = new Privilege
             {
                 Id = new Guid("0636175f-b650-4d48-a5e3-37f08b394b45"),
                 Name = PrivilegeNames.UpdatePayments,
             };
-            var AcceptPaymentsPrivilege = new Privilege
+            var acceptPaymentsPrivilege = new Privilege
             {
                 Id = new Guid("5b665dc9-28a0-451f-af9d-05fdd64ac704"),
                 Name = PrivilegeNames.AcceptPayments,
             };
-            var FinalizePaymentsPrivilege = new Privilege
+            var finalizePaymentsPrivilege = new Privilege
             {
                 Id = new Guid("ea6706b9-32a3-4a17-ab7f-0598c87b522b"),
                 Name = PrivilegeNames.FinalizePayments,
+            };
+            var viewStagesPrivilege = new Privilege
+            {
+                Id = new Guid("3e4d6b17-c11b-64b5-0036-a1fe8f9c269d"),
+                Name = PrivilegeNames.ViewStages,
+            };
+            var updateStagesPrivilege = new Privilege
+            {
+                Id = new Guid("5bc6b4f4-98e1-1e39-8aa6-4693ad11437e"),
+                Name = PrivilegeNames.UpdateStages,
             };
 
             modelBuilder.Entity<Privilege>().HasData(
@@ -211,10 +227,12 @@ namespace DotNetStarter.Database
                 deleteTasksPrivilege,
                 inviteTalentsPrivilege,
                 removeTalentsFromProjectPrivilege,
-                CreatePaymentsPrivilege,
-                UpdatePaymentsPrivilege,
-                AcceptPaymentsPrivilege,
-                FinalizePaymentsPrivilege
+                createPaymentsPrivilege,
+                updatePaymentsPrivilege,
+                acceptPaymentsPrivilege,
+                finalizePaymentsPrivilege,
+                viewStagesPrivilege,
+                updateStagesPrivilege
             );
             #endregion
 
@@ -337,7 +355,17 @@ namespace DotNetStarter.Database
             var projectManagerFinalizePaymentRolePrivilege = new RolePrivilege
             {
                 RoleId = projectManagerRole.Id,
-                PrivilegeId = FinalizePaymentsPrivilege.Id,
+                PrivilegeId = finalizePaymentsPrivilege.Id,
+            };
+            var projectManagerViewStagesRolePrivilege = new RolePrivilege
+            {
+                RoleId = projectManagerRole.Id,
+                PrivilegeId = viewStagesPrivilege.Id,
+            };
+            var projectManagerUpdateStagesRolePrivilege = new RolePrivilege
+            {
+                RoleId = projectManagerRole.Id,
+                PrivilegeId = updateStagesPrivilege.Id,
             };
             var agencyMemberViewProjectManagerPrivilege = new RolePrivilege
             {
@@ -362,7 +390,7 @@ namespace DotNetStarter.Database
             var agencyMemberAcceptPaymentRolePrivilege = new RolePrivilege
             {
                 RoleId = agencyMemberRole.Id,
-                PrivilegeId = AcceptPaymentsPrivilege.Id,
+                PrivilegeId = acceptPaymentsPrivilege.Id,
             };
             var agencyMemberViewProjectsRolePrivilege = new RolePrivilege
             {
@@ -393,12 +421,12 @@ namespace DotNetStarter.Database
             var talentCreatePaymentRolePrivilege = new RolePrivilege
             {
                 RoleId = talentRole.Id,
-                PrivilegeId = CreatePaymentsPrivilege.Id,
+                PrivilegeId = createPaymentsPrivilege.Id,
             };
             var talentUpatePaymentRolePrivilege = new RolePrivilege
             {
                 RoleId = talentRole.Id,
-                PrivilegeId = UpdatePaymentsPrivilege.Id,
+                PrivilegeId = updatePaymentsPrivilege.Id,
             };
             var talentViewTasksRolePrivilege = new RolePrivilege
             {
@@ -419,6 +447,11 @@ namespace DotNetStarter.Database
             {
                 RoleId = talentRole.Id,
                 PrivilegeId = deleteTasksPrivilege.Id,
+            };
+            var talentViewStagesRolePrivilege = new RolePrivilege
+            {
+                RoleId = talentRole.Id,
+                PrivilegeId = viewStagesPrivilege.Id,
             };
 
             modelBuilder.Entity<RolePrivilege>().HasData(
@@ -441,6 +474,8 @@ namespace DotNetStarter.Database
                 projectManagerUpdateTasksRolePrivilege,
                 projectManagerDeleteTasksRolePrivilege,
                 projectManagerFinalizePaymentRolePrivilege,
+                projectManagerViewStagesRolePrivilege,
+                projectManagerUpdateStagesRolePrivilege,
 
                 agencyMemberViewTalentsRolePrivilege,
                 agencyMemberInviteTalentsRolePrivilege,
@@ -458,7 +493,8 @@ namespace DotNetStarter.Database
                 talentViewTasksRolePrivilege,
                 talentCreateTasksRolePrivilege,
                 talentUpdateTasksRolePrivilege,
-                talentDeleteTasksRolePrivilege
+                talentDeleteTasksRolePrivilege,
+                talentViewStagesRolePrivilege
             );
             #endregion
 
@@ -569,6 +605,8 @@ namespace DotNetStarter.Database
         public DbSet<AuthToken> AuthTokens { get; set; }
 
         public DbSet<Project> Projects { get; set; }
+
+        public DbSet<Stage> Stages { get; set; }
 
         private void SetAuditing()
         {

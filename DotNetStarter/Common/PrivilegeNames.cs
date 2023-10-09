@@ -28,6 +28,8 @@
         public const string UpdatePayments = "UPDATE_PAYMENTS";
         public const string AcceptPayments = "ACCEPT_PAYMENTS";
         public const string FinalizePayments = "FINALIZE_PAYMENTS";
+        public const string ViewStages = "VIEW_STAGES";
+        public const string UpdateStages = "UPDATE_STAGES";
         #endregion
 
     }
