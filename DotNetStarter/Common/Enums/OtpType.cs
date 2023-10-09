@@ -4,6 +4,6 @@
     {
         ResetPassword = 0,
         ChangeEmail = 1,
-        ActivateEmail = 2,
+        ActivateAccount = 2,
     }
 }

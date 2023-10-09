@@ -59,7 +59,7 @@ namespace DotNetStarter.Commands.Talents.Create
                 var activeOtp = new Otp
                 {
                     UserId = talent!.Id,
-                    Type = OtpType.ActivateEmail,
+                    Type = OtpType.ActivateAccount,
                     Code = new Random().Next(0, 1000000).ToString("D6"),
                     IsUsed = false,
                     ExpiredDate = DateTime.Now.AddMinutes(int.Parse(_configuration["Otp:ActiveOtpLifetimeDuration"]!)),
