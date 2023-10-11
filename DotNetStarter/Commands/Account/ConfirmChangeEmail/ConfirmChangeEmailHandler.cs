@@ -2,7 +2,9 @@
 using DotNetStarter.Common.Enums;
 using DotNetStarter.Database.UnitOfWork;
 using DotNetStarter.Entities;
+using DotNetStarter.Notifications.Users.UserCredentialChanged;
 using DotNetStarter.Services.Email;
+using MediatR;
 using Microsoft.Extensions.Configuration;
 
 namespace DotNetStarter.Commands.Account.ConfirmChangeEmail
@@ -15,11 +17,20 @@ namespace DotNetStarter.Commands.Account.ConfirmChangeEmail
 
         private readonly IConfiguration _configuration;
 
-        public ConfirmChangeEmailHandler(IServiceProvider serviceProvider, IDotNetStarterUnitOfWork unitOfWork, IEmailService emailService, IConfiguration configuration) : base(serviceProvider)
+        private readonly IMediator _mediator;
+
+        public ConfirmChangeEmailHandler(
+            IServiceProvider serviceProvider, 
+            IDotNetStarterUnitOfWork unitOfWork, 
+            IEmailService emailService, 
+            IConfiguration configuration,
+            IMediator mediator
+        ) : base(serviceProvider)
         {
             _unitOfWork = unitOfWork;
             _emailService = emailService;
             _configuration = configuration;
+            _mediator = mediator;
         }
 
         public override async Task Process(ConfirmChangeEmail request, CancellationToken cancellationToken)
@@ -44,11 +55,13 @@ namespace DotNetStarter.Commands.Account.ConfirmChangeEmail
                 IsUsed = false,
                 ExpiredDate = DateTime.Now.AddMinutes(int.Parse(_configuration["Otp:ActiveOtpLifetimeDuration"]!)),
             };
-
+            
             await _unitOfWork.OtpRepository.CreateAsync(activeOtp);
             await _unitOfWork.OtpRepository.UpdateAsync(otp);
             await _unitOfWork.UserRepository.UpdateAsync(user!);
             await _unitOfWork.SaveChangesAsync();
+
+            await _mediator.Publish(new UserCredentialChanged(user.Id));
 
             // Send notification to old email - Send active code to new email
             string message = "Congratulation! you have changed your email, this email will no longer available";
