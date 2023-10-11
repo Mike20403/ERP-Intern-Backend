@@ -22,7 +22,6 @@ namespace DotNetStarter.Commands.Stages.Upsert
                 .WithMessage(DomainExceptions.ProjectNotFound.Message);
 
             RuleFor(x => x.Stages)
-                .NotEmpty()
                 .Must(stages => stages.Count == stages.DistinctBy(stages => stages.Name).Count())
                 .WithMessage("Stage names must be unique within the project.");
         }

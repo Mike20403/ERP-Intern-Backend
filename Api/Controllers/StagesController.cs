@@ -1,6 +1,5 @@
 ﻿using Api.Common;
 using Api.Dtos;
-using Api.Models.Stages;
 using AutoMapper;
 using DotNetStarter.Commands.Stages.Update;
 using DotNetStarter.Common;
@@ -37,9 +36,9 @@ namespace Api.Controllers
 
         [HasPrivilege(PrivilegeNames.UpdateProjects)]   
         [HttpPut]
-        public async Task<ActionResult<List<StageDto>>> Update([FromRoute] Guid projectId, [FromBody] UpdateStagesRequest request)
+        public async Task<ActionResult<List<StageDto>>> Update([FromRoute] Guid projectId, [FromBody] List<StageDto>? stages)
         {
-            var upsertStages = request.Stages.Select(s => new UpsertStage(s.Id, s.Name!)).ToList();
+            var upsertStages = stages?.Select(s => new UpsertStage(s.Id, s.Name!))?.ToList() ?? new List<UpsertStage>();
 
             var result = await _mediator.Send(new UpdateStages(
                 HttpContext.GetCurrentUserId()!.Value,
