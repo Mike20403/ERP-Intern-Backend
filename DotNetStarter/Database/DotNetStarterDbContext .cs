@@ -80,6 +80,10 @@ namespace DotNetStarter.Database
                     tableBuilder => tableBuilder.Property(talent => talent.Id).HasColumnName("TalentId"));
 
             modelBuilder.Entity<UserPrivilege>().HasKey(sc => new { sc.UserId, sc.PrivilegeId });
+
+            modelBuilder.Entity<Card>().HasIndex(c => new { c.PrevCardId, c.NextCardId }).IsUnique();
+
+            modelBuilder.Entity<Card>().ToTable(b => b.HasCheckConstraint("CK_Prev_Next_Not_Equal", $"[PrevCardId] <> [NextCardId]"));
             #endregion
 
             #region Privilege
@@ -149,22 +153,22 @@ namespace DotNetStarter.Database
             var viewTasksPrivilege = new Privilege
             {
                 Id = new Guid("c22a378a-feb2-4a97-82b9-3b0a0588ddcd"),
-                Name = PrivilegeNames.ViewTasks,
+                Name = PrivilegeNames.ViewCards,
             };
             var createTasksPrivilege = new Privilege
             {
                 Id = new Guid("36b6bbda-3c16-47a7-8353-88fd19eaf2e1"),
-                Name = PrivilegeNames.CreateTasks,
+                Name = PrivilegeNames.CreateCards,
             };
             var updateTasksPrivilege = new Privilege
             {
                 Id = new Guid("9a1edd05-bd24-462e-9754-534ec573745f"),
-                Name = PrivilegeNames.UpdateTasks,
+                Name = PrivilegeNames.UpdateCards,
             };
             var deleteTasksPrivilege = new Privilege
             {
                 Id = new Guid("9b07b2fd-259c-43bf-9a5d-715945b23414"),
-                Name = PrivilegeNames.DeleteTasks,
+                Name = PrivilegeNames.DeleteCards,
             };
 
             var inviteTalentsPrivilege = new Privilege
@@ -607,6 +611,8 @@ namespace DotNetStarter.Database
         public DbSet<Project> Projects { get; set; }
 
         public DbSet<Stage> Stages { get; set; }
+
+        public DbSet<Card> Cards { get; set; }
 
         private void SetAuditing()
         {

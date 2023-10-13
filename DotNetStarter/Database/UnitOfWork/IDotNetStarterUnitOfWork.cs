@@ -22,5 +22,7 @@ namespace DotNetStarter.Database.UnitOfWork
         GenericRepository<DotNetStarterDbContext, Project> ProjectRepository { get; }
 
         GenericRepository<DotNetStarterDbContext, Stage> StageRepository { get; }
+
+        GenericRepository<DotNetStarterDbContext, Card> CardRepository { get; }
     }
 }

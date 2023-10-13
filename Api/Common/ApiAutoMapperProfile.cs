@@ -1,4 +1,5 @@
 ﻿using Api.Dtos;
+using DotNetStarter.Commands.Cards.MoveCards;
 using DotNetStarter.Common;
 using DotNetStarter.Entities;
 using DotNetStarter.Extensions;
@@ -30,6 +31,11 @@ namespace Api.Common
 
             #region Stage
             CreateMap<Stage, StageDto>();
+            #endregion
+
+            #region Card
+            CreateMap<Card, CardDto>();
+            CreateMap<MovingCard, MovingCardDto>();
             #endregion
         }
     }

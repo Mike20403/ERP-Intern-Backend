@@ -1,5 +1,4 @@
-﻿using DotNetStarter.Entities;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 
 namespace DotNetStarter.Extensions

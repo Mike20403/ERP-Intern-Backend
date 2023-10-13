@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using DotNetStarter.Commands.Cards.MoveCards;
+using DotNetStarter.Commands.Cards.Create;
+using DotNetStarter.Commands.Cards.Update;
 using DotNetStarter.Commands.Projects.Create;
 using DotNetStarter.Commands.Projects.Update;
 using DotNetStarter.Commands.Talents.Create;
@@ -26,6 +29,12 @@ namespace DotNetStarter.Common
             #region Project
             CreateMap<CreateProject, Project>();
             CreateMap<UpdateProject, Project>();
+            #endregion
+
+            #region Card
+            CreateMap<CreateCard, Card>();
+            CreateMap<UpdateCard, Card>();
+            CreateMap<MovingCard, Card>().ReverseMap();
             #endregion
         }
     }

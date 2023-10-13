@@ -58,6 +58,18 @@ namespace DotNetStarter.Common
             Message = "Project not found",
         };
 
+        public static readonly DomainException StageNotFound = new DomainException
+        {
+            Code = "StageNotFound",
+            Message = "Stage not found",
+        };
+
+        public static readonly DomainException CardNotFound = new DomainException
+        {
+            Code = "CardNotFound",
+            Message = "Card not found",
+        };
+
         public static readonly DomainException InvalidOtp = new DomainException
         {
             Code = "InvalidOtp",

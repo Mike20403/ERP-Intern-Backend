@@ -15,5 +15,7 @@ namespace DotNetStarter.Entities
 
         [Required]
         public Project? Project { get; set; }
+
+        public List<Card>? Cards { get; set; }
     }
 }

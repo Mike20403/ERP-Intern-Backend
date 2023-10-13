@@ -15,10 +15,10 @@
         public const string CreateProjects = "CREATE_PROJECTS";
         public const string UpdateProjects = "UPDATE_PROJECTS";
         public const string DeleteProjects = "DELETE_PROJECTS";
-        public const string ViewTasks = "VIEW_TASKS";
-        public const string CreateTasks = "CREATE_TASKS";
-        public const string UpdateTasks = "UPDATE_TASKS";
-        public const string DeleteTasks = "DELETE_TASKS";
+        public const string ViewCards = "VIEW_CARDS";
+        public const string CreateCards = "CREATE_CARDS";
+        public const string UpdateCards = "UPDATE_CARDS";
+        public const string DeleteCards = "DELETE_CARDS";
         #endregion
 
         #region Other actions
