@@ -12,6 +12,8 @@ namespace Api.Dtos
 
         public Guid? ProjectManagerId { get; set; }
 
+        public PersonDto? ProjectManager { get; set; }
+
         public DateTime? CreatedDate { get; set; }
 
         public string? CreatedBy { get; set; }

@@ -14,7 +14,7 @@ namespace DotNetStarter.Queries.Projects.Get
         }
         public override async Task<Project> Process(GetProject request, CancellationToken cancellationToken)
         {
-            return await _unitOfWork.ProjectRepository.GetByIdAsync(request.ProjectId);
+            return await _unitOfWork.ProjectRepository.FindAsync(ClassUtils.GetPropertyName<Project>(p => p.ProjectManager), p => p.Id == request.ProjectId);
         }
     }
 }
