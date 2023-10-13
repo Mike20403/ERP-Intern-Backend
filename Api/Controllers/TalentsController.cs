@@ -43,7 +43,8 @@ namespace Api.Controllers
                 queryParams.OrderBy.ToOrderBy(),
                 queryParams.Gender,
                 queryParams.Status,
-                queryParams.IsAvailable
+                queryParams.IsAvailable,
+                false
             ));
             Response.Headers.Add(DomainConstraints.XPagination, result.PaginationMetadata.SerializeWithCamelCase());
             return Ok(result.Select(_mapper.Map<TalentDto>).ToList());

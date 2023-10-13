@@ -5,6 +5,7 @@ using AutoMapper;
 using DotNetStarter.Common;
 using DotNetStarter.Common.Enums;
 using DotNetStarter.Extensions;
+using DotNetStarter.Queries.Talents.List;
 using DotNetStarter.Queries.Users.List;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -41,6 +42,26 @@ namespace Api.Controllers
                 new List<string> { RoleNames.ProjectManager },
                 null,
                 Status.Active,
+                true
+                ));
+
+            Response.Headers.Add(DomainConstraints.XPagination, result.PaginationMetadata.SerializeWithCamelCase());
+            return Ok(result.Select(_mapper.Map<PersonDto>).ToList());
+        }
+
+        [HttpGet("talents")]
+        [HasPrivilege(PrivilegeNames.ViewTalents)]
+        [Authorize(Roles = $"{RoleNames.AgencyMember},{RoleNames.ProjectManager}")]
+        public async Task<ActionResult<List<PersonDto>>> ListTalents([FromQuery] ListQueryParams queryParams)
+        {
+            var result = await _mediator.Send(new ListTalents(
+                queryParams.PageNumber,
+                queryParams.PageSize,
+                queryParams.SearchQuery,
+                queryParams.OrderBy.ToOrderBy(),
+                null,
+                Status.Active,
+                true,
                 true
                 ));
 

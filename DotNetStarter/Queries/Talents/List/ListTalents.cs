@@ -11,6 +11,8 @@ namespace DotNetStarter.Queries.Talents.List
 
         public bool? IsAvailable { get; }
 
+        public bool IsAutocomplete { get; }
+
         public ListTalents(
             int pageNumber,
             int pageSize,
@@ -18,12 +20,14 @@ namespace DotNetStarter.Queries.Talents.List
             string? orderBy,
             Gender? gender,
             Status? status,
-            bool? isAvailable
+            bool? isAvailable,
+            bool isAutocomplete
         ) : base(pageNumber, pageSize, searchQuery, orderBy)
         {
             Gender = gender;
             Status = status;
             IsAvailable = isAvailable;
+            IsAutocomplete = isAutocomplete;
         }
     }
 }
