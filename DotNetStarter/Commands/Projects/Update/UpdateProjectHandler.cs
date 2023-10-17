@@ -18,7 +18,7 @@ namespace DotNetStarter.Commands.Projects.Update
         }
         public override async Task<Project> Process(UpdateProject request, CancellationToken cancellationToken)
         {
-            var project = await _unitOfWork.ProjectRepository.GetByIdAsync(request.ProjectId);
+            var project = await _unitOfWork.ProjectRepository.FindAsync(ClassUtils.GetPropertyName<Project>(p => p.ProjectManager), p => p.Id == request.ProjectId);
 
             _mapper.Map(request, project);
 
