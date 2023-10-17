@@ -22,9 +22,14 @@ namespace DotNetStarter.Extensions
 
         public static Guid? GetCurrentUserId(this HttpContext @this)
         {
-            Guid.TryParse(@this?.User?.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value, out Guid id);
+            var userId = @this?.User?.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
-            return id;
+            if (userId is not null && Guid.TryParse(userId, out Guid id))
+            {
+                return id;
+            }
+
+            return null;
         }
 
         public static string? GetCurrentUserRole(this HttpContext @this) => @this?.User?.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
