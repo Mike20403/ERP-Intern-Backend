@@ -4,8 +4,22 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Api.Models.Users
 {
-    public class UpdateUserRequest : BaseUpsertUserRequest
+    public class UpdateUserRequest
     {
+        [Required]
+        public string? Firstname { get; set; }
+
+        [Required]
+        public string? Lastname { get; set; }
+
+        [Required]
+        [RegularExpression(RegexPatterns.PhoneNumber)]
+        public string? PhoneNumber { get; set; }
+
+        //TODO: make required
+        //[Required]
+        public Gender? Gender { get; set; }
+
         [Required]
         public Status? Status { get; set; }
     }

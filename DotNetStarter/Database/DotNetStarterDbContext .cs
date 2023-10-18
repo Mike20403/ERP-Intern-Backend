@@ -74,29 +74,12 @@ namespace DotNetStarter.Database
                 .WithMany(e => e.Users)
                 .UsingEntity<UserPrivilege>();
 
-            modelBuilder.Entity<UserPrivilege>().HasKey(sc => new { sc.UserId, sc.PrivilegeId });
-
             modelBuilder.Entity<Talent>()
                 .ToTable(
                     "Talents",
                     tableBuilder => tableBuilder.Property(talent => talent.Id).HasColumnName("TalentId"));
 
-            modelBuilder.Entity<Project>()
-                .HasMany(t => t.Talents)
-                .WithMany(p => p.Projects)
-                .UsingEntity<ProjectTalent>();
-
-            modelBuilder.Entity<ProjectTalent>().HasKey(sc => new { sc.ProjectId, sc.TalentId });
-
-            modelBuilder.Entity<Invitation>()
-              .HasOne(p => p.Inviter).WithMany()
-              .HasForeignKey(p => p.InviterId)
-              .OnDelete(DeleteBehavior.NoAction);
-
-            modelBuilder.Entity<ProjectTalent>()
-              .HasOne(p => p.Project).WithMany()
-              .HasForeignKey(p => p.ProjectId)
-              .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<UserPrivilege>().HasKey(sc => new { sc.UserId, sc.PrivilegeId });
 
             modelBuilder.Entity<Card>().HasIndex(c => new { c.PrevCardId, c.NextCardId }).IsUnique();
 
@@ -628,10 +611,6 @@ namespace DotNetStarter.Database
         public DbSet<Project> Projects { get; set; }
 
         public DbSet<Stage> Stages { get; set; }
-
-        public DbSet<Invitation> Invitations { get; set; }
-
-        public DbSet<ProjectTalent> ProjectTalents { get; set; }
 
         public DbSet<Card> Cards { get; set; }
 

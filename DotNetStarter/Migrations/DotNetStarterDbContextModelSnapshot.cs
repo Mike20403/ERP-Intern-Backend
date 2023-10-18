@@ -51,50 +51,6 @@ namespace DotNetStarter.Migrations
                     b.ToTable("AuthTokens");
                 });
 
-            modelBuilder.Entity("DotNetStarter.Entities.Invitation", b => {
-                b.Property<string>("CreatedBy")
-                    .IsRequired()
-                    .HasColumnType("nvarchar(max)");
-
-                b.Property<DateTime>("CreatedDate")
-                    .HasColumnType("datetime2");
-
-                b.Property<string>("EmailAddress")
-                    .IsRequired()
-                    .HasColumnType("nvarchar(max)");
-
-                b.Property<int>("InvitationStatus")
-                    .HasColumnType("int");
-
-                b.Property<Guid?>("InviterId")
-                    .IsRequired()
-                    .HasColumnType("uniqueidentifier");
-
-                b.Property<Guid?>("ProjectId")
-                    .IsRequired()
-                    .HasColumnType("uniqueidentifier");
-
-                b.Property<Guid?>("TalentId")
-                    .HasColumnType("uniqueidentifier");
-
-                b.Property<string>("UpdatedBy")
-                    .IsRequired()
-                    .HasColumnType("nvarchar(max)");
-
-                b.Property<DateTime>("UpdatedDate")
-                    .HasColumnType("datetime2");
-
-                b.HasKey("Id");
-
-                b.HasIndex("InviterId");
-
-                b.HasIndex("ProjectId");
-
-                b.HasIndex("TalentId");
-
-                b.ToTable("Invitations");
-            });
-
             modelBuilder.Entity("DotNetStarter.Entities.Card", b =>
                 {
                     b.Property<Guid>("Id")
@@ -357,21 +313,6 @@ namespace DotNetStarter.Migrations
                     b.HasIndex("ProjectManagerId");
 
                     b.ToTable("Projects");
-                });
-
-            modelBuilder.Entity("DotNetStarter.Entities.ProjectTalent", b =>
-                {
-                    b.Property<Guid?>("ProjectId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("TalentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ProjectId", "TalentId");
-
-                    b.HasIndex("TalentId");
-
-                    b.ToTable("ProjectTalents");
                 });
 
             modelBuilder.Entity("DotNetStarter.Entities.Role", b =>
@@ -808,31 +749,6 @@ namespace DotNetStarter.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DotNetStarter.Entities.Invitation", b =>
-                {
-                    b.HasOne("DotNetStarter.Entities.User", "StaffMember")
-                        .WithMany()
-                        .HasForeignKey("InviterId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("DotNetStarter.Entities.Project", "Project")
-                        .WithMany()
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DotNetStarter.Entities.Talent", "Talent")
-                        .WithMany()
-                        .HasForeignKey("TalentId");
-
-                    b.Navigation("Project");
-
-                    b.Navigation("StaffMember");
-
-                    b.Navigation("Talent");
-                });
-
             modelBuilder.Entity("DotNetStarter.Entities.Card", b =>
                 {
                     b.HasOne("DotNetStarter.Entities.Card", "NextCard")
@@ -882,25 +798,6 @@ namespace DotNetStarter.Migrations
                     b.Navigation("AgencyMember");
 
                     b.Navigation("ProjectManager");
-                });
-
-            modelBuilder.Entity("DotNetStarter.Entities.ProjectTalent", b =>
-                {
-                    b.HasOne("DotNetStarter.Entities.Project", "Project")
-                        .WithMany()
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("DotNetStarter.Entities.Talent", "Talent")
-                        .WithMany()
-                        .HasForeignKey("TalentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Project");
-
-                    b.Navigation("Talent");
                 });
 
             modelBuilder.Entity("DotNetStarter.Entities.RolePrivilege", b =>

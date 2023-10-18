@@ -37,10 +37,6 @@ namespace Api.Common
             CreateMap<Card, CardDto>();
             CreateMap<MovingCard, MovingCardDto>();
             #endregion
-
-            #region Invitation
-            CreateMap<Invitation, InvitationDto>(); 
-            #endregion
         }
     }
 }

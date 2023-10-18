@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using DotNetStarter.Commands.Cards.Create;
 using DotNetStarter.Commands.Cards.MoveCards;
+using DotNetStarter.Commands.Cards.Create;
 using DotNetStarter.Commands.Cards.Update;
-using DotNetStarter.Commands.Invitations.InviteTalent;
-using DotNetStarter.Commands.Invitations.RegisterTalent;
 using DotNetStarter.Commands.Projects.Create;
 using DotNetStarter.Commands.Projects.Update;
 using DotNetStarter.Commands.Talents.Create;
@@ -26,7 +24,6 @@ namespace DotNetStarter.Common
             #region Talent
             CreateMap<CreateTalent, Talent>();
             CreateMap<UpdateTalent, Talent>();
-            CreateMap<RegisterTalent, Talent>();
             #endregion
 
             #region Project
@@ -38,10 +35,6 @@ namespace DotNetStarter.Common
             CreateMap<CreateCard, Card>();
             CreateMap<UpdateCard, Card>();
             CreateMap<MovingCard, Card>().ReverseMap();
-            #endregion
-
-            #region Invitation
-            CreateMap<InviteTalent, Invitation>();
             #endregion
         }
     }

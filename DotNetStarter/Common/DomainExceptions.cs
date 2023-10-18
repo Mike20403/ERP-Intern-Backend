@@ -129,11 +129,5 @@ namespace DotNetStarter.Common
             Code = "InvalidPrivilege",
             Message = "Invalid Privilege for doing this",
         };
-
-        public static readonly DomainException InvalidInvitation = new DomainException
-        {
-            Code = "InvalidInvitation",
-            Message = "Invalid Invitation",
-        };
     }
 }

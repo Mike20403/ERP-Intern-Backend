@@ -24,7 +24,5 @@ namespace DotNetStarter.Database.UnitOfWork
         GenericRepository<DotNetStarterDbContext, Stage> StageRepository { get; }
 
         GenericRepository<DotNetStarterDbContext, Card> CardRepository { get; }
-
-        GenericRepository<DotNetStarterDbContext, Invitation> InvitationRepository { get; }
     }
 }
