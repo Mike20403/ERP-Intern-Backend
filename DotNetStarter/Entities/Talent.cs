@@ -6,5 +6,7 @@ namespace DotNetStarter.Entities
     {
         [Required]
         public bool IsAvailable { get; set; }
+
+        public List<Project>? Projects { get; set; }
     }
 }

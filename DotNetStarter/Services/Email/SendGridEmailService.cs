@@ -72,6 +72,27 @@ namespace DotNetStarter.Services.Email
             await SendEmailAsync(email, templateId!, templateData);
         }
 
+        public async Task SendInvitationEmailAsync(string email, Guid invitationId, string projectName, string inviter, bool isExists, string? code)
+        {
+            var templateId = _configuration["Email:SendGrid:TemplateIds:InviteTalent"];
+
+            var templateData = isExists 
+                ? new Dictionary<string, string>
+                {
+                    { "projectName", projectName },
+                    { "inviter", inviter },
+                    { "url", $"{_configuration["Urls:BasePortal"]}/projects/invite-talent?email={email}&invitation={invitationId}" },
+                } 
+                : new Dictionary<string, string>
+                {
+                    { "projectName", projectName },
+                    { "inviter", inviter },
+                    { "url", $"{_configuration["Urls:BasePortal"]}/projects/invite-talent?email={email}&invitation={invitationId}&code={code}" },
+                };
+
+            await SendEmailAsync(email, templateId!, templateData);
+        }
+
         private async Task SendEmailAsync(string email, string templateId, object templateData)
         {
             var apiKey = _configuration["Email:SendGrid:ApiKey"];

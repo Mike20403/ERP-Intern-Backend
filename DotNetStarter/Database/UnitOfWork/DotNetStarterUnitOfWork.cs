@@ -28,6 +28,8 @@ namespace DotNetStarter.Database.UnitOfWork
 
         public GenericRepository<DotNetStarterDbContext, Card> CardRepository { get; private set; }
 
+        public GenericRepository<DotNetStarterDbContext, Invitation> InvitationRepository { get; private set; }
+
         public DotNetStarterUnitOfWork(DotNetStarterDbContext context)
         {
             _context = context;
@@ -42,6 +44,7 @@ namespace DotNetStarter.Database.UnitOfWork
             ProjectRepository = new GenericRepository<DotNetStarterDbContext, Project>(_context);
             StageRepository = new GenericRepository<DotNetStarterDbContext, Stage>(_context);
             CardRepository = new GenericRepository<DotNetStarterDbContext, Card>(_context);
+            InvitationRepository = new GenericRepository<DotNetStarterDbContext, Invitation>(_context);
         }
 
         public async Task SaveChangesAsync()

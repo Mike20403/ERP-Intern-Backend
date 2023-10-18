@@ -1,13 +1,14 @@
 ﻿using Api.Common;
 using Api.Models.Account;
 using Api.Models.Auth;
+using Api.Models.Invitations;
 using DotNetStarter.Commands.Auth.ActivateAccount;
 using DotNetStarter.Commands.Auth.ForgotPassword;
 using DotNetStarter.Commands.Auth.Login;
 using DotNetStarter.Commands.Auth.RefreshToken;
 using DotNetStarter.Commands.Auth.ResetPassword;
+using DotNetStarter.Commands.Invitations.RegisterTalent;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -60,10 +61,26 @@ namespace Api.Controllers
         }
 
         [HttpPost("activate-account")]
-        [AllowAnonymous]
         public async Task<ActionResult> ActivateAccount(ActivateAccountRequest request) // Activate new Email after change email by any one has authorized
         {
             await _mediator.Send(new ActivateAccount(request.Email!, request.ActiveCode!));
+
+            return Ok();
+        }
+
+        [HttpPost("register-talent")] // New talent create account then join into project
+        public async Task<ActionResult> RegisterTalent(RegisterTalentRequest request)
+        {
+            await _mediator.Send(new RegisterTalent(
+                request.InvitationId!.Value,
+                request.Code!,
+                request.Username!,
+                request.Password!,
+                request.Firstname!,
+                request.Lastname!,
+                request.PhoneNumber!,
+                request.Gender.GetValueOrDefault()
+            ));
 
             return Ok();
         }
