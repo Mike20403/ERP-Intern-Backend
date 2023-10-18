@@ -2,7 +2,7 @@
 
 namespace DotNetStarter.Entities
 {
-    public class Stage : BaseEntity
+    public class Stage : BaseAuditingEntity
     {
         [Required]
         public string Name { get; set; }

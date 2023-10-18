@@ -21,20 +21,28 @@ namespace DotNetStarter.Commands.Stages.Update
 
             project.Stages = request.Stages.Select((stage, index) =>
             {
-                var mapped = new Stage
-                {
-                    Name = stage.Name,
-                    Order = index,
-                };
-
                 if (stage.Id is not null)
                 {
-                    mapped.Id = stage.Id!.Value;
+                    var existingStage = project.Stages.Find(s => s.Id == stage.Id);
+                    existingStage.Name = stage.Name;
+                    existingStage.Order = 1000 + index;                     
+
+                    return existingStage;
                 }
 
-                return mapped;
+                return new Stage
+                {
+                    Name = stage.Name,
+                    Order = 1000 + index,
+                };
             }).ToList();
 
+            await _unitOfWork.SaveChangesAsync();
+
+            project.Stages.ForEach(stage =>
+            {
+                stage.Order = stage.Order - 1000;
+            });
             await _unitOfWork.SaveChangesAsync();
 
             return project.Stages.OrderBy(o => o.Order).ToList();

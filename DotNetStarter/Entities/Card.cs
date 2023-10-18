@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DotNetStarter.Entities
 {
-    public class Card : BaseEntity
+    public class Card : BaseAuditingEntity
     {
         [Required]
         public string Name { get; set; }
