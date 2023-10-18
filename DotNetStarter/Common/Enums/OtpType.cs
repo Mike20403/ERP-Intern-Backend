@@ -5,5 +5,6 @@
         ResetPassword = 0,
         ChangeEmail = 1,
         ActivateAccount = 2,
+        InviteTalent = 3
     }
 }

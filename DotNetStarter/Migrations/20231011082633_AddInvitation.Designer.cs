@@ -4,6 +4,7 @@ using DotNetStarter.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DotNetStarter.Migrations
 {
     [DbContext(typeof(DotNetStarterDbContext))]
-    partial class DotNetStarterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231011082633_AddInvitation")]
+    partial class AddInvitation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,86 +54,53 @@ namespace DotNetStarter.Migrations
                     b.ToTable("AuthTokens");
                 });
 
-            modelBuilder.Entity("DotNetStarter.Entities.Invitation", b => {
-                b.Property<string>("CreatedBy")
-                    .IsRequired()
-                    .HasColumnType("nvarchar(max)");
-
-                b.Property<DateTime>("CreatedDate")
-                    .HasColumnType("datetime2");
-
-                b.Property<string>("EmailAddress")
-                    .IsRequired()
-                    .HasColumnType("nvarchar(max)");
-
-                b.Property<int>("InvitationStatus")
-                    .HasColumnType("int");
-
-                b.Property<Guid?>("InviterId")
-                    .IsRequired()
-                    .HasColumnType("uniqueidentifier");
-
-                b.Property<Guid?>("ProjectId")
-                    .IsRequired()
-                    .HasColumnType("uniqueidentifier");
-
-                b.Property<Guid?>("TalentId")
-                    .HasColumnType("uniqueidentifier");
-
-                b.Property<string>("UpdatedBy")
-                    .IsRequired()
-                    .HasColumnType("nvarchar(max)");
-
-                b.Property<DateTime>("UpdatedDate")
-                    .HasColumnType("datetime2");
-
-                b.HasKey("Id");
-
-                b.HasIndex("InviterId");
-
-                b.HasIndex("ProjectId");
-
-                b.HasIndex("TalentId");
-
-                b.ToTable("Invitations");
-            });
-
-            modelBuilder.Entity("DotNetStarter.Entities.Card", b =>
+            modelBuilder.Entity("DotNetStarter.Entities.Invitation", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
+                    b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("NextCardId")
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EmailAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("InvitationStatus")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("InviterId")
+                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("PrevCardId")
+                    b.Property<Guid?>("ProjectId")
+                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("StageId")
+                    b.Property<Guid?>("TalentId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NextCardId");
+                    b.HasIndex("InviterId");
 
-                    b.HasIndex("StageId");
+                    b.HasIndex("ProjectId");
 
-                    b.HasIndex("PrevCardId", "NextCardId")
-                        .IsUnique()
-                        .HasFilter("[PrevCardId] IS NOT NULL AND [NextCardId] IS NOT NULL");
+                    b.HasIndex("TalentId");
 
-                    b.ToTable("Cards", t =>
-                        {
-                            t.HasCheckConstraint("CK_Prev_Next_Not_Equal", "[PrevCardId] <> [NextCardId]");
-                        });
+                    b.ToTable("Invitations");
                 });
 
             modelBuilder.Entity("DotNetStarter.Entities.Otp", b =>
@@ -257,22 +227,22 @@ namespace DotNetStarter.Migrations
                         new
                         {
                             Id = new Guid("c22a378a-feb2-4a97-82b9-3b0a0588ddcd"),
-                            Name = "VIEW_CARDS"
+                            Name = "VIEW_TASKS"
                         },
                         new
                         {
                             Id = new Guid("36b6bbda-3c16-47a7-8353-88fd19eaf2e1"),
-                            Name = "CREATE_CARDS"
+                            Name = "CREATE_TASKS"
                         },
                         new
                         {
                             Id = new Guid("9a1edd05-bd24-462e-9754-534ec573745f"),
-                            Name = "UPDATE_CARDS"
+                            Name = "UPDATE_TASKS"
                         },
                         new
                         {
                             Id = new Guid("9b07b2fd-259c-43bf-9a5d-715945b23414"),
-                            Name = "DELETE_CARDS"
+                            Name = "DELETE_TASKS"
                         },
                         new
                         {
@@ -833,29 +803,6 @@ namespace DotNetStarter.Migrations
                     b.Navigation("Talent");
                 });
 
-            modelBuilder.Entity("DotNetStarter.Entities.Card", b =>
-                {
-                    b.HasOne("DotNetStarter.Entities.Card", "NextCard")
-                        .WithMany()
-                        .HasForeignKey("NextCardId");
-
-                    b.HasOne("DotNetStarter.Entities.Card", "PrevCard")
-                        .WithMany()
-                        .HasForeignKey("PrevCardId");
-
-                    b.HasOne("DotNetStarter.Entities.Stage", "Stage")
-                        .WithMany("Cards")
-                        .HasForeignKey("StageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("NextCard");
-
-                    b.Navigation("PrevCard");
-
-                    b.Navigation("Stage");
-                });
-
             modelBuilder.Entity("DotNetStarter.Entities.Otp", b =>
                 {
                     b.HasOne("DotNetStarter.Entities.User", "User")
@@ -975,11 +922,6 @@ namespace DotNetStarter.Migrations
             modelBuilder.Entity("DotNetStarter.Entities.Project", b =>
                 {
                     b.Navigation("Stages");
-                });
-
-            modelBuilder.Entity("DotNetStarter.Entities.Stage", b =>
-                {
-                    b.Navigation("Cards");
                 });
 #pragma warning restore 612, 618
         }

@@ -22,5 +22,7 @@ namespace DotNetStarter.Entities
         public User? AgencyMember { get; set; }
 
         public List<Stage>? Stages { get; set; }
+
+        public List<Talent>? Talents { get; set; }
     }
 }
