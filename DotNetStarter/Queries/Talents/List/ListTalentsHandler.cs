@@ -24,16 +24,14 @@ namespace DotNetStarter.Queries.Talents.List
                 if (request.IsAutocomplete)
                 {
                     filter.Add(u => u.Username.Contains(request.SearchQuery)
-                                    || u.Firstname.Contains(request.SearchQuery)
-                                    || u.Lastname.Contains(request.SearchQuery));
-                }    
+                                    || (u.Firstname + " " + u.Lastname).Contains(request.SearchQuery));
+                }
                 else
                 {
                     filter.Add(u => u.Username.Contains(request.SearchQuery)
-                                    || u.Firstname.Contains(request.SearchQuery)
-                                    || u.Lastname.Contains(request.SearchQuery)
+                                    || (u.Firstname + " " + u.Lastname).Contains(request.SearchQuery)
                                     || u.PhoneNumber.Contains(request.SearchQuery));
-                }    
+                }
             }
 
             var role = await _unitOfWork.RoleRepository.FindAsync(filter: r => r.Name == RoleNames.Talent);
