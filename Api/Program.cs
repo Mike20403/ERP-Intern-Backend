@@ -165,7 +165,10 @@ if (app.Environment.IsDevelopment() || builder.Environment.EnvironmentName == "D
         .AllowAnyHeader()
         .WithExposedHeaders(DomainConstraints.XPagination));
 
-    app.UseHangfireDashboard();
+    app.UseHangfireDashboard("/hangfire", new DashboardOptions
+    {
+        Authorization = new[] { new DevHangfireAuthorizationFilter() },
+    });
 }
 
 app.UseHttpsRedirection();
