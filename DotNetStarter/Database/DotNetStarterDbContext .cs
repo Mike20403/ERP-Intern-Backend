@@ -635,6 +635,8 @@ namespace DotNetStarter.Database
 
         public DbSet<Card> Cards { get; set; }
 
+        public DbSet<Attachment> Attachments { get; set; }
+
         private void SetAuditing()
         {
             var now = DateTime.Now;

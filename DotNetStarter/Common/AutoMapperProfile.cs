@@ -11,6 +11,7 @@ using DotNetStarter.Commands.Talents.Update;
 using DotNetStarter.Commands.Users.Create;
 using DotNetStarter.Commands.Users.Update;
 using DotNetStarter.Entities;
+using DotNetStarter.Commands.Attachments.Create;
 
 namespace DotNetStarter.Common
 {
@@ -38,6 +39,10 @@ namespace DotNetStarter.Common
             CreateMap<CreateCard, Card>();
             CreateMap<UpdateCard, Card>();
             CreateMap<MovingCard, Card>().ReverseMap();
+            #endregion
+
+            #region Attachment
+            CreateMap<CreateAttachment, Attachment>();
             #endregion
 
             #region Invitation

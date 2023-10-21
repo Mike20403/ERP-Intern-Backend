@@ -15,6 +15,7 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using DotNetStarter.Services.Storage;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +33,7 @@ builder.Services.AddDbContext<DotNetStarterDbContext>();
 // Add services to the container.
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IEmailService, SendGridEmailService>();
+builder.Services.AddScoped<IStorageService, AzureStorageService>();
 builder.Services.AddScoped<IDotNetStarterUnitOfWork, DotNetStarterUnitOfWork>();
 
 builder.Services.AddControllers(options =>

@@ -38,6 +38,11 @@ namespace Api.Common
             CreateMap<MovingCard, MovingCardDto>();
             #endregion
 
+
+            #region Attachment
+            CreateMap<Attachment, AttachmentDto>();
+            #endregion
+
             #region Invitation
             CreateMap<Invitation, InvitationDto>(); 
             #endregion

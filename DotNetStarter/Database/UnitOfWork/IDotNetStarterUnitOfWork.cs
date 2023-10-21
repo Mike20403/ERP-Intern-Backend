@@ -25,6 +25,8 @@ namespace DotNetStarter.Database.UnitOfWork
 
         GenericRepository<DotNetStarterDbContext, Card> CardRepository { get; }
 
+        GenericRepository<DotNetStarterDbContext, Attachment> AttachmentRepository { get; }
+
         GenericRepository<DotNetStarterDbContext, Invitation> InvitationRepository { get; }
     }
 }

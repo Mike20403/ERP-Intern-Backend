@@ -26,7 +26,7 @@ namespace Api.Controllers
             _mapper = mapper;
         }
 
-        [HasPrivilege(PrivilegeNames.ViewProjects)]
+        [HasPrivilege(PrivilegeNames.ViewStages)]
         [HttpGet]
         public async Task<ActionResult<List<StageDto>>> List([FromRoute] Guid projectId)
         {
@@ -34,7 +34,7 @@ namespace Api.Controllers
             return Ok(result.Select(_mapper.Map<StageDto>).ToList());
         }
 
-        [HasPrivilege(PrivilegeNames.UpdateProjects)]   
+        [HasPrivilege(PrivilegeNames.UpdateStages)]   
         [HttpPut]
         public async Task<ActionResult<List<StageDto>>> Update([FromRoute] Guid projectId, [FromBody] List<StageDto>? stages)
         {

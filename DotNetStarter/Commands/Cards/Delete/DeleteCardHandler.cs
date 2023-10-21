@@ -3,16 +3,23 @@ using DotNetStarter.Common.Enums;
 using DotNetStarter.Common.Models;
 using DotNetStarter.Database.UnitOfWork;
 using DotNetStarter.Entities;
+using DotNetStarter.Services.Storage;
 
 namespace DotNetStarter.Commands.Cards.Delete
 {
     public sealed class DeleteCardHandler : BaseRequestHandler<DeleteCard, List<DataChanged<Card>>>
     {
         private readonly IDotNetStarterUnitOfWork _unitOfWork;
+        private readonly IStorageService _storageService;
 
-        public DeleteCardHandler(IServiceProvider serviceProvider, IDotNetStarterUnitOfWork unitOfWork) : base(serviceProvider)
+        public DeleteCardHandler(
+            IServiceProvider serviceProvider,
+            IDotNetStarterUnitOfWork unitOfWork,
+            IStorageService storageService)
+            : base(serviceProvider)
         {
             _unitOfWork = unitOfWork;
+            _storageService = storageService;
         }
 
         public override async Task<List<DataChanged<Card>>> Process(DeleteCard request, CancellationToken cancellationToken)
@@ -32,6 +39,8 @@ namespace DotNetStarter.Commands.Cards.Delete
                 card!.NextCard.PrevCardId = card.PrevCardId;
                 cards.Add(new DataChanged<Card>(DataChangedType.Updated, card!.NextCard));
             }
+
+            await _storageService.DeleteDirectoryAsync($"projects/{request.ProjectId}/cards/{request.CardId}");
 
             await _unitOfWork.CardRepository.DeleteAsync(request.CardId);
             await _unitOfWork.SaveChangesAsync();

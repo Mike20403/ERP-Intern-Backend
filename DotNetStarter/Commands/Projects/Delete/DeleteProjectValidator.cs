@@ -19,6 +19,17 @@ namespace DotNetStarter.Commands.Projects.Delete
                 .MustAsync((request, projectId, cancellation) => unitOfWork.ProjectRepository.AnyAsync(p => p.Id == projectId && p.AgencyMemberId == request.AgencyMemberId))
                 .WithErrorCode(DomainExceptions.ProjectNotFound.Code)
                 .WithMessage(DomainExceptions.ProjectNotFound.Message);
+
+            RuleFor(x => x.ProjectId)
+                .NotEmpty()
+                .MustAsync(async (projectId, cancellation) =>
+                {
+                    var hasStage = await unitOfWork.StageRepository.AnyAsync(p => p.ProjectId == projectId);
+
+                    return !hasStage;
+                })
+                .WithErrorCode(DomainExceptions.ProjectHasStages.Code)
+                .WithMessage(DomainExceptions.ProjectHasStages.Message);
         }
     }
 }
