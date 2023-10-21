@@ -4,7 +4,7 @@ using FluentValidation;
 
 namespace DotNetStarter.Queries.Talents.Get
 {
-    public class GetTalentValidator : AbstractValidator<GetTalent>
+    public sealed class GetTalentValidator : AbstractValidator<GetTalent>
     {
         public GetTalentValidator(IDotNetStarterUnitOfWork unitOfWork)
         {

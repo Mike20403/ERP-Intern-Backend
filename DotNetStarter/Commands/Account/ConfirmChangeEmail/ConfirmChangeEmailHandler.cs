@@ -2,9 +2,9 @@
 using DotNetStarter.Common.Enums;
 using DotNetStarter.Database.UnitOfWork;
 using DotNetStarter.Entities;
+using DotNetStarter.Extensions;
+using DotNetStarter.Notifications.Users.EmailChanged;
 using DotNetStarter.Notifications.Users.UserCredentialChanged;
-using DotNetStarter.Services.Email;
-using MediatR;
 using Microsoft.Extensions.Configuration;
 
 namespace DotNetStarter.Commands.Account.ConfirmChangeEmail
@@ -13,24 +13,16 @@ namespace DotNetStarter.Commands.Account.ConfirmChangeEmail
     {
         private readonly IDotNetStarterUnitOfWork _unitOfWork;
 
-        private readonly IEmailService _emailService;
-
         private readonly IConfiguration _configuration;
-
-        private readonly IMediator _mediator;
 
         public ConfirmChangeEmailHandler(
             IServiceProvider serviceProvider, 
-            IDotNetStarterUnitOfWork unitOfWork, 
-            IEmailService emailService, 
-            IConfiguration configuration,
-            IMediator mediator
+            IDotNetStarterUnitOfWork unitOfWork,
+            IConfiguration configuration
         ) : base(serviceProvider)
         {
             _unitOfWork = unitOfWork;
-            _emailService = emailService;
             _configuration = configuration;
-            _mediator = mediator;
         }
 
         public override async Task Process(ConfirmChangeEmail request, CancellationToken cancellationToken)
@@ -61,12 +53,8 @@ namespace DotNetStarter.Commands.Account.ConfirmChangeEmail
             await _unitOfWork.UserRepository.UpdateAsync(user!);
             await _unitOfWork.SaveChangesAsync();
 
-            await _mediator.Publish(new UserCredentialChanged(user.Id));
-
-            // Send notification to old email - Send active code to new email
-            string message = "Congratulation! you have changed your email, this email will no longer available";
-            await _emailService.SendNotificationAsync(oldEmail, user.Firstname, message);
-            await _emailService.SendActivateAccountAsync(request.Email, user.Firstname, activeOtp.Code);
+            new EmailChanged(oldEmail, user.Username, user.Firstname, activeOtp.Code).Enqueue();
+            new UserCredentialChanged(user.Id).Enqueue();
         }
     }
 }

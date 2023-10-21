@@ -3,35 +3,39 @@ using DotNetStarter.Common;
 using DotNetStarter.Common.Enums;
 using DotNetStarter.Database.UnitOfWork;
 using DotNetStarter.Entities;
-using DotNetStarter.Notifications.Invitations.AcceptInvitation;
-using MediatR;
+using DotNetStarter.Extensions;
+using DotNetStarter.Notifications.Invitations.TalentRegistered;
 
 namespace DotNetStarter.Commands.Invitations.RegisterTalent
 {
-    public class RegisterTalentHandler : BaseRequestHandler<RegisterTalent>
+    public sealed class RegisterTalentHandler : BaseRequestHandler<RegisterTalent>
     {
         private readonly IDotNetStarterUnitOfWork _unitOfWork;
 
         private readonly IMapper _mapper;
 
-        private readonly IMediator _mediator;
-
         public RegisterTalentHandler(
             IDotNetStarterUnitOfWork unitOfWork,
             IMapper mapper,
-            IMediator mediator,
             IServiceProvider serviceProvider
 
         ) : base(serviceProvider)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _mediator = mediator;
         }
 
         public override async Task Process(RegisterTalent request, CancellationToken cancellationToken)
         {
             var role = await _unitOfWork.RoleRepository.FindAsync(ClassUtils.GetPropertyName<Role>(u => u.Privileges), r => r.Name == RoleNames.Talent);
+
+            var otp = await _unitOfWork.OtpRepository.FindAsync
+            (
+                filter: o => o.Code == request.Code
+                            && o.Type == OtpType.InviteTalent
+                            && !o.IsUsed
+            );
+            otp!.IsUsed = true;
 
             var talent = new Talent
             {
@@ -46,21 +50,7 @@ namespace DotNetStarter.Commands.Invitations.RegisterTalent
             await _unitOfWork.TalentRepository.CreateAsync(talent);
             await _unitOfWork.SaveChangesAsync();
 
-            /* 
-                 Create new talent with email then: 
-                - Update Otps
-                - Update Invitation (null TalentId -> new added talentId)
-             */
-            await _mediator.Publish
-            (
-                new TalentAccepted
-                (
-                    request.InvitationId,
-                    talent.Id,
-                    request.UserName,
-                    request.Code
-                )
-            );
+            new TalentRegistered(request.InvitationId, talent.Id).Enqueue();
         }
     }
 }

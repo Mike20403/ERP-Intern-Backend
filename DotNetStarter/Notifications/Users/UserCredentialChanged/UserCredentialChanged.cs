@@ -2,9 +2,9 @@
 
 namespace DotNetStarter.Notifications.Users.UserCredentialChanged
 {
-    public class UserCredentialChanged : INotification
+    public sealed class UserCredentialChanged : INotification
     {
-        public Guid UserId { get; set; }
+        public Guid UserId { get; }
 
         public UserCredentialChanged(Guid userId)
         {

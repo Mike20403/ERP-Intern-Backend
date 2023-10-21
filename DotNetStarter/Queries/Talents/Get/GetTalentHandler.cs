@@ -4,7 +4,7 @@ using DotNetStarter.Entities;
 
 namespace DotNetStarter.Queries.Talents.Get
 {
-    public class GetTalentHandler : BaseRequestHandler<GetTalent, Talent>
+    public sealed class GetTalentHandler : BaseRequestHandler<GetTalent, Talent>
     {
         private readonly IDotNetStarterUnitOfWork _unitOfWork;
 

@@ -2,7 +2,8 @@
 using DotNetStarter.Common.Enums;
 using DotNetStarter.Database.UnitOfWork;
 using DotNetStarter.Entities;
-using DotNetStarter.Services.Email;
+using DotNetStarter.Extensions;
+using DotNetStarter.Notifications.Users.ChangeEmailRequested;
 using Microsoft.Extensions.Configuration;
 
 namespace DotNetStarter.Commands.Account.ChangeEmailRequires
@@ -11,14 +12,11 @@ namespace DotNetStarter.Commands.Account.ChangeEmailRequires
     {
         private readonly IDotNetStarterUnitOfWork _unitOfWork;
 
-        private readonly IEmailService _emailService;
-
         private readonly IConfiguration _configuration;
 
-        public RequestChangeEmailHandler(IServiceProvider serviceProvider, IDotNetStarterUnitOfWork unitOfWork, IEmailService emailService, IConfiguration configuration) : base(serviceProvider)
+        public RequestChangeEmailHandler(IServiceProvider serviceProvider, IDotNetStarterUnitOfWork unitOfWork, IConfiguration configuration) : base(serviceProvider)
         {
             _unitOfWork = unitOfWork;
-            _emailService = emailService;
             _configuration = configuration;
         }
 
@@ -38,7 +36,7 @@ namespace DotNetStarter.Commands.Account.ChangeEmailRequires
             await _unitOfWork.OtpRepository.CreateAsync(otp);
             await _unitOfWork.SaveChangesAsync();
 
-            await _emailService.SendChangeEmailRequestAsync(user.Username, request.Email, user.Firstname, otp.Code);
+            new ChangeEmailRequested(user.Username, request.Email, user.Firstname, otp.Code).Enqueue();
         }
     }
 }

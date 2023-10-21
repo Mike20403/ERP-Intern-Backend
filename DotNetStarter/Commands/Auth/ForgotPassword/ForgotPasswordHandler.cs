@@ -2,8 +2,8 @@
 using DotNetStarter.Common.Enums;
 using DotNetStarter.Database.UnitOfWork;
 using DotNetStarter.Entities;
-using DotNetStarter.Services.Email;
-using EllipticCurve;
+using DotNetStarter.Extensions;
+using DotNetStarter.Notifications.Users.ResetPasswordRequested;
 using Microsoft.Extensions.Configuration;
 
 namespace DotNetStarter.Commands.Auth.ForgotPassword
@@ -12,14 +12,11 @@ namespace DotNetStarter.Commands.Auth.ForgotPassword
     {
         private readonly IDotNetStarterUnitOfWork _unitOfWork;
 
-        private readonly IEmailService _emailService;
-
         private readonly IConfiguration _configuration;
 
-        public ForgotPasswordHandler(IServiceProvider serviceProvider, IDotNetStarterUnitOfWork unitOfWork, IEmailService emailService, IConfiguration configuration) : base(serviceProvider)
+        public ForgotPasswordHandler(IServiceProvider serviceProvider, IDotNetStarterUnitOfWork unitOfWork, IConfiguration configuration) : base(serviceProvider)
         {
             _unitOfWork = unitOfWork;
-            _emailService = emailService;
             _configuration = configuration;
         }
 
@@ -38,7 +35,7 @@ namespace DotNetStarter.Commands.Auth.ForgotPassword
             await _unitOfWork.OtpRepository.CreateAsync(otp);
             await _unitOfWork.SaveChangesAsync();
 
-            await _emailService.SendResetPasswordEmailAsync(user.Username, user.Firstname, otp.Code);
+            new ResetPasswordRequested(user.Username, user.Firstname, otp.Code).Enqueue();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace DotNetStarter.Notifications.Invitations.TalentInvitation
+namespace DotNetStarter.Notifications.Invitations.TalentInvited
 {
     public sealed class TalentInvited : INotification
     {

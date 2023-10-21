@@ -19,13 +19,13 @@ namespace DotNetStarter.Entities
         public string? PhoneNumber { get; set; }
 
         [Required]
-        public Gender? Gender { get; set; }
+        public Gender Gender { get; set; }
 
         [Required]
-        public Status? Status { get; set; }
+        public Status Status { get; set; }
 
         [Required]
-        public Guid? RoleId { get; set; }
+        public Guid RoleId { get; set; }
 
         [Required]
         public Role? Role { get; set; }

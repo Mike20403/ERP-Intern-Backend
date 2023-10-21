@@ -59,18 +59,18 @@ namespace DotNetStarter.Commands.Invitations.InviteTalent
             When(x => x.InviterRole is not null, () =>
             {
                 RuleFor(x => x.InviterId)
-                    .MustAsync(async (invitation, request, cancellation) =>
+                    .MustAsync(async (request, inviterId, cancellation) =>
                     {
-                        var filter = new List<Expression<Func<Project, bool>>>() { p => p.Id == invitation.ProjectId };
+                        var filter = new List<Expression<Func<Project, bool>>>() { p => p.Id == request.ProjectId };
 
-                        if (invitation.InviterRole == RoleNames.AgencyMember)
+                        if (request.InviterRole == RoleNames.AgencyMember)
                         {
-                            filter.Add(u => u.AgencyMemberId == invitation.InviterId);
+                            filter.Add(u => u.AgencyMemberId == request.InviterId);
                         }
 
-                        if (invitation.InviterRole == RoleNames.ProjectManager)
+                        if (request.InviterRole == RoleNames.ProjectManager)
                         {
-                            filter.Add(u => u.ProjectManagerId == invitation.InviterId);
+                            filter.Add(u => u.ProjectManagerId == request.InviterId);
                         }
 
                         return await unitOfWork.ProjectRepository.AnyAsync(filter.ToArray());

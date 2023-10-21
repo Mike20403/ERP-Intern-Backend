@@ -3,9 +3,10 @@ using MediatR;
 
 namespace DotNetStarter.Notifications.Users.UserCredentialChanged
 {
-    public class RevokeRefreshTokenHandler : INotificationHandler<UserCredentialChanged>
+    public sealed class RevokeRefreshTokenHandler : INotificationHandler<UserCredentialChanged>
     {
         private readonly IDotNetStarterUnitOfWork _unitOfWork;
+
         public RevokeRefreshTokenHandler(IDotNetStarterUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
@@ -13,7 +14,7 @@ namespace DotNetStarter.Notifications.Users.UserCredentialChanged
 
         public async Task Handle(UserCredentialChanged notification, CancellationToken cancellationToken)
         {
-            var currentRefreshTokens = await _unitOfWork.AuthTokenRepository.ListAsync(filter: u => u.UserId == notification.UserId);
+            var currentRefreshTokens = await _unitOfWork.AuthTokenRepository.ListAsync(filter: t => t.UserId == notification.UserId && !t.IsUsed);
             currentRefreshTokens.ForEach(t => t.IsUsed = true);
             await _unitOfWork.SaveChangesAsync();
         }

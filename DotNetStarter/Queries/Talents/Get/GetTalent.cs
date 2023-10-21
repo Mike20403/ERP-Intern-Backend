@@ -3,7 +3,7 @@ using MediatR;
 
 namespace DotNetStarter.Queries.Talents.Get
 {
-    public class GetTalent : IRequest<Talent>
+    public sealed class GetTalent : IRequest<Talent>
     {
         public Guid UserId { get; }
 

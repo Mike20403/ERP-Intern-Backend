@@ -3,9 +3,9 @@ using DotNetStarter.Common;
 using DotNetStarter.Common.Enums;
 using DotNetStarter.Database.UnitOfWork;
 using DotNetStarter.Entities;
-using DotNetStarter.Notifications.Invitations.TalentInvitation;
-using DotNetStarter.Services.Email;
-using MediatR;
+using DotNetStarter.Extensions;
+using DotNetStarter.Notifications.Invitations.TalentInvited;
+using Hangfire;
 using Microsoft.Extensions.Configuration;
 
 namespace DotNetStarter.Commands.Invitations.InviteTalent
@@ -18,13 +18,10 @@ namespace DotNetStarter.Commands.Invitations.InviteTalent
 
         private readonly IMapper _mapper;
 
-        private readonly IMediator _mediator;
-
         public InviteTalentHandler(
             IDotNetStarterUnitOfWork unitOfWork,
             IConfiguration configuration,
             IMapper mapper,
-            IMediator mediator,
             IServiceProvider serviceProvider
 
         ) : base(serviceProvider)
@@ -32,7 +29,6 @@ namespace DotNetStarter.Commands.Invitations.InviteTalent
             _unitOfWork = unitOfWork;
             _configuration = configuration;
             _mapper = mapper;
-            _mediator = mediator;
         }
 
         public override async Task<Invitation> Process(InviteTalent request, CancellationToken cancellationToken)
@@ -44,7 +40,7 @@ namespace DotNetStarter.Commands.Invitations.InviteTalent
             var invitation = new Invitation
             {
                 EmailAddress = talent?.Username ?? request.Email, // for invitation via TalentId (null email)
-                InvitationStatus = InvitationStatus.Pending
+                InvitationStatus = InvitationStatus.Pending,
             };
 
             string? code = null;
@@ -57,8 +53,8 @@ namespace DotNetStarter.Commands.Invitations.InviteTalent
                     UserId = inviter!.Id,
                     Type = OtpType.InviteTalent,
                     Code = new Random().Next(0, 1000000).ToString("D6"),
-                    IsUsed = false,
                     ExpiredDate = DateTime.Now.AddMinutes(int.Parse(_configuration["Otp:InvitationOtpLifetimeDuration"]!)),
+                    IsUsed = false,
                 };
 
                 code = inviteOtp.Code;
@@ -71,7 +67,9 @@ namespace DotNetStarter.Commands.Invitations.InviteTalent
             await _unitOfWork.InvitationRepository.CreateAsync(invitation);
             await _unitOfWork.SaveChangesAsync();
 
-            await _mediator.Publish(new TalentInvited(invitation.EmailAddress!, invitation.Id, project!.Name, inviter!.Firstname, isExisting, code));
+            new TalentInvited(invitation.EmailAddress!, invitation.Id, project!.Name, inviter!.Firstname, isExisting, code).Enqueue();
+
+            new MarkInvitationExpired.MarkInvitationExpired(invitation.Id).Schedule(int.Parse(_configuration["Invitation:LifeTimeDurartion"]!)); // Mark invitation expired after 3 days
 
             return invitation;
         }

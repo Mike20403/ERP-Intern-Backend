@@ -3,7 +3,7 @@ using MediatR;
 
 namespace DotNetStarter.Commands.Invitations.InviteTalent
 {
-    public class InviteTalent : IRequest<Invitation>
+    public sealed class InviteTalent : IRequest<Invitation>
     {
         public string? Email { get; }
 

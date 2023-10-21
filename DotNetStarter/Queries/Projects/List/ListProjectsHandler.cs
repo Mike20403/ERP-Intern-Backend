@@ -2,7 +2,6 @@
 using DotNetStarter.Common.Models;
 using DotNetStarter.Database.UnitOfWork;
 using DotNetStarter.Entities;
-using Microsoft.Data.SqlClient;
 using System.Linq.Expressions;
 
 namespace DotNetStarter.Queries.Projects.List

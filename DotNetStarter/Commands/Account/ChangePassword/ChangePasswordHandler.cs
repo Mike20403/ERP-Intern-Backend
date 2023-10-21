@@ -1,8 +1,8 @@
 ﻿using DotNetStarter.Common;
 using DotNetStarter.Database.UnitOfWork;
+using DotNetStarter.Extensions;
+using DotNetStarter.Notifications.Users.PasswordChanged;
 using DotNetStarter.Notifications.Users.UserCredentialChanged;
-using DotNetStarter.Services.Email;
-using MediatR;
 
 namespace DotNetStarter.Commands.Account.ChangePassword
 {
@@ -10,20 +10,12 @@ namespace DotNetStarter.Commands.Account.ChangePassword
     {
         private readonly IDotNetStarterUnitOfWork _unitOfWork;
 
-        private readonly IEmailService _emailService;
-
-        private readonly IMediator _mediator;
-
         public ChangePasswordHandler(
             IServiceProvider serviceProvider, 
-            IDotNetStarterUnitOfWork unitOfWork, 
-            IEmailService emailService,
-            IMediator mediator
+            IDotNetStarterUnitOfWork unitOfWork
         ) : base(serviceProvider)
         {
             _unitOfWork = unitOfWork;
-            _emailService = emailService;
-            _mediator = mediator;   
         }
         public override async Task Process(ChangePassword request, CancellationToken cancellationToken)
         {
@@ -33,9 +25,8 @@ namespace DotNetStarter.Commands.Account.ChangePassword
 
             await _unitOfWork.SaveChangesAsync();
 
-            await _mediator.Publish(new UserCredentialChanged(user.Id));
-
-            await _emailService.SendChangePasswordEmailAsync(user.Username, user.Firstname, user.Lastname);
+            new PasswordChanged(user.Username, user.Firstname, user.Lastname).Enqueue();
+            new UserCredentialChanged(user.Id).Enqueue();
         }
     }
 }

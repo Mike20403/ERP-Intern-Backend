@@ -1,11 +1,12 @@
 ﻿using DotNetStarter.Services.Email;
 using MediatR;
 
-namespace DotNetStarter.Notifications.Invitations.TalentInvitation
+namespace DotNetStarter.Notifications.Invitations.TalentInvited
 {
-    public class SendInvitationEmailHandler : INotificationHandler<TalentInvited>
+    public sealed class SendInvitationEmailHandler : INotificationHandler<TalentInvited>
     {
         private readonly IEmailService _emailService;
+
         public SendInvitationEmailHandler(IEmailService emailService)
         {
             _emailService = emailService;

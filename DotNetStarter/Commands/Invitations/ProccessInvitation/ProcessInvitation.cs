@@ -2,7 +2,7 @@
 
 namespace DotNetStarter.Commands.Invitations.ProcessInvitation
 {
-    public class ProcessInvitation : IRequest
+    public sealed class ProcessInvitation : IRequest
     {
         public Guid ProjectId { get; }
 

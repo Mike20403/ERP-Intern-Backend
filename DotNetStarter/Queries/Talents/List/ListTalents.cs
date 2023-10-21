@@ -3,7 +3,7 @@ using DotNetStarter.Entities;
 
 namespace DotNetStarter.Queries.Talents.List
 {
-    public class ListTalents : ListRequest<Talent>
+    public sealed class ListTalents : ListRequest<Talent>
     {
         public Gender? Gender { get; }
 

@@ -3,8 +3,10 @@ using DotNetStarter.Common;
 using DotNetStarter.Database;
 using DotNetStarter.Database.UnitOfWork;
 using DotNetStarter.Services.Email;
+using DotNetStarter.Services.Storage;
 using DotNetStarter.Services.Token;
 using FluentValidation;
+using Hangfire;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -13,9 +15,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
-using System.Text.Json.Serialization;
 using System.Text.Json;
-using DotNetStarter.Services.Storage;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -126,20 +127,27 @@ builder.Services.AddAuthentication(options =>
 });
 builder.Services.AddAuthorization();
 
-var app = builder.Build();
+builder.Services.AddHangfire(configuration => configuration
+        .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+        .UseSimpleAssemblyNameTypeSerializer()
+        .UseRecommendedSerializerSettings()
+        .UseSqlServerStorage(builder.Configuration.GetConnectionString("DotNetStarter"))); // Add HangFire services to current DB
 
-// migrate any database changes on startup (includes initial db creation)
-using (var scope = app.Services.CreateScope())
-{
-    var dataContext = scope.ServiceProvider.GetRequiredService<DotNetStarterDbContext>();
-    dataContext.Database.Migrate();
-}
+builder.Services.AddHangfireServer();
+
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment() || builder.Environment.EnvironmentName == "Dev" || builder.Environment.EnvironmentName == "Staging")
 {
-    var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+    // migrate any database changes on startup (includes initial db creation)
+    using (var scope = app.Services.CreateScope())
+    {
+        var dataContext = scope.ServiceProvider.GetRequiredService<DotNetStarterDbContext>();
+        dataContext.Database.Migrate();
+    }
 
+    var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
@@ -156,6 +164,8 @@ if (app.Environment.IsDevelopment() || builder.Environment.EnvironmentName == "D
         .AllowAnyMethod()
         .AllowAnyHeader()
         .WithExposedHeaders(DomainConstraints.XPagination));
+
+    app.UseHangfireDashboard();
 }
 
 app.UseHttpsRedirection();

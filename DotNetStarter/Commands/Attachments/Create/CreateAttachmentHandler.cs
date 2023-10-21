@@ -6,7 +6,7 @@ using DotNetStarter.Services.Storage;
 
 namespace DotNetStarter.Commands.Attachments.Create
 {
-    public class CreateAttachmentHandler : BaseRequestHandler<CreateAttachment, Attachment>
+    public sealed class CreateAttachmentHandler : BaseRequestHandler<CreateAttachment, Attachment>
     {
         private readonly IDotNetStarterUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;

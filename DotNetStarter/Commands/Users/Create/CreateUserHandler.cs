@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 using DotNetStarter.Common;
-using DotNetStarter.Common.Enums;
 using DotNetStarter.Database.UnitOfWork;
 using DotNetStarter.Entities;
-using DotNetStarter.Services.Email;
-using Microsoft.Extensions.Configuration;
+using DotNetStarter.Extensions;
+using DotNetStarter.Notifications.Users.UserCreated;
 
 namespace DotNetStarter.Commands.Users.Create
 {
@@ -14,22 +13,14 @@ namespace DotNetStarter.Commands.Users.Create
 
         private readonly IMapper _mapper;
 
-        private readonly IEmailService _emailService;
-
-        private readonly IConfiguration _configuration;
-
         public CreateUserHandler(
             IServiceProvider serviceProvider, 
             IDotNetStarterUnitOfWork unitOfWork, 
-            IMapper mapper, 
-            IEmailService emailService,
-            IConfiguration configuration
+            IMapper mapper
         ) : base(serviceProvider)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _emailService = emailService;
-            _configuration = configuration;
         }
 
         public override async Task<User> Process(CreateUser request, CancellationToken cancellationToken)
@@ -48,24 +39,8 @@ namespace DotNetStarter.Commands.Users.Create
             await _unitOfWork.UserRepository.CreateAsync(user);
             await _unitOfWork.SaveChangesAsync();
 
-            if (request.Status == Status.Active)
-            {
-                string message = "Your account is created successfully!";
-                await _emailService.SendNotificationAsync(request.Username, request.Firstname, message);
-            }
+            new UserCreated(user.Status, user.Id, user.Username, user.Firstname).Enqueue();
 
-            else if (request.Status == Status.Inactive) {
-                var activeOtp = new Otp
-                {
-                    UserId = user!.Id,
-                    Type = OtpType.ActivateAccount,
-                    Code = new Random().Next(0, 1000000).ToString("D6"),
-                    IsUsed = false,
-                    ExpiredDate = DateTime.Now.AddMinutes(int.Parse(_configuration["Otp:ActiveOtpLifetimeDuration"]!)),
-                };
-
-                await _emailService.SendActivateAccountAsync(request.Username, request.Firstname, activeOtp.Code);
-            }
             return user;
         }
     }

@@ -15,7 +15,7 @@ namespace DotNetStarter.Commands.Invitations.RegisterTalent
             RuleFor(x => x.Lastname)
                 .NotEmpty();
 
-            RuleFor(x => x.UserName)
+            RuleFor(x => x.Username)
                 .NotEmpty()
                 .EmailAddress()
                 .WithMessage("Username must be an email address")
@@ -49,7 +49,7 @@ namespace DotNetStarter.Commands.Invitations.RegisterTalent
             RuleFor(x => x.InvitationId)
                 .NotEmpty()
                 .MustAsync((request, invitationId, cancellation) => unitOfWork.InvitationRepository
-                    .AnyAsync(i => i.Id == invitationId && i.EmailAddress == request.UserName))
+                    .AnyAsync(i => i.Id == invitationId && i.EmailAddress == request.Username))
                 .WithErrorCode(DomainExceptions.InvalidInvitation.Code)
                 .WithMessage(DomainExceptions.InvalidInvitation.Message);
 

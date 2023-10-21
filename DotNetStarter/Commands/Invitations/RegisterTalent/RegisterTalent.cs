@@ -9,7 +9,7 @@ namespace DotNetStarter.Commands.Invitations.RegisterTalent
 
         public string Code { get; }
 
-        public string UserName { get; }
+        public string Username { get; }
 
         public string Password { get; }
 
@@ -34,7 +34,7 @@ namespace DotNetStarter.Commands.Invitations.RegisterTalent
         { 
             InvitationId = invitationId;
             Code = code;
-            UserName = username;
+            Username = username;
             Password = password;
             Firstname = firstname;
             Lastname = lastname;

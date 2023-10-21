@@ -5,7 +5,7 @@ using DotNetStarter.Entities;
 
 namespace DotNetStarter.Commands.Invitations.ProcessInvitation
 {
-    public class ProcessInvitationHandler : BaseRequestHandler<ProcessInvitation>
+    public sealed class ProcessInvitationHandler : BaseRequestHandler<ProcessInvitation>
     {
         private readonly IDotNetStarterUnitOfWork _unitOfWork;
 

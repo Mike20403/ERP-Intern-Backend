@@ -43,7 +43,7 @@ namespace Api.Controllers
         {
             var user = await _mediator.Send(new GetUser(null, HttpContext.GetCurrentUserId()!.Value));
 
-            var result = await _mediator.Send(new UpdateUser(null, user.Id, request.Firstname!, request.Lastname!, request.PhoneNumber!, request.Gender.GetValueOrDefault(), user.Status!.Value));
+            var result = await _mediator.Send(new UpdateUser(null, user.Id, request.Firstname!, request.Lastname!, request.PhoneNumber!, request.Gender.GetValueOrDefault(), user.Status));
 
             return Ok(_mapper.Map<AccountDto>(result));
         }

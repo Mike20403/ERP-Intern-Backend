@@ -39,7 +39,7 @@ namespace DotNetStarter.Queries.Users.List
                 var roles = await _unitOfWork.RoleRepository.ListAsync(filter: r => request.RoleNames.Contains(r.Name));
 
                 var roleIds = roles.Select(r => r.Id);
-                filter.Add(u => roleIds.Contains(u.RoleId!.Value));
+                filter.Add(u => roleIds.Contains(u.RoleId));
             }
 
             if (request.Gender != null)
