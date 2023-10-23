@@ -16,8 +16,7 @@ namespace Api.Models.Account
         [RegularExpression(RegexPatterns.PhoneNumber)]
         public string? PhoneNumber { get; set; }
 
-        //TODO: make required
-        //[Required]
+        [Required]
         public Gender? Gender { get; set; }
     }
 }

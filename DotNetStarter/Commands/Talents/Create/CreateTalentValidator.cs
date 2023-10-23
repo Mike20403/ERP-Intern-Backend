@@ -44,6 +44,9 @@ namespace DotNetStarter.Commands.Talents.Create
                 })
                 .WithErrorCode(DomainExceptions.PhoneNumberAlreadyExists.Code)
                 .WithMessage(DomainExceptions.PhoneNumberAlreadyExists.Message);
+
+            RuleFor(x => x.Gender)
+                .NotEmpty();
         }
     }
 }

@@ -33,6 +33,9 @@ namespace DotNetStarter.Commands.Talents.Update
                 })
                 .WithErrorCode(DomainExceptions.PhoneNumberAlreadyExists.Code)
                 .WithMessage(DomainExceptions.PhoneNumberAlreadyExists.Message);
+
+            RuleFor(x => x.Gender)
+                .NotEmpty();
         }
     }
 }

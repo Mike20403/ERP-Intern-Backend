@@ -1,6 +1,8 @@
 ﻿using DotNetStarter.Common;
+using DotNetStarter.Common.Enums;
 using DotNetStarter.Database.UnitOfWork;
 using FluentValidation;
+using FluentValidation.Validators;
 
 namespace DotNetStarter.Commands.Users.Update
 {
@@ -32,6 +34,9 @@ namespace DotNetStarter.Commands.Users.Update
                 })
                 .WithErrorCode(DomainExceptions.PhoneNumberAlreadyExists.Code)
                 .WithMessage(DomainExceptions.PhoneNumberAlreadyExists.Message);
+
+            RuleFor(x => x.Gender)
+                .NotEmpty();
 
             RuleForEach(x => x.RoleNames)
                 .NotEmpty()
