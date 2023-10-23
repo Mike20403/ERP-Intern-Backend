@@ -21,7 +21,20 @@ namespace DotNetStarter.Commands.Attachments.Create
                 .WithMessage(DomainExceptions.CardNotFound.Message);
 
             RuleFor(x => x.File)
-                .NotEmpty();
+                .NotEmpty()
+                .Must(file =>
+                {
+                    if (file != null)
+                    {
+                        var fileExtension = Path.GetExtension(file.FileName).Replace(".", "").ToLower();
+                        var fileContentType = file.ContentType.ToLower();
+
+                        return DomainConstraints.AllowedExtensions.Contains(fileExtension) && DomainConstraints.AllowedContentTypes.Contains(fileContentType);
+                    }
+
+                    return false;
+                })
+                .WithMessage("Invalid file. Please upload a file with valid extension and content type.");
 
             When(x => x.ProjectManagerId is not null, () =>
             {

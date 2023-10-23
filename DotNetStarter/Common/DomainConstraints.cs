@@ -8,5 +8,7 @@
             RoleNames.AgencyMember,
             RoleNames.ProjectManager,
         };
+        public static readonly string[] AllowedExtensions = { "jpg", "jpeg", "png", "pdf", "txt" };
+        public static readonly string[] AllowedContentTypes = { "image/jpeg", "image/png", "application/pdf", "text/plain" };
     }
 }
