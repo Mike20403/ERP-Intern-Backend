@@ -25,7 +25,7 @@ namespace Api.Controllers
 
         [HttpGet]
         [Authorize(Roles = RoleNames.Talent)]
-        public async Task<ActionResult<InvitationDto>> GetInvitations([FromQuery] ListInvitationsQueryParams queryParams)
+        public async Task<ActionResult<List<InvitationDto>>> GetInvitations([FromQuery] ListInvitationsQueryParams queryParams)
         {
             var result = await _mediator.Send(new ListTalentInvitations
             (

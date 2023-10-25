@@ -32,9 +32,9 @@ namespace Api.Controllers
 
         [HttpGet]
         [Authorize(Roles = $"{RoleNames.AgencyMember},{RoleNames.ProjectManager}")]
-        public async Task<ActionResult<InvitationDto>> GetInvitations([FromRoute] Guid projectId, [FromQuery] ListStaffInvitationQueryParams queryParams)
+        public async Task<ActionResult<List<InvitationDto>>> GetInvitations([FromRoute] Guid projectId, [FromQuery] ListStaffInvitationQueryParams queryParams)
         {
-            var invitations = await _mediator.Send(new ListStaffInvitations(
+            var result = await _mediator.Send(new ListStaffInvitations(
                 HttpContext.GetCurrentUserId()!.Value,
                 HttpContext.GetCurrentUserRole()!,
                 projectId,
@@ -46,7 +46,7 @@ namespace Api.Controllers
                 queryParams.OrderBy.ToOrderBy()
             ));
 
-            return Ok(invitations.Select(_mapper.Map<InvitationDto>).ToList());
+            return Ok(_mapper.Map<List<InvitationDto>>(result));
         }
 
         [HttpPost]
