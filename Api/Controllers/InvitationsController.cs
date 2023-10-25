@@ -3,7 +3,7 @@ using Api.Dtos;
 using Api.Models.Invitations;
 using Api.Models.StaffMembers;
 using AutoMapper;
-using DotNetStarter.Commands.Invitations.InviteTalent;
+using DotNetStarter.Commands.Invitations.InviteTalents;
 using DotNetStarter.Commands.Invitations.ProcessInvitation;
 using DotNetStarter.Common;
 using DotNetStarter.Extensions;
@@ -52,17 +52,18 @@ namespace Api.Controllers
         [HttpPost]
         [Authorize(Roles = $"{RoleNames.ProjectManager},{RoleNames.AgencyMember}")]
         [HasPrivilege(PrivilegeNames.InviteTalents)]
-        public async Task<ActionResult<InvitationDto>> InviteTalent([FromRoute] Guid projectId, InviteTalentRequest request)
+        public async Task<ActionResult<List<InvitationDto>>> InviteTalent([FromRoute] Guid projectId, List<InviteTalentDto> request)
         {
-            var invitation = await _mediator.Send(new InviteTalent(
-                request.Email,
+            var inviations = request.Select(c => new InviteTalent(c.Email, c.Id)).ToList();
+
+            var invitation = await _mediator.Send(new InviteTalents(
                 projectId, 
                 HttpContext.GetCurrentUserId()!.Value,
                 HttpContext.GetCurrentUserRole()!,
-                request.TalentId
+                inviations
             ));
 
-            return Ok(_mapper.Map<InvitationDto>(invitation));
+            return Ok(_mapper.Map<List<InvitationDto>>(invitation));
         }
 
         [HttpPost("{invitationId}/process-invitation")]

@@ -31,7 +31,8 @@ namespace Api.Controllers
         public async Task<ActionResult<List<StageDto>>> List([FromRoute] Guid projectId)
         {
             var result = await _mediator.Send(new ListStages(HttpContext.GetCurrentUserId()!.Value, projectId));
-            return Ok(result.Select(_mapper.Map<StageDto>).ToList());
+
+            return Ok(_mapper.Map<List<StageDto>>(result));
         }
 
         [HasPrivilege(PrivilegeNames.UpdateStages)]   
@@ -45,7 +46,7 @@ namespace Api.Controllers
                 projectId,
                 upsertStages));
 
-            return Ok(result.OrderBy(stage => stage.Order).Select(_mapper.Map<StageDto>).ToList());
+            return Ok(_mapper.Map<List<StageDto>>(result));
         }
     }
 }

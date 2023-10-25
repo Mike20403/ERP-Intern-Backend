@@ -47,7 +47,8 @@ namespace Api.Controllers
                 false
             ));
             Response.Headers.Add(DomainConstraints.XPagination, result.PaginationMetadata.SerializeWithCamelCase());
-            return Ok(result.Select(_mapper.Map<TalentDto>).ToList());
+
+            return Ok(_mapper.Map<List<TalentDto>>(result));
         }
 
         [HttpGet("{talentId}")]

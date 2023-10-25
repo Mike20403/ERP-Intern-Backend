@@ -36,7 +36,7 @@ namespace Api.Controllers
         {
             var result = await _mediator.Send(new ListAttachments(HttpContext.GetCurrentUserId()!.Value, cardId, projectId));
 
-            return Ok(result.Select(_mapper.Map<AttachmentDto>).ToList());
+            return Ok(_mapper.Map<List<AttachmentDto>>(result));
         }
 
         [HasPrivilege(PrivilegeNames.UpdateCards)]

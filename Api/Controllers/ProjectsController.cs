@@ -52,7 +52,7 @@ namespace Api.Controllers
 
             Response.Headers.Add(DomainConstraints.XPagination, result.PaginationMetadata.SerializeWithCamelCase());
 
-            return Ok(result.Select(_mapper.Map<ProjectDto>).ToList());
+            return Ok(_mapper.Map<List<ProjectDto>>(result));
         }
 
         [Authorize(Roles = RoleNames.AgencyMember)]

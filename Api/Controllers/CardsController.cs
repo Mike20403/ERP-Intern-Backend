@@ -40,7 +40,7 @@ namespace Api.Controllers
         {
             var result = await _mediator.Send(new ListCards(HttpContext.GetCurrentUserId()!.Value, projectId));
 
-            return Ok(result.Select(_mapper.Map<CardDto>).ToList());
+            return Ok(_mapper.Map<List<CardDto>>(result));
         }
 
         [HasPrivilege(PrivilegeNames.ViewCards)]
@@ -60,7 +60,7 @@ namespace Api.Controllers
         {
             var result = await _mediator.Send(new CreateCard(HttpContext.GetCurrentUserId()!.Value, request.Name!, request.PrevCardId, request.NextCardId, request.StageId, projectId));
 
-            return Ok(result.Select(d => new DataChanged<CardDto>(d.Type, _mapper.Map<CardDto>(d.Data))).ToList());
+            return Ok(_mapper.Map<List<DataChanged<CardDto>>>(result));
         }
 
         [HasPrivilege(PrivilegeNames.DeleteCards)]
@@ -70,7 +70,7 @@ namespace Api.Controllers
         {
             var result = await _mediator.Send(new DeleteCard(HttpContext.GetCurrentUserId()!.Value, cardId, projectId));
 
-            return Ok(result.Select(d => new DataChanged<CardDto>(d.Type, _mapper.Map<CardDto>(d.Data))).ToList());
+            return Ok(_mapper.Map<List<DataChanged<CardDto>>>(result));
 
         }
 
@@ -81,7 +81,7 @@ namespace Api.Controllers
         {
             var result = await _mediator.Send(new UpdateCard(HttpContext.GetCurrentUserId()!.Value, cardId, request.Name!, request.Description, projectId));
 
-            return Ok(new DataChanged<CardDto>(result.Type, _mapper.Map<CardDto>(result.Data)));
+            return Ok(_mapper.Map<DataChanged<CardDto>>(result));
         }
 
         [HasPrivilege(PrivilegeNames.UpdateCards)]
@@ -93,7 +93,7 @@ namespace Api.Controllers
 
             var result = await _mediator.Send(new MoveCards(cards, projectId, HttpContext.GetCurrentUserId()!.Value));
 
-            return Ok(result.Select(d => new DataChanged<MovingCardDto>(d.Type, _mapper.Map<MovingCardDto>(d.Data))).ToList());
+            return Ok(_mapper.Map<List<DataChanged<CardDto>>>(result));
         }
     }
 }

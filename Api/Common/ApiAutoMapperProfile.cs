@@ -1,6 +1,7 @@
 ﻿using Api.Dtos;
 using DotNetStarter.Commands.Cards.MoveCards;
 using DotNetStarter.Common;
+using DotNetStarter.Common.Models;
 using DotNetStarter.Entities;
 using DotNetStarter.Extensions;
 
@@ -38,13 +39,16 @@ namespace Api.Common
             CreateMap<MovingCard, MovingCardDto>();
             #endregion
 
-
             #region Attachment
             CreateMap<Attachment, AttachmentDto>();
             #endregion
 
             #region Invitation
-            CreateMap<Invitation, InvitationDto>(); 
+            CreateMap<Invitation, InvitationDto>();
+            #endregion
+
+            #region DataChanged
+            CreateMap(typeof(DataChanged<>), typeof(DataChanged<>));
             #endregion
         }
     }

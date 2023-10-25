@@ -4,11 +4,11 @@ using DotNetStarter.Entities;
 using FluentValidation;
 using System.Linq.Expressions;
 
-namespace DotNetStarter.Commands.Invitations.InviteTalent
+namespace DotNetStarter.Commands.Invitations.InviteTalents
 {
-    public sealed class InviteTalentValidator : AbstractValidator<InviteTalent>
+    public sealed class InviteTalentsValidator : AbstractValidator<InviteTalents>
     {
-        public InviteTalentValidator(IDotNetStarterUnitOfWork unitOfWork)
+        public InviteTalentsValidator(IDotNetStarterUnitOfWork unitOfWork)
         {
             RuleFor(x => x.ProjectId)
                 .NotEmpty()
@@ -23,38 +23,11 @@ namespace DotNetStarter.Commands.Invitations.InviteTalent
                 .WithMessage(DomainExceptions.UserNotFound.Message);
 
             RuleFor(x => x.InviterRole)
-                .NotEmpty()
                 .MustAsync((inviterRole, cancellation) => unitOfWork.RoleRepository.AnyAsync(filter: r => r.Name == inviterRole))
                 .WithErrorCode(DomainExceptions.InvalidRoleName.Code)
                 .WithMessage(DomainExceptions.InvalidRoleName.Message);
 
-            When(x => x.TalentId is null, () => {
-                RuleFor(x => x.Email)
-                    .NotEmpty()
-                    .EmailAddress()
-                    .WithMessage("Invalid email format")
-                    .MustAsync(async (email, cancellation) =>
-                    {
-                        var isExist = await unitOfWork.UserRepository.AnyAsync(filter: u => u.Username == email);
-                        return !isExist;
-                    })
-                    .WithErrorCode(DomainExceptions.EmailAlreadyExists.Code)
-                    .WithMessage(DomainExceptions.EmailAlreadyExists.Message);
-
-                // Invitation via Email (non-exist talent) can only be done by Agency Member
-                RuleFor(x => x.InviterRole)
-                    .Equal(RoleNames.AgencyMember)
-                    .WithErrorCode(DomainExceptions.InvalidPrivilege.Code)
-                    .WithMessage(DomainExceptions.InvalidPrivilege.Message);
-            });
-
-            When(x => x.Email is null, () => {
-                RuleFor(x => x.TalentId)
-                    .NotEmpty()
-                    .MustAsync((talentId, cancellation) => unitOfWork.UserRepository.AnyAsync(filter: u => u.Id == talentId && u.Role!.Name == RoleNames.Talent))
-                    .WithErrorCode(DomainExceptions.UserNotFound.Code)
-                    .WithMessage(DomainExceptions.UserNotFound.Message);
-            });
+            RuleForEach(x => x.Talents).SetValidator(request => new InviteTalentValidator(unitOfWork));
 
             When(x => x.InviterRole is not null, () =>
             {
@@ -77,6 +50,14 @@ namespace DotNetStarter.Commands.Invitations.InviteTalent
                     })
                     .WithErrorCode(DomainExceptions.InvalidPrivilege.Code)
                     .WithMessage(DomainExceptions.InvalidPrivilege.Message);
+
+                When(x => x.InviterRole is RoleNames.ProjectManager, () =>
+                {
+                    RuleFor(x => x.Talents)
+                        .Must(talents => talents.Count == talents.Where(i => i.Id is not null).Count())
+                        .WithErrorCode(DomainExceptions.InvalidPrivilege.Code)
+                        .WithMessage(DomainExceptions.InvalidPrivilege.Message);
+                });
             });
         }
     }

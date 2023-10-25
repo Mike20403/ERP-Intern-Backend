@@ -46,7 +46,8 @@ namespace Api.Controllers
                 ));
 
             Response.Headers.Add(DomainConstraints.XPagination, result.PaginationMetadata.SerializeWithCamelCase());
-            return Ok(result.Select(_mapper.Map<PersonDto>).ToList());
+
+            return Ok(_mapper.Map<List<PersonDto>>(result));
         }
 
         [HttpGet("talents")]
@@ -66,7 +67,8 @@ namespace Api.Controllers
                 ));
 
             Response.Headers.Add(DomainConstraints.XPagination, result.PaginationMetadata.SerializeWithCamelCase());
-            return Ok(result.Select(_mapper.Map<PersonDto>).ToList());
+
+            return Ok(_mapper.Map<List<PersonDto>>(result));
         }
     }
 }

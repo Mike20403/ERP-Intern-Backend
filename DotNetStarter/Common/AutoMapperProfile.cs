@@ -2,7 +2,7 @@
 using DotNetStarter.Commands.Cards.Create;
 using DotNetStarter.Commands.Cards.MoveCards;
 using DotNetStarter.Commands.Cards.Update;
-using DotNetStarter.Commands.Invitations.InviteTalent;
+using DotNetStarter.Commands.Invitations.InviteTalents;
 using DotNetStarter.Commands.Invitations.RegisterTalent;
 using DotNetStarter.Commands.Projects.Create;
 using DotNetStarter.Commands.Projects.Update;
@@ -46,7 +46,8 @@ namespace DotNetStarter.Common
             #endregion
 
             #region Invitation
-            CreateMap<InviteTalent, Invitation>();
+            CreateMap<InviteTalents, Invitation>();
+            CreateMap<InviteTalent, Invitation>().ReverseMap();
             #endregion
         }
     }

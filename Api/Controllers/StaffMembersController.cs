@@ -48,7 +48,8 @@ namespace Api.Controllers
                 ));
 
             Response.Headers.Add(DomainConstraints.XPagination, result.PaginationMetadata.SerializeWithCamelCase());
-            return Ok(result.Select(_mapper.Map<StaffMemberDto>).ToList());
+
+            return Ok(_mapper.Map<List<StaffMemberDto>>(result));
         }
 
         [HttpGet("{staffMemberId}")]

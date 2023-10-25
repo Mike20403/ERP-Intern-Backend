@@ -27,7 +27,7 @@ namespace Api.Controllers
         [Authorize(Roles = RoleNames.Talent)]
         public async Task<ActionResult<InvitationDto>> GetInvitations([FromQuery] ListInvitationsQueryParams queryParams)
         {
-            var invitations = await _mediator.Send(new ListTalentInvitations
+            var result = await _mediator.Send(new ListTalentInvitations
             (
                 HttpContext.GetCurrentUserId()!.Value,
                 queryParams.InvitationStatus,
@@ -37,7 +37,7 @@ namespace Api.Controllers
                 queryParams.OrderBy.ToOrderBy()
             ));
 
-            return Ok(invitations.Select(_mapper.Map<InvitationDto>).ToList());
+            return Ok(_mapper.Map<List<InvitationDto>>(result));
         }
     }
 }
