@@ -19,9 +19,12 @@ namespace DotNetStarter.Commands.Auth.ActivateAccount
 
             RuleFor(x => x.ActiveCode)
                 .NotEmpty()
-                .MustAsync((code, cancellation) => unitOfWork.OtpRepository.AnyAsync(o => o.Code == code && !o.IsUsed && o.Type == OtpType.ActivateAccount && o.ExpiredDate >= DateTime.Now))
+                .MustAsync((code, cancellation) => unitOfWork.OtpRepository.AnyAsync(o => o.Code == code && !o.IsUsed && o.Type == OtpType.ActivateAccount))
                 .WithErrorCode(DomainExceptions.InvalidOtp.Code)
-                .WithMessage(DomainExceptions.InvalidOtp.Message);
+                .WithMessage(DomainExceptions.InvalidOtp.Message)
+                .MustAsync((code, cancellation) => unitOfWork.OtpRepository.AnyAsync(o => o.ExpiredDate >= DateTime.Now))
+                .WithErrorCode(DomainExceptions.OtpExpired.Code)
+                .WithMessage(DomainExceptions.OtpExpired.Message); 
         }
     }
 }

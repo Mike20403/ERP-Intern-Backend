@@ -63,12 +63,14 @@ namespace DotNetStarter.Commands.Invitations.RegisterTalent
                     (
                         o => o.Code == invitation.Code
                             && !o.IsUsed
-                            && o.Type == OtpType.InviteTalent 
-                            && o.ExpiredDate >= DateTime.Now
+                            && o.Type == OtpType.InviteTalent
                     )
                  )
                 .WithErrorCode(DomainExceptions.InvalidOtp.Code)
-                .WithMessage(DomainExceptions.InvalidOtp.Message);
+                .WithMessage(DomainExceptions.InvalidOtp.Message)
+                .MustAsync((code, cancellation) => unitOfWork.OtpRepository.AnyAsync(o => o.ExpiredDate >= DateTime.Now))
+                .WithErrorCode(DomainExceptions.OtpExpired.Code)
+                .WithMessage(DomainExceptions.OtpExpired.Message);
         }
     }
 }

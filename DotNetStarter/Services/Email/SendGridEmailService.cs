@@ -93,6 +93,17 @@ namespace DotNetStarter.Services.Email
             await SendEmailAsync(email, templateId!, templateData);
         }
 
+        public async Task ResendOtp(string email, string firstName, string code)
+        {
+            var templateId = _configuration["Email:SendGrid:TemplateIds:ResendOtp"];
+            var templateData = new Dictionary<string, string>
+            {
+                { "firstName", firstName },
+                { "code", code },
+            };
+            await SendEmailAsync(email, templateId!, templateData);
+        }
+
         private async Task SendEmailAsync(string email, string templateId, object templateData)
         {
             var apiKey = _configuration["Email:SendGrid:ApiKey"];

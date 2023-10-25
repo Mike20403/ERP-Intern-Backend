@@ -28,10 +28,13 @@ namespace DotNetStarter.Commands.Auth.ResetPassword
                 {
                     var user = await unitOfWork.UserRepository.FindAsync(filter: u => u.Username == request.Username);
 
-                    return await unitOfWork.OtpRepository.AnyAsync(o => o.Code == code && o.UserId == user!.Id && !o.IsUsed && o.ExpiredDate >= DateTime.Now);
+                    return await unitOfWork.OtpRepository.AnyAsync(o => o.Code == code && o.UserId == user!.Id && !o.IsUsed);
                 })
                 .WithErrorCode(DomainExceptions.InvalidOtp.Code)
-                .WithMessage(DomainExceptions.InvalidOtp.Message);
+                .WithMessage(DomainExceptions.InvalidOtp.Message)
+                .MustAsync((code, cancellation) => unitOfWork.OtpRepository.AnyAsync(o => o.ExpiredDate >= DateTime.Now))
+                .WithErrorCode(DomainExceptions.OtpExpired.Code)
+                .WithMessage(DomainExceptions.OtpExpired.Message);
         }
     }
 }

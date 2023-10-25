@@ -94,6 +94,18 @@ namespace DotNetStarter.Common
             Message = "OTP doesn't exist, used or expired",
         };
 
+        public static readonly DomainException OtpNotFound = new DomainException
+        {
+            Code = "OtpNotFound",
+            Message = "Otp not found",
+        };
+
+        public static readonly DomainException OtpExpired = new DomainException
+        {
+            Code = "OtpExpired",
+            Message = "Otp expired",
+        };
+
         public static readonly DomainException UserAlreadyExists = new DomainException
         {
             Code = "UserAlreadyExists",
