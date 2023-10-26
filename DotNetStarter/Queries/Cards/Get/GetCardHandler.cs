@@ -14,7 +14,10 @@ namespace DotNetStarter.Queries.Cards.Get
         }
         public override async Task<Card> Process(GetCard request, CancellationToken cancellationToken)
         {
-            return await _unitOfWork.CardRepository.GetByIdAsync(request.CardId);
+            return await _unitOfWork.CardRepository.FindAsync(
+                includeProperties: ClassUtils.GetPropertyName<Card>(c => c.Attachments!),
+                filter: c => c.Id == request.CardId
+            );
         }
     }
 }

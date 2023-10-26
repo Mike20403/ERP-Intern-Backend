@@ -13,5 +13,7 @@
         public Guid? NextCardId { get; set; }
 
         public Guid? StageId { get; set; }
+
+        public List<AttachmentDto>? Attachments { get; set; }
     }
 }
