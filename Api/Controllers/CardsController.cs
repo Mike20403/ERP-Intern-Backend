@@ -93,7 +93,7 @@ namespace Api.Controllers
 
             var result = await _mediator.Send(new MoveCards(cards, projectId, HttpContext.GetCurrentUserId()!.Value));
 
-            return Ok(_mapper.Map<List<DataChanged<CardDto>>>(result));
+            return Ok(_mapper.Map<List<DataChanged<MovingCardDto>>>(result));
         }
     }
 }
