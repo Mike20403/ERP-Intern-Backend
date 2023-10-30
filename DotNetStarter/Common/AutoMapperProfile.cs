@@ -12,6 +12,8 @@ using DotNetStarter.Commands.Users.Create;
 using DotNetStarter.Commands.Users.Update;
 using DotNetStarter.Entities;
 using DotNetStarter.Commands.Attachments.Create;
+using DotNetStarter.Commands.Payments.Create;
+using DotNetStarter.Commands.Payments.Update;
 
 namespace DotNetStarter.Common
 {
@@ -48,6 +50,11 @@ namespace DotNetStarter.Common
             #region Invitation
             CreateMap<InviteTalents, Invitation>();
             CreateMap<InviteTalent, Invitation>().ReverseMap();
+            #endregion
+
+            #region
+            CreateMap<CreatePayment, Payment>();
+            CreateMap<UpdatePayment, Payment>();
             #endregion
         }
     }

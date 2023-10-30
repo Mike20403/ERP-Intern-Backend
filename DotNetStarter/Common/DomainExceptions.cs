@@ -165,5 +165,17 @@ namespace DotNetStarter.Common
             Code = "InvalidInvitation",
             Message = "Invalid Invitation",
         };
+
+        public static readonly DomainException PaymentNotFound = new DomainException
+        {
+            Code = "PaymentNotFound",
+            Message = "Payment NotFound",
+        };
+
+        public static readonly DomainException NotProjectTalent = new DomainException
+        {
+            Code = "NotProjectTalent",
+            Message = "Not Project Talent",
+        };
     }
 }

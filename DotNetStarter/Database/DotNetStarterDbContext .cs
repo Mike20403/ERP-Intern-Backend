@@ -5,6 +5,8 @@ using DotNetStarter.Common.Enums;
 using Microsoft.AspNetCore.Http;
 using DotNetStarter.Extensions;
 using DotNetStarter.Common;
+using Azure;
+using Microsoft.Extensions.Hosting;
 
 namespace DotNetStarter.Database
 {
@@ -101,6 +103,20 @@ namespace DotNetStarter.Database
             modelBuilder.Entity<Card>().HasIndex(c => new { c.PrevCardId, c.NextCardId }).IsUnique();
 
             modelBuilder.Entity<Card>().ToTable(b => b.HasCheckConstraint("CK_Prev_Next_Not_Equal", $"[PrevCardId] <> [NextCardId]"));
+
+            modelBuilder.Entity<Payment>()
+                .HasOne(sc => sc.Talent).WithMany()
+                .HasForeignKey(t => t.TalentId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Payment>()
+                .HasMany(c => c.Cards)
+                .WithMany(p => p.Payments)
+                .UsingEntity<PaymentCard>(
+                    c => c.HasOne(p => p.Card).WithMany().HasForeignKey(pc => pc.CardId).OnDelete(DeleteBehavior.NoAction),
+                    c => c.HasOne(p => p.Payment).WithMany().HasForeignKey(pc => pc.PaymentId).OnDelete(DeleteBehavior.NoAction)
+                );
+
             #endregion
 
             #region Privilege
@@ -636,6 +652,8 @@ namespace DotNetStarter.Database
         public DbSet<Card> Cards { get; set; }
 
         public DbSet<Attachment> Attachments { get; set; }
+
+        public DbSet<Payment> Payments { get; set; }
 
         private void SetAuditing()
         {

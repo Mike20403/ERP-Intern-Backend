@@ -64,7 +64,7 @@ namespace DotNetStarter.Extensions
 
             var properties = includeProperties
                 .Split(',', StringSplitOptions.RemoveEmptyEntries)
-                .Where(property => typeof(TEntity).GetProperty(property, BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase) != null)
+                .Where(property => typeof(TEntity).GetProperty(property.Split(".")[0], BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase) != null)
                 .ToList();
 
             foreach (var includeProperty in properties)

@@ -27,5 +27,7 @@ namespace DotNetStarter.Entities
         public Stage? Stage { get; set; }
 
         public List<Attachment>? Attachments { get; set; }
+
+        public List<Payment>? Payments { get; set; }
     }
 }
