@@ -14,7 +14,7 @@ namespace Api.Controllers
     [Authorize(Roles = $"{RoleNames.AgencyMember},{RoleNames.ProjectManager},{RoleNames.Talent}")]
     [ApiVersion(ApiVersions.Version1)]
     [ApiController]
-    [Route("api/v{version:apiVersion}/projects/{projectId}/talents/[controller]")]
+    [Route("api/v{version:apiVersion}/projects/{projectId}/talents")]
     public class ProjectTalentsController : ControllerBase
     {
         private readonly IMediator _mediator;
