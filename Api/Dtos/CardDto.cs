@@ -15,5 +15,7 @@
         public Guid? StageId { get; set; }
 
         public List<AttachmentDto>? Attachments { get; set; }
+
+        public List<PersonDto>? Owners { get; set; }
     }
 }

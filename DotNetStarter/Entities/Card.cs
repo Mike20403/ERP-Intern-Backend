@@ -28,6 +28,8 @@ namespace DotNetStarter.Entities
 
         public List<Attachment>? Attachments { get; set; }
 
+        public List<Talent>? Owners { get; set; }
+
         public List<Payment>? Payments { get; set; }
     }
 }

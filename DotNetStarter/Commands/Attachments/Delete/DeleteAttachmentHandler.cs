@@ -1,32 +1,34 @@
-﻿using DotNetStarter.Commands.Attachments.Delete;
-using DotNetStarter.Common;
+﻿using DotNetStarter.Common;
 using DotNetStarter.Database.UnitOfWork;
 using DotNetStarter.Services.Storage;
 
-public sealed class DeleteAttachmentHandler : BaseRequestHandler<DeleteAttachment>
+namespace DotNetStarter.Commands.Attachments.Delete
 {
-    private readonly IDotNetStarterUnitOfWork _unitOfWork;
-    private readonly IStorageService _storageService;
-
-    public DeleteAttachmentHandler(
-        IServiceProvider serviceProvider,
-        IDotNetStarterUnitOfWork unitOfWork,
-        IStorageService storageService)
-        : base(serviceProvider)
+    public sealed class DeleteAttachmentHandler : BaseRequestHandler<DeleteAttachment>
     {
-        _unitOfWork = unitOfWork;
-        _storageService = storageService;
-    }
+        private readonly IDotNetStarterUnitOfWork _unitOfWork;
+        private readonly IStorageService _storageService;
 
-    public override async Task Process(DeleteAttachment request, CancellationToken cancellationToken)
-    {
-        var attachment = await _unitOfWork.AttachmentRepository.GetByIdAsync(request.AttachmentId);
+        public DeleteAttachmentHandler(
+            IServiceProvider serviceProvider,
+            IDotNetStarterUnitOfWork unitOfWork,
+            IStorageService storageService)
+            : base(serviceProvider)
+        {
+            _unitOfWork = unitOfWork;
+            _storageService = storageService;
+        }
 
-        var blobName = attachment!.Name;
+        public override async Task Process(DeleteAttachment request, CancellationToken cancellationToken)
+        {
+            var attachment = await _unitOfWork.AttachmentRepository.GetByIdAsync(request.AttachmentId);
 
-        await _storageService.DeleteAsync($"projects/{request.ProjectId}/cards/{request.CardId}/{blobName}");
+            var blobName = attachment!.Name;
 
-        await _unitOfWork.AttachmentRepository.DeleteAsync(request.AttachmentId);
-        await _unitOfWork.SaveChangesAsync();
+            await _storageService.DeleteAsync($"projects/{request.ProjectId}/cards/{request.CardId}/{blobName}");
+
+            await _unitOfWork.AttachmentRepository.DeleteAsync(request.AttachmentId);
+            await _unitOfWork.SaveChangesAsync();
+        }
     }
 }

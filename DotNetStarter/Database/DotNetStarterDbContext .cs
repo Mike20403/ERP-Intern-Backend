@@ -1,12 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using DotNetStarter.Entities;
+﻿using DotNetStarter.Common;
 using DotNetStarter.Common.Enums;
-using Microsoft.AspNetCore.Http;
+using DotNetStarter.Entities;
 using DotNetStarter.Extensions;
-using DotNetStarter.Common;
-using Azure;
-using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace DotNetStarter.Database
 {
@@ -104,6 +102,18 @@ namespace DotNetStarter.Database
 
             modelBuilder.Entity<Card>().ToTable(b => b.HasCheckConstraint("CK_Prev_Next_Not_Equal", $"[PrevCardId] <> [NextCardId]"));
 
+            modelBuilder.Entity<CardOwner>().HasKey(sc => new { sc.CardId, sc.OwnerId });
+
+            modelBuilder.Entity<CardOwner>()
+              .HasOne(p => p.Card).WithMany()
+              .HasForeignKey(p => p.CardId)
+              .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Card>()
+                .HasMany(t => t.Owners)
+                .WithMany(p => p.Cards)
+                .UsingEntity<CardOwner>();
+
             modelBuilder.Entity<Payment>()
                 .HasOne(sc => sc.Talent).WithMany()
                 .HasForeignKey(t => t.TalentId)
@@ -116,7 +126,6 @@ namespace DotNetStarter.Database
                     c => c.HasOne(p => p.Card).WithMany().HasForeignKey(pc => pc.CardId).OnDelete(DeleteBehavior.NoAction),
                     c => c.HasOne(p => p.Payment).WithMany().HasForeignKey(pc => pc.PaymentId).OnDelete(DeleteBehavior.NoAction)
                 );
-
             #endregion
 
             #region Privilege
@@ -652,6 +661,8 @@ namespace DotNetStarter.Database
         public DbSet<Card> Cards { get; set; }
 
         public DbSet<Attachment> Attachments { get; set; }
+
+        public DbSet<CardOwner> CardTalents { get; set; }
 
         public DbSet<Payment> Payments { get; set; }
 

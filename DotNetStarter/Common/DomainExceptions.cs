@@ -46,6 +46,12 @@ namespace DotNetStarter.Common
             Message = "Agency member not found",
         };
 
+        public static readonly DomainException TalentNotFound = new DomainException
+        {
+            Code = "TalentNotFound",
+            Message = "Talent not found",
+        };
+
         public static readonly DomainException ProjectManagerNotFound = new DomainException
         {
             Code = "ProjectManagerNotFound",
@@ -110,6 +116,12 @@ namespace DotNetStarter.Common
         {
             Code = "UserAlreadyExists",
             Message = "User already exists",
+        };
+
+        public static readonly DomainException TalentAlreadyExists = new DomainException
+        {
+            Code = "TalentAlreadyExists",
+            Message = "This talent is already in this card",
         };
 
         public static readonly DomainException EmailAlreadyExists = new DomainException

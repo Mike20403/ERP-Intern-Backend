@@ -8,5 +8,7 @@ namespace DotNetStarter.Entities
         public bool IsAvailable { get; set; }
 
         public List<Project>? Projects { get; set; }
+
+        public List<Card>? Cards { get; set; }
     }
 }

@@ -53,8 +53,9 @@ namespace DotNetStarter.Commands.Invitations.InviteTalents
 
                 var invitation = new Invitation
                 {
+                    TalentId = talent?.Id,
                     EmailAddress = talent?.Username,
-                    InvitationStatus = InvitationStatus.Pending
+                    InvitationStatus = InvitationStatus.Pending,
                 };
 
                 string? code = null;
@@ -77,7 +78,6 @@ namespace DotNetStarter.Commands.Invitations.InviteTalents
                     await _unitOfWork.OtpRepository.CreateAsync(inviteOtp);
                 }
 
-                _mapper.Map(talentInvitation, invitation);
                 _mapper.Map(request, invitation);
                 await _unitOfWork.InvitationRepository.CreateAsync(invitation);
 

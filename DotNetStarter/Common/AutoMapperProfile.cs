@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using DotNetStarter.Commands.Attachments.Create;
 using DotNetStarter.Commands.Cards.Create;
 using DotNetStarter.Commands.Cards.MoveCards;
 using DotNetStarter.Commands.Cards.Update;
 using DotNetStarter.Commands.Invitations.InviteTalents;
 using DotNetStarter.Commands.Invitations.RegisterTalent;
+using DotNetStarter.Commands.Payments.Create;
+using DotNetStarter.Commands.Payments.Update;
 using DotNetStarter.Commands.Projects.Create;
 using DotNetStarter.Commands.Projects.Update;
 using DotNetStarter.Commands.Talents.Create;
@@ -11,9 +14,6 @@ using DotNetStarter.Commands.Talents.Update;
 using DotNetStarter.Commands.Users.Create;
 using DotNetStarter.Commands.Users.Update;
 using DotNetStarter.Entities;
-using DotNetStarter.Commands.Attachments.Create;
-using DotNetStarter.Commands.Payments.Create;
-using DotNetStarter.Commands.Payments.Update;
 
 namespace DotNetStarter.Common
 {
