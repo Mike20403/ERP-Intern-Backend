@@ -23,19 +23,24 @@ namespace DotNetStarter.Queries.Projects.List
                 filter.Add(u => u.Name.Contains(request.SearchQuery));
             }
 
-            if (request.Status != null)
+            if (request.Status is not null)
             {
                 filter.Add(u => u.Status == request.Status);
             }
 
-            if (request.AgencyMemberId != null)
+            if (request.AgencyMemberId is not null)
             {
                 filter.Add(u => u.AgencyMemberId == request.AgencyMemberId);
             }
 
-            if (request.ProjectManagerId != null)
+            if (request.ProjectManagerId is not null)
             {
                 filter.Add(u => u.ProjectManagerId == request.ProjectManagerId);
+            }
+
+            if (request.TalentId is not null)
+            {
+                filter.Add(u => u.Talents.Any(t => t.Id == request.TalentId));
             }
 
             return await _unitOfWork.ProjectRepository.GetPagedListAsync(

@@ -40,16 +40,16 @@ namespace DotNetStarter.Common
             Message = "User not found",
         };
 
-        public static readonly DomainException AgencyMemberNotFound = new DomainException
-        {
-            Code = "AgencyMemberNotFound",
-            Message = "Agency member not found",
-        };
-
         public static readonly DomainException TalentNotFound = new DomainException
         {
             Code = "TalentNotFound",
             Message = "Talent not found",
+        };
+
+        public static readonly DomainException AgencyMemberNotFound = new DomainException
+        {
+            Code = "AgencyMemberNotFound",
+            Message = "Agency member not found",
         };
 
         public static readonly DomainException ProjectManagerNotFound = new DomainException

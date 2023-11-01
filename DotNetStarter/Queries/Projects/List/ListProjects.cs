@@ -9,12 +9,25 @@ namespace DotNetStarter.Queries.Projects.List
 
         public Guid? ProjectManagerId { get; }
 
+        public Guid? TalentId { get; }
+
         public ProjectStatus? Status { get; }
 
-        public ListProjects(int pageNumber, int pageSize, string? searchQuery, string? orderBy, Guid? agencyMemberId, Guid? projectManagerId, ProjectStatus? status) : base(pageNumber, pageSize, searchQuery, orderBy)
+        public ListProjects
+        (
+            int pageNumber, 
+            int pageSize, 
+            string? searchQuery, 
+            string? orderBy, 
+            Guid? agencyMemberId, 
+            Guid? projectManagerId, 
+            Guid? talentId,
+            ProjectStatus? status
+        ) : base(pageNumber, pageSize, searchQuery, orderBy)
         {
             AgencyMemberId = agencyMemberId;
             ProjectManagerId = projectManagerId;
+            TalentId = talentId;
             Status = status;
         }
     }

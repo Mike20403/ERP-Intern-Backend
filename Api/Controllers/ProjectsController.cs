@@ -32,13 +32,14 @@ namespace Api.Controllers
             _mapper = mapper;
         }
 
-        [Authorize(Roles = $"{RoleNames.ProjectManager},{RoleNames.AgencyMember}")]
+        [Authorize(Roles = $"{RoleNames.ProjectManager},{RoleNames.AgencyMember},{RoleNames.Talent}")]
         [HasPrivilege(PrivilegeNames.ViewProjects)]
         [HttpGet]
         public async Task<ActionResult<List<ProjectDto>>> List([FromQuery] ListProjectsQueryParams queryParams)
         {
             Guid? agencyMenberId = User.IsInRole(RoleNames.AgencyMember) ? HttpContext.GetCurrentUserId()!.Value : null;
             Guid? projectManagerId = User.IsInRole(RoleNames.ProjectManager) ? HttpContext.GetCurrentUserId()!.Value : null;
+            Guid? talentId = User.IsInRole(RoleNames.Talent) ? HttpContext.GetCurrentUserId()!.Value : null;
 
             var result = await _mediator.Send(new ListProjects(
                 queryParams.PageNumber,
@@ -47,8 +48,9 @@ namespace Api.Controllers
                 queryParams.OrderBy.ToOrderBy(),
                 agencyMenberId,
                 projectManagerId,
+                talentId,
                 queryParams.Status
-                ));
+            ));
 
             Response.Headers.Add(DomainConstraints.XPagination, result.PaginationMetadata.SerializeWithCamelCase());
 
@@ -66,15 +68,21 @@ namespace Api.Controllers
             return CreatedAtAction(nameof(Get), new { projectId = result.Id }, _mapper.Map<ProjectDto>(result));
         }
 
-        [Authorize(Roles = $"{RoleNames.ProjectManager},{RoleNames.AgencyMember}")]
+        [Authorize(Roles = $"{RoleNames.ProjectManager},{RoleNames.AgencyMember},{RoleNames.Talent}")]
         [HasPrivilege(PrivilegeNames.ViewProjects)]
         [HttpGet("{projectId}")]
         public async Task<ActionResult<ProjectDto>> Get([FromRoute] Guid projectId)
         {
             Guid? agencyMenberId = User.IsInRole(RoleNames.AgencyMember) ? HttpContext.GetCurrentUserId()!.Value : null;
             Guid? projectManagerId = User.IsInRole(RoleNames.ProjectManager) ? HttpContext.GetCurrentUserId()!.Value : null;
+            Guid? talentId = User.IsInRole(RoleNames.Talent) ? HttpContext.GetCurrentUserId()!.Value : null;
 
-            var result = await _mediator.Send(new GetProject(agencyMenberId, projectManagerId, projectId));
+            var result = await _mediator.Send(new GetProject(
+                agencyMenberId, 
+                projectManagerId, 
+                talentId,
+                projectId
+            ));
 
             return Ok(_mapper.Map<ProjectDto>(result));
         }
