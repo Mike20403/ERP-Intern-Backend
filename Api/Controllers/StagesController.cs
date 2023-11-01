@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
-    [Authorize(Roles = RoleNames.ProjectManager)]
     [ApiVersion(ApiVersions.Version1)]
     [ApiController]
     [Route("api/v{version:apiVersion}/projects/{projectId}/[controller]")]
@@ -26,15 +25,24 @@ namespace Api.Controllers
             _mapper = mapper;
         }
 
+        [Authorize(Roles = $"{RoleNames.ProjectManager},{RoleNames.Talent}")]
         [HasPrivilege(PrivilegeNames.ViewStages)]
         [HttpGet]
         public async Task<ActionResult<List<StageDto>>> List([FromRoute] Guid projectId)
         {
-            var result = await _mediator.Send(new ListStages(HttpContext.GetCurrentUserId()!.Value, projectId));
+            Guid? projectManagerId = User.IsInRole(RoleNames.ProjectManager) ? HttpContext.GetCurrentUserId()!.Value : null;
+            Guid? talentId = User.IsInRole(RoleNames.Talent) ? HttpContext.GetCurrentUserId()!.Value : null;
+
+            var result = await _mediator.Send(new ListStages(
+                projectManagerId,
+                talentId,
+                projectId
+            ));
 
             return Ok(_mapper.Map<List<StageDto>>(result));
         }
 
+        [Authorize(Roles = RoleNames.ProjectManager)]
         [HasPrivilege(PrivilegeNames.UpdateStages)]   
         [HttpPut]
         public async Task<ActionResult<List<StageDto>>> Update([FromRoute] Guid projectId, [FromBody] List<StageDto>? stages)
