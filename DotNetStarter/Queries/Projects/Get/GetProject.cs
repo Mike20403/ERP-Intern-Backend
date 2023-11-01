@@ -9,21 +9,12 @@ namespace DotNetStarter.Queries.Projects.Get
 
         public Guid? ProjectManagerId { get; }
 
-        public Guid? TalentId { get; }
-
         public Guid ProjectId { get; }
 
-        public GetProject
-        (
-            Guid? agencyMemberId, 
-            Guid? projectManagerId, 
-            Guid? talentId,
-            Guid projectId
-        )
+        public GetProject(Guid? agencyMemberId, Guid? projectManagerId, Guid projectId)
         {
             AgencyMemberId = agencyMemberId;
             ProjectManagerId = projectManagerId;
-            TalentId = talentId;
             ProjectId = projectId;
         }
     }

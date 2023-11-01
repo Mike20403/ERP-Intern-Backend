@@ -43,7 +43,7 @@ namespace Api.Controllers
                 null,
                 Status.Active,
                 true
-            ));
+                ));
 
             Response.Headers.Add(DomainConstraints.XPagination, result.PaginationMetadata.SerializeWithCamelCase());
 
@@ -64,7 +64,7 @@ namespace Api.Controllers
                 Status.Active,
                 true,
                 true
-            ));
+                ));
 
             Response.Headers.Add(DomainConstraints.XPagination, result.PaginationMetadata.SerializeWithCamelCase());
 
