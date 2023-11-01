@@ -8,5 +8,7 @@ namespace Api.Dtos
 
         [Required]
         public string? Name { get; set; }
+
+        public bool IsNotificationEnabled { get; set; }
     }
 }

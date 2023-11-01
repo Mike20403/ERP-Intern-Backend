@@ -72,6 +72,30 @@ namespace DotNetStarter.Services.Email
             await SendEmailAsync(email, templateId!, templateData);
         }
 
+        public async Task SendCardMovedAsync(string email, string firstName, string stageName, string cardName)
+        {
+            var templateId = _configuration["Email:SendGrid:TemplateIds:MoveCard"];
+            var templateData = new Dictionary<string, string>
+            {
+                { "firstName", firstName },
+                { "stageName", stageName },
+                { "cardName", cardName },
+            };
+            await SendEmailAsync(email, templateId!, templateData);
+        }
+
+        public async Task SendCardCreatedAsync(string email, string firstName, string stageName, string cardName)
+        {
+            var templateId = _configuration["Email:SendGrid:TemplateIds:CreateCard"];
+            var templateData = new Dictionary<string, string>
+            {
+                { "firstName", firstName },
+                { "stageName", stageName },
+                { "cardName", cardName },
+            };
+            await SendEmailAsync(email, templateId!, templateData);
+        }
+
         public async Task SendInvitationEmailAsync(string email, Guid invitationId, string projectName, string inviter, bool isExists, string? code)
         {
             var templateId = _configuration["Email:SendGrid:TemplateIds:InviteTalent"];

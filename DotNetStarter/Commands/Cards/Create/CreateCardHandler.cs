@@ -4,6 +4,8 @@ using DotNetStarter.Common.Enums;
 using DotNetStarter.Common.Models;
 using DotNetStarter.Database.UnitOfWork;
 using DotNetStarter.Entities;
+using DotNetStarter.Extensions;
+using DotNetStarter.Notifications.Cards.CardCreated;
 
 namespace DotNetStarter.Commands.Cards.Create
 {
@@ -48,7 +50,10 @@ namespace DotNetStarter.Commands.Cards.Create
 
             await _unitOfWork.SaveChangesAsync();
 
+            new CardCreated(card.Id, request.ProjectId, request.StageId).Enqueue();
+
             return cards;
         }
     }
 }
+

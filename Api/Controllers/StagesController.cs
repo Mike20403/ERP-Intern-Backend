@@ -47,7 +47,7 @@ namespace Api.Controllers
         [HttpPut]
         public async Task<ActionResult<List<StageDto>>> Update([FromRoute] Guid projectId, [FromBody] List<StageDto>? stages)
         {
-            var upsertStages = stages?.Select(s => new UpsertStage(s.Id, s.Name!))?.ToList() ?? new List<UpsertStage>();
+            var upsertStages = stages?.Select(s => new UpsertStage(s.Id, s.Name!, s.IsNotificationEnabled))?.ToList() ?? new List<UpsertStage>();
 
             var result = await _mediator.Send(new UpdateStages(
                 HttpContext.GetCurrentUserId()!.Value,
