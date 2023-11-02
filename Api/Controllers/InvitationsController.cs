@@ -54,7 +54,7 @@ namespace Api.Controllers
         [HasPrivilege(PrivilegeNames.InviteTalents)]
         public async Task<ActionResult<List<InvitationDto>>> InviteTalent([FromRoute] Guid projectId, List<InviteTalentDto> request)
         {
-            var inviations = request.Select(c => new InviteTalent(c.Email, c.Id)).ToList();
+            var inviations = request.Select(t => new InviteTalent(t.Email, t.Id)).ToList();
 
             var invitation = await _mediator.Send(new InviteTalents(
                 projectId, 

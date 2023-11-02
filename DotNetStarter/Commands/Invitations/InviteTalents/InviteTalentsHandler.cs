@@ -35,33 +35,31 @@ namespace DotNetStarter.Commands.Invitations.InviteTalents
 
             foreach (var talentInvitation in request.Talents)
             {
-                Talent? talent = null;
+                Invitation invitation;
                 if (talentInvitation.Id.HasValue)
                 {
-                    talent = await _unitOfWork.TalentRepository.FindAsync(filter: t => t.Id == talentInvitation.Id.Value);
-                }
+                    var talent = await _unitOfWork.TalentRepository.FindAsync(filter: t => t.Id == talentInvitation.Id.Value);
 
-                var email = talentInvitation.Email;
-
-                if (talent == null && !string.IsNullOrEmpty(email))
-                {
-                    talent = new Talent
+                    invitation = new Invitation
                     {
-                        Username = email
+                        TalentId = talent?.Id,
+                        EmailAddress = talent?.Username,
+                        InvitationStatus = InvitationStatus.Pending,
                     };
                 }
-
-                var invitation = new Invitation
+                else
                 {
-                    TalentId = talent?.Id,
-                    EmailAddress = talent?.Username,
-                    InvitationStatus = InvitationStatus.Pending,
-                };
+                    invitation = new Invitation
+                    {
+                        EmailAddress = talentInvitation.Email,
+                        InvitationStatus = InvitationStatus.Pending,
+                    };
+                }
 
                 string? code = null;
                 bool isExisting = true;
 
-                if (!string.IsNullOrEmpty(email))
+                if (!string.IsNullOrEmpty(talentInvitation.Email))
                 {
                     var inviteOtp = new Otp
                     {
