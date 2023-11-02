@@ -1,5 +1,6 @@
 ﻿using Api.Common;
 using Api.Dtos;
+using Api.Hubs;
 using Api.Models.Card;
 using AutoMapper;
 using DotNetStarter.Commands.Cards.Create;
@@ -14,6 +15,7 @@ using DotNetStarter.Queries.Cards.List;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System.Net;
 
 namespace Api.Controllers
@@ -26,11 +28,13 @@ namespace Api.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        public IHubContext<ProjectHub, IProjectClient> _hubContext;
 
-        public CardsController(IMediator mediator, IMapper mapper)
+        public CardsController(IMediator mediator, IMapper mapper, IHubContext<ProjectHub, IProjectClient> hubContext)
         {
             _mediator = mediator;
             _mapper = mapper;
+            _hubContext = hubContext;
         }
 
         [HasPrivilege(PrivilegeNames.ViewCards)]
@@ -60,7 +64,11 @@ namespace Api.Controllers
         {
             var result = await _mediator.Send(new CreateCard(HttpContext.GetCurrentUserId()!.Value, request.Name!, request.PrevCardId, request.NextCardId, request.StageId, projectId));
 
-            return Ok(_mapper.Map<List<DataChanged<CardDto>>>(result));
+            var dto = _mapper.Map<List<DataChanged<CardDto>>>(result);
+
+            await _hubContext.Clients.Group(projectId.ToProjectGroup()).CardsChanged(dto);
+
+            return Ok(dto);
         }
 
         [HasPrivilege(PrivilegeNames.DeleteCards)]
@@ -70,8 +78,11 @@ namespace Api.Controllers
         {
             var result = await _mediator.Send(new DeleteCard(HttpContext.GetCurrentUserId()!.Value, cardId, projectId));
 
-            return Ok(_mapper.Map<List<DataChanged<CardDto>>>(result));
+            var dto = _mapper.Map<List<DataChanged<CardDto>>>(result);
 
+            await _hubContext.Clients.Group(projectId.ToProjectGroup()).CardsChanged(dto);
+
+            return Ok(dto);
         }
 
         [HasPrivilege(PrivilegeNames.UpdateCards)]
@@ -80,6 +91,10 @@ namespace Api.Controllers
         public async Task<ActionResult<DataChanged<CardDto>>> Update([FromRoute] Guid projectId, [FromRoute] Guid cardId, [FromBody] UpdateCardRequest request)
         {
             var result = await _mediator.Send(new UpdateCard(HttpContext.GetCurrentUserId()!.Value, cardId, request.Name!, request.Description, projectId));
+
+            var dto = _mapper.Map<DataChanged<CardDto>>(result);
+
+            await _hubContext.Clients.Group(projectId.ToProjectGroup()).CardsChanged(new List<DataChanged<CardDto>> { dto });
 
             return Ok(_mapper.Map<DataChanged<CardDto>>(result));
         }
@@ -93,7 +108,11 @@ namespace Api.Controllers
 
             var result = await _mediator.Send(new MoveCards(cards, projectId, HttpContext.GetCurrentUserId()!.Value));
 
-            return Ok(_mapper.Map<List<DataChanged<MovingCardDto>>>(result));
+            var dto = _mapper.Map<List<DataChanged<MovingCardDto>>>(result);
+
+            await _hubContext.Clients.Group(projectId.ToProjectGroup()).CardsMoved(dto);
+
+            return Ok(dto);
         }
     }
 }

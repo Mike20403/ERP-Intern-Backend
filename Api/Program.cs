@@ -1,4 +1,5 @@
 using Api.Common;
+using Api.Hubs;
 using DotNetStarter.Common;
 using DotNetStarter.Database;
 using DotNetStarter.Database.UnitOfWork;
@@ -124,6 +125,20 @@ builder.Services.AddAuthentication(options =>
         ValidateLifetime = true,
         ClockSkew = TimeSpan.Zero,
     };
+
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var accessToken = context.Request.Query["access_token"];
+            if (string.IsNullOrEmpty(accessToken) == false)
+            {
+                context.Token = accessToken;
+            }
+
+            return Task.CompletedTask;
+        }
+    };
 });
 builder.Services.AddAuthorization();
 
@@ -134,6 +149,7 @@ builder.Services.AddHangfire(configuration => configuration
         .UseSqlServerStorage(builder.Configuration.GetConnectionString("DotNetStarter"))); // Add HangFire services to current DB
 
 builder.Services.AddHangfireServer();
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -160,7 +176,8 @@ if (app.Environment.IsDevelopment() || builder.Environment.EnvironmentName == "D
     });
 
     app.UseCors(options => options
-        .AllowAnyOrigin()
+        .SetIsOriginAllowed(origin => true)
+        .AllowCredentials()
         .AllowAnyMethod()
         .AllowAnyHeader()
         .WithExposedHeaders(DomainConstraints.XPagination));
@@ -170,6 +187,8 @@ if (app.Environment.IsDevelopment() || builder.Environment.EnvironmentName == "D
         Authorization = new[] { new DevHangfireAuthorizationFilter() },
     });
 }
+
+app.MapHub<ProjectHub>("/signal-r/project-hub");
 
 app.UseHttpsRedirection();
 

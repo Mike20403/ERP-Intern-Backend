@@ -1,5 +1,6 @@
 ﻿using Api.Common;
 using Api.Dtos;
+using Api.Hubs;
 using AutoMapper;
 using DotNetStarter.Commands.Stages.Update;
 using DotNetStarter.Common;
@@ -8,6 +9,7 @@ using DotNetStarter.Queries.Stages.List;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Api.Controllers
 {
@@ -18,11 +20,13 @@ namespace Api.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        public IHubContext<ProjectHub, IProjectClient> _projectHubContext { get; }
 
-        public StagesController(IMediator mediator, IMapper mapper)
+        public StagesController(IMediator mediator, IMapper mapper, IHubContext<ProjectHub, IProjectClient> projectHubContext)
         {
             _mediator = mediator;
             _mapper = mapper;
+            _projectHubContext = projectHubContext;
         }
 
         [Authorize(Roles = $"{RoleNames.ProjectManager},{RoleNames.Talent}")]
@@ -54,7 +58,11 @@ namespace Api.Controllers
                 projectId,
                 upsertStages));
 
-            return Ok(_mapper.Map<List<StageDto>>(result));
+            var dtos = _mapper.Map<List<StageDto>>(result);
+
+            await _projectHubContext.Clients.Group(projectId.ToProjectGroup()).StagesChanged(dtos);
+
+            return Ok(dtos);
         }
     }
 }
