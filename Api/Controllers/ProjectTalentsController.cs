@@ -1,6 +1,7 @@
 ﻿using Api.Common;
 using Api.Dtos;
 using AutoMapper;
+using DotNetStarter.Commands.Projects.RemoveTalent;
 using DotNetStarter.Common;
 using DotNetStarter.Extensions;
 using DotNetStarter.Queries.TalentsOfAProject.List;
@@ -37,6 +38,37 @@ namespace Api.Controllers
             var result = await _mediator.Send(new ListProjectTalents(agencyMemberId, projectManagerId, talentId, projectId));
 
             return Ok(_mapper.Map<List<PersonDto>>(result));
+        }
+
+        [Authorize(Roles = $"{RoleNames.AgencyMember},{RoleNames.ProjectManager}")]
+        [HttpDelete("{talentId}")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<ActionResult> RemoveTalent([FromRoute] Guid projectId, [FromRoute] Guid talentId)
+        {
+            Guid? agencyMemberId = User.IsInRole(RoleNames.AgencyMember) ? HttpContext.GetCurrentUserId()!.Value : null;
+            Guid? projectManagerId = User.IsInRole(RoleNames.ProjectManager) ? HttpContext.GetCurrentUserId()!.Value : null;
+
+            await _mediator.Send(new RemoveTalent(
+                projectId,
+                talentId,
+                agencyMemberId,
+                projectManagerId));
+
+            return Ok();
+        }
+
+        [Authorize(Roles = $"{RoleNames.Talent}")]
+        [HttpDelete("myself")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<ActionResult> RemoveMySelf([FromRoute] Guid projectId)
+        {
+            await _mediator.Send(new RemoveTalent(
+                projectId,
+                HttpContext.GetCurrentUserId()!.Value,
+                null,
+                null));
+
+            return Ok();
         }
     }
 }
