@@ -1,10 +1,13 @@
 ﻿using DotNetStarter.Common;
+using DotNetStarter.Common.Enums;
+using DotNetStarter.Common.Models;
 using DotNetStarter.Database.UnitOfWork;
+using DotNetStarter.Entities;
 using DotNetStarter.Services.Storage;
 
 namespace DotNetStarter.Commands.Attachments.Delete
 {
-    public sealed class DeleteAttachmentHandler : BaseRequestHandler<DeleteAttachment>
+    public sealed class DeleteAttachmentHandler : BaseRequestHandler<DeleteAttachment, DataChanged<Attachment>>
     {
         private readonly IDotNetStarterUnitOfWork _unitOfWork;
         private readonly IStorageService _storageService;
@@ -19,7 +22,7 @@ namespace DotNetStarter.Commands.Attachments.Delete
             _storageService = storageService;
         }
 
-        public override async Task Process(DeleteAttachment request, CancellationToken cancellationToken)
+        public override async Task<DataChanged<Attachment>> Process(DeleteAttachment request, CancellationToken cancellationToken)
         {
             var attachment = await _unitOfWork.AttachmentRepository.GetByIdAsync(request.AttachmentId);
 
@@ -29,6 +32,8 @@ namespace DotNetStarter.Commands.Attachments.Delete
 
             await _unitOfWork.AttachmentRepository.DeleteAsync(request.AttachmentId);
             await _unitOfWork.SaveChangesAsync();
+
+            return new DataChanged<Attachment>(DataChangedType.Deleted, attachment!);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Api.Common;
 using Api.Dtos;
+using Api.Hubs;
 using AutoMapper;
 using DotNetStarter.Commands.Cards.AddOwner;
 using DotNetStarter.Commands.Cards.RemoveOwner;
@@ -9,6 +10,7 @@ using DotNetStarter.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System.Net;
 
 namespace Api.Controllers
@@ -21,29 +23,39 @@ namespace Api.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        public IHubContext<ProjectHub, IProjectClient> _hubContext;
 
-        public OwnersController(IMediator mediator, IMapper mapper)
+        public OwnersController(IMediator mediator, IMapper mapper, IHubContext<ProjectHub, IProjectClient> hubContext)
         {
             _mediator = mediator;
             _mapper = mapper;
+            _hubContext = hubContext;
         }
 
         [HttpPut("{ownerId}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<ActionResult<DataChanged<CardDto>>> AddOwner([FromRoute] Guid projectId, [FromRoute] Guid cardId, [FromRoute] Guid ownerId)
+        public async Task<ActionResult<DataChanged<PersonDto>>> AddOwner([FromRoute] Guid projectId, [FromRoute] Guid cardId, [FromRoute] Guid ownerId)
         {
             var result = await _mediator.Send(new AddOwner(projectId, cardId, ownerId, HttpContext.GetCurrentUserId()!.Value));
 
-            return Ok(_mapper.Map<DataChanged<CardDto>>(result));
+            var dto = _mapper.Map<DataChanged<PersonDto>>(result);
+
+            await _hubContext.Clients.Group(projectId.ToProjectGroup()).CardOwnerChanged(dto);
+
+            return Ok(dto);
         }
 
         [HttpDelete("{ownerId}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<ActionResult> RemoveOwner([FromRoute] Guid projectId, [FromRoute] Guid cardId, [FromRoute] Guid ownerId)
+        public async Task<ActionResult<DataChanged<PersonDto>>> RemoveOwner([FromRoute] Guid projectId, [FromRoute] Guid cardId, [FromRoute] Guid ownerId)
         {
             var result = await _mediator.Send(new RemoveOwner(projectId, cardId, ownerId, HttpContext.GetCurrentUserId()!.Value));
 
-            return Ok(_mapper.Map<DataChanged<CardDto>>(result));
+            var dto = _mapper.Map<DataChanged<PersonDto>>(result);
+
+            await _hubContext.Clients.Group(projectId.ToProjectGroup()).CardOwnerChanged(dto);
+
+            return Ok(dto);
         }
     }
 }

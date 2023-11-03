@@ -10,5 +10,9 @@ namespace Api.Hubs
         Task CardsMoved(List<DataChanged<MovingCardDto>> cards);
 
         Task CardsChanged(List<DataChanged<CardDto>> cards);
+
+        Task AttachmentChanged(DataChanged<AttachmentDto> attachment);
+
+        Task CardOwnerChanged(DataChanged<PersonDto> cardOwner);
     }
 }

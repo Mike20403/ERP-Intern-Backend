@@ -4,7 +4,7 @@ using MediatR;
 
 namespace DotNetStarter.Commands.Cards.AddOwner
 {
-    public sealed class AddOwner : IRequest<DataChanged<Card>>
+    public sealed class AddOwner : IRequest<DataChanged<Talent>>
     {
         public Guid ProjectId { get; }
 

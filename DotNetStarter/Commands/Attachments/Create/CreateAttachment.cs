@@ -1,10 +1,11 @@
-﻿using DotNetStarter.Entities;
+﻿using DotNetStarter.Common.Models;
+using DotNetStarter.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 
 namespace DotNetStarter.Commands.Attachments.Create
 {
-    public sealed class CreateAttachment : IRequest<Attachment>
+    public sealed class CreateAttachment : IRequest<DataChanged<Attachment>>
     {
         public Guid? ProjectManagerId { get; }
 

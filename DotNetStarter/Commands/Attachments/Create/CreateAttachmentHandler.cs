@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using DotNetStarter.Common;
+using DotNetStarter.Common.Enums;
+using DotNetStarter.Common.Models;
 using DotNetStarter.Database.UnitOfWork;
 using DotNetStarter.Entities;
 using DotNetStarter.Services.Storage;
 
 namespace DotNetStarter.Commands.Attachments.Create
 {
-    public sealed class CreateAttachmentHandler : BaseRequestHandler<CreateAttachment, Attachment>
+    public sealed class CreateAttachmentHandler : BaseRequestHandler<CreateAttachment, DataChanged<Attachment>>
     {
         private readonly IDotNetStarterUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -23,7 +25,7 @@ namespace DotNetStarter.Commands.Attachments.Create
             _storageService = storageService;
         }
 
-        public override async Task<Attachment> Process(CreateAttachment request, CancellationToken cancellationToken)
+        public override async Task<DataChanged<Attachment>> Process(CreateAttachment request, CancellationToken cancellationToken)
         {
             var originalName = request.File.FileName;
             var name = $"{DateTime.Now.ToString("yyyyMMddHHmmss")}_{originalName}";
@@ -46,7 +48,7 @@ namespace DotNetStarter.Commands.Attachments.Create
 
             await _unitOfWork.SaveChangesAsync();
 
-            return attachment;
+            return new DataChanged<Attachment>(DataChangedType.Created, attachment);
         }
     }
 }

@@ -6,7 +6,7 @@ using DotNetStarter.Entities;
 
 namespace DotNetStarter.Commands.Cards.AddOwner
 {
-    public sealed class AddOwnerHandler : BaseRequestHandler<AddOwner, DataChanged<Card>>
+    public sealed class AddOwnerHandler : BaseRequestHandler<AddOwner, DataChanged<Talent>>
     {
         private readonly IDotNetStarterUnitOfWork _unitOfWork;
 
@@ -18,7 +18,7 @@ namespace DotNetStarter.Commands.Cards.AddOwner
             _unitOfWork = unitOfWork;
         }
 
-        public override async Task<DataChanged<Card>> Process(AddOwner request, CancellationToken cancellationToken)
+        public override async Task<DataChanged<Talent>> Process(AddOwner request, CancellationToken cancellationToken)
         {
             var card = await _unitOfWork.CardRepository.FindAsync(ClassUtils.GetPropertyName<Card>(t => t.Owners!), filter: o => o.Id == request.CardId);
             var owner = await _unitOfWork.TalentRepository.GetByIdAsync(request.OwnerId);
@@ -26,7 +26,7 @@ namespace DotNetStarter.Commands.Cards.AddOwner
             card!.Owners!.Add(owner!);
             await _unitOfWork.SaveChangesAsync();
 
-            return new DataChanged<Card>(DataChangedType.Updated, card!);
+            return new DataChanged<Talent>(DataChangedType.Updated, owner!);
         }
     }
 }

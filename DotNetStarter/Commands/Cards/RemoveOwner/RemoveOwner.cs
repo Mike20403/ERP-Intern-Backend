@@ -4,7 +4,7 @@ using MediatR;
 
 namespace DotNetStarter.Commands.Cards.RemoveOwner
 {
-    public sealed class RemoveOwner : IRequest<DataChanged<Card>>
+    public sealed class RemoveOwner : IRequest<DataChanged<Talent>>
     {
         public Guid ProjectId { get; }
 

@@ -1,8 +1,10 @@
-﻿using MediatR;
+﻿using DotNetStarter.Common.Models;
+using DotNetStarter.Entities;
+using MediatR;
 
 namespace DotNetStarter.Commands.Attachments.Delete
 {
-    public sealed class DeleteAttachment : IRequest
+    public sealed class DeleteAttachment : IRequest<DataChanged<Attachment>>
     {
         public Guid? ProjectManagerId { get; }
 
