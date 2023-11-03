@@ -149,7 +149,11 @@ builder.Services.AddHangfire(configuration => configuration
         .UseSqlServerStorage(builder.Configuration.GetConnectionString("DotNetStarter"))); // Add HangFire services to current DB
 
 builder.Services.AddHangfireServer();
-builder.Services.AddSignalR();
+
+builder.Services.AddSignalR().AddJsonProtocol(options =>
+{
+    options.PayloadSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+});
 
 var app = builder.Build();
 
