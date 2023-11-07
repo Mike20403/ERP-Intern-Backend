@@ -105,7 +105,7 @@ namespace DotNetStarter.Services.Email
                 {
                     { "projectName", projectName },
                     { "inviter", inviter },
-                    { "url", $"{_configuration["Urls:BasePortal"]}/invite-invitations?invitationId={invitationId}&email={email}" },
+                    { "url", $"{_configuration["Urls:BasePortal"]}/invitations?invitationId={invitationId}&email={email}" },
                 }
                 : new Dictionary<string, string>
                 {
