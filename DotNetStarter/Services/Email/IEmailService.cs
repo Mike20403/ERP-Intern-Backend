@@ -16,7 +16,7 @@
 
         Task SendChangePasswordEmailAsync(string email, string firstName, string lastName);
 
-        Task SendInvitationEmailAsync(string email, Guid invitationId, string projectName, string inviter, bool isExists, string? code = null);
+        Task SendInvitationEmailAsync(string email, Guid invitationId, string projectName, Guid projectId, string inviter, bool isExists, string? code = null);
 
         Task ResendOtp(string email, string firstName, string code);
     }

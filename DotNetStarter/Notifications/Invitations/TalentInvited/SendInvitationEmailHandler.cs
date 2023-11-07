@@ -18,6 +18,7 @@ namespace DotNetStarter.Notifications.Invitations.TalentInvited
                 notification.Email,
                 notification.InvitationId,
                 notification.ProjectName,
+                notification.ProjectId,
                 notification.InviterName,
                 notification.IsExists,
                 notification.Code

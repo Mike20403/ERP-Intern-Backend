@@ -81,7 +81,7 @@ namespace DotNetStarter.Commands.Invitations.InviteTalents
 
                 invitations.Add(invitation);
 
-                new TalentInvited(invitation.EmailAddress!, invitation.Id, project!.Name, inviter!.Firstname, isExisting, code).Enqueue();
+                new TalentInvited(invitation.EmailAddress!, invitation.Id, project!.Name, project!.Id, inviter!.Firstname, isExisting, code).Enqueue();
                 new MarkInvitationExpired.MarkInvitationExpired(invitation.Id).Schedule(int.Parse(_configuration["Invitation:LifeTimeDurartion"]!));
             }
 

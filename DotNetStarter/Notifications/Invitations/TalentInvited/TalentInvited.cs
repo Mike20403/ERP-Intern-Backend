@@ -8,6 +8,8 @@ namespace DotNetStarter.Notifications.Invitations.TalentInvited
 
         public string ProjectName { get; }
 
+        public Guid ProjectId { get; }
+
         public string InviterName { get; }
 
         public bool IsExists { get; }
@@ -20,6 +22,7 @@ namespace DotNetStarter.Notifications.Invitations.TalentInvited
             string email, 
             Guid invitationId,
             string projectName, 
+            Guid projectId,
             string inviterName,
             bool isExists, 
             string? code = null
@@ -28,6 +31,7 @@ namespace DotNetStarter.Notifications.Invitations.TalentInvited
             Email = email;
             InvitationId = invitationId;
             ProjectName = projectName;
+            ProjectId = projectId;
             InviterName = inviterName;
             IsExists = isExists;
             Code = code;

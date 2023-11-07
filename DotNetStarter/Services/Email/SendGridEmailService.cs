@@ -39,7 +39,7 @@ namespace DotNetStarter.Services.Email
 
         public async Task SendChangeEmailRequestAsync(string currentEmail, string newEmail, string firstName, string code)
         {
-            var templateId = _configuration["Email:SendGrid:TemplateIds:RequestChangeEmail"]; 
+            var templateId = _configuration["Email:SendGrid:TemplateIds:RequestChangeEmail"];
             var templateData = new Dictionary<string, string>
             {
                 { "firstName", firstName },
@@ -96,22 +96,22 @@ namespace DotNetStarter.Services.Email
             await SendEmailAsync(email, templateId!, templateData);
         }
 
-        public async Task SendInvitationEmailAsync(string email, Guid invitationId, string projectName, string inviter, bool isExists, string? code)
+        public async Task SendInvitationEmailAsync(string email, Guid invitationId, string projectName, Guid projectId, string inviter, bool isExists, string? code)
         {
             var templateId = _configuration["Email:SendGrid:TemplateIds:InviteTalent"];
 
-            var templateData = isExists 
+            var templateData = isExists
                 ? new Dictionary<string, string>
                 {
                     { "projectName", projectName },
                     { "inviter", inviter },
-                    { "url", $"{_configuration["Urls:BasePortal"]}/projects/invite-talent?email={email}&invitation={invitationId}" },
-                } 
+                    { "url", $"{_configuration["Urls:BasePortal"]}/invite-invitations?invitationId={invitationId}&email={email}" },
+                }
                 : new Dictionary<string, string>
                 {
                     { "projectName", projectName },
                     { "inviter", inviter },
-                    { "url", $"{_configuration["Urls:BasePortal"]}/projects/invite-talent?email={email}&invitation={invitationId}&code={code}" },
+                    { "url", $"{_configuration["Urls:BasePortal"]}/auth/register-talent?email={email}&invitation={invitationId}&projectId={projectId}&code={code}" },
                 };
 
             await SendEmailAsync(email, templateId!, templateData);
