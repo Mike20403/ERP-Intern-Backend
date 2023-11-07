@@ -6,6 +6,7 @@ using DotNetStarter.Commands.Account.ChangeEmailRequires;
 using DotNetStarter.Commands.Account.ChangePassword;
 using DotNetStarter.Commands.Account.ConfirmChangeEmail;
 using DotNetStarter.Commands.Users.Update;
+using DotNetStarter.Common;
 using DotNetStarter.Extensions;
 using DotNetStarter.Queries.Users.Get;
 using MediatR;
@@ -14,7 +15,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
-    [Authorize]
     [ApiVersion(ApiVersions.Version1)]
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
@@ -30,6 +30,7 @@ namespace Api.Controllers
             _mapper = mapper;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<AccountDto>> Get()
         {
@@ -38,6 +39,7 @@ namespace Api.Controllers
             return Ok(_mapper.Map<AccountDto>(result));
         }
 
+        [Authorize]
         [HttpPut]
         public async Task<ActionResult<AccountDto>> Update([FromBody] UpdateAccountRequest request)
         {
@@ -48,6 +50,7 @@ namespace Api.Controllers
             return Ok(_mapper.Map<AccountDto>(result));
         }
 
+        [Authorize]
         [HttpPost("request-change-email")]
         public async Task<ActionResult> RequestChangeEmail(ChangeEmailRequest request) // Request to change email then recieve active code via current email
         {
@@ -56,6 +59,7 @@ namespace Api.Controllers
             return Ok();
         }
 
+        [Authorize]
         [HttpPost("change-email")]
         public async Task<ActionResult> ConfirmChangeEmail(ConfirmChangeEmailRequest request) // Change Email via active code then set user to inactice
         {
@@ -64,6 +68,7 @@ namespace Api.Controllers
             return Ok();
         }
 
+        [Authorize(DomainConstraints.CanChangePasswordPolicy)]
         [HttpPut]
         [Route("change-password")]
         public async Task<ActionResult> ChangePassword([FromBody] ChangePasswordRequest request)

@@ -3,7 +3,9 @@
     public interface IEmailService
     {
         Task SendResetPasswordEmailAsync(string email, string firstName, string code);
-        
+
+        Task SendAdminResetPasswordEmailAsync(string email, string firstName, string password);
+
         Task SendChangeEmailRequestAsync(string currentEmail, string newEmail, string firstName, string code);
 
         Task SendActivateAccountAsync(string email, string firstName, string code);

@@ -1,4 +1,5 @@
 ﻿using DotNetStarter.Common;
+using DotNetStarter.Common.Enums;
 using DotNetStarter.Database.UnitOfWork;
 using DotNetStarter.Entities;
 using DotNetStarter.Services.Token;
@@ -21,12 +22,22 @@ namespace DotNetStarter.Commands.Auth.Login
         {
             var user = await _unitOfWork.UserRepository.FindAsync($"{ClassUtils.GetPropertyName<User>(u => u.Role)},{ClassUtils.GetPropertyName<User>(u => u.Privileges)}", u => u.Username == request.Username);
 
-            var (token, authToken) = _tokenService.CreateToken(user!);
+            string tokenType = user!.Status switch
+            {
+                Status.Active => TokenTypeNames.Access,
+                Status.ChangingPasswordRequired => TokenTypeNames.ForceChangePassword,
+                _ => TokenTypeNames.Access,
+            };
 
-            await _unitOfWork.AuthTokenRepository.CreateAsync(authToken);
-            await _unitOfWork.SaveChangesAsync();
+            var (token, authToken) = _tokenService.CreateToken(user!, tokenType);
 
-            return new LoginResponse(token, authToken.Secret);
+            if (authToken is not null)
+            {
+                await _unitOfWork.AuthTokenRepository.CreateAsync(authToken);
+                await _unitOfWork.SaveChangesAsync();
+            }
+            
+            return new LoginResponse(token, authToken?.Secret);
         }
     }
 }

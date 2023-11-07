@@ -3,8 +3,9 @@ using Api.Dtos;
 using Api.Models.Talents;
 using AutoMapper;
 using DotNetStarter.Commands.Talents.Create;
-using DotNetStarter.Commands.Talents.Update;
 using DotNetStarter.Commands.Talents.Delete;
+using DotNetStarter.Commands.Talents.Update;
+using DotNetStarter.Commands.Users.ResetPassword;
 using DotNetStarter.Common;
 using DotNetStarter.Extensions;
 using DotNetStarter.Queries.Talents.Get;
@@ -101,6 +102,14 @@ namespace Api.Controllers
         public async Task<ActionResult> Delete([FromRoute] Guid talentId)
         {
             await _mediator.Send(new DeleteTalent(talentId));
+
+            return Ok();
+        }
+
+        [HttpPut("{talentId}/reset-password")]
+        public async Task<ActionResult> ResetPassword([FromRoute] Guid talentId)
+        {
+            await _mediator.Send(new ResetPassword(new List<string>{ RoleNames.Talent }, talentId));
 
             return Ok();
         }

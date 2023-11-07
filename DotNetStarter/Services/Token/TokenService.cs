@@ -13,14 +13,14 @@ namespace DotNetStarter.Services.Token
     public class TokenService : ITokenService
     {
         private readonly IConfiguration _configuration;
-
         public TokenService(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        public (string, AuthToken) CreateToken(User user)
+        public (string, AuthToken?) CreateToken(User user, string tokenType = TokenTypeNames.Access)
         {
+
             var now = DateTime.Now;
             var tokenId = Guid.NewGuid();
 
@@ -37,6 +37,8 @@ namespace DotNetStarter.Services.Token
             };
             claims.AddRange(user.Privileges.Select(privilege => new Claim(HttpContextExtensions.PrivilegesClaimName, privilege.Name)));
 
+            claims.Add(new Claim(DomainConstraints.TokenType, tokenType));
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
@@ -50,14 +52,16 @@ namespace DotNetStarter.Services.Token
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            var authToken = new AuthToken
-            {
-                IsUsed = false,
-                UserId = user!.Id,
-                TokenId = tokenId,
-                ExpiredDate = now.AddMinutes(int.Parse(_configuration["Jwt:RefreshTokenLifetimeDuration"]!)),
-                Secret = Guid.NewGuid() + "-" + Guid.NewGuid(),
-            };
+            var authToken = tokenType == TokenTypeNames.Access
+                ? new AuthToken
+                {
+                    IsUsed = false,
+                    UserId = user!.Id,
+                    TokenId = tokenId,
+                    ExpiredDate = now.AddMinutes(int.Parse(_configuration["Jwt:RefreshTokenLifetimeDuration"]!)),
+                    Secret = Guid.NewGuid() + "-" + Guid.NewGuid(),
+                }
+                : null;
 
             return (tokenHandler.WriteToken(token), authToken);
         }

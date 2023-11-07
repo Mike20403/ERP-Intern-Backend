@@ -4,6 +4,7 @@ using Api.Models.StaffMembers;
 using AutoMapper;
 using DotNetStarter.Commands.Users.Create;
 using DotNetStarter.Commands.Users.Delete;
+using DotNetStarter.Commands.Users.ResetPassword;
 using DotNetStarter.Commands.Users.Update;
 using DotNetStarter.Common;
 using DotNetStarter.Extensions;
@@ -102,6 +103,14 @@ namespace Api.Controllers
         public async Task<ActionResult> Delete([FromRoute] Guid staffMemberId)
         {
             await _mediator.Send(new DeleteUser(DomainConstraints.StaffMemberRoleNames, staffMemberId));
+
+            return Ok();
+        }
+
+        [HttpPut("{staffMemberId}/reset-password")]
+        public async Task<ActionResult> ResetPassword([FromRoute] Guid staffMemberId)
+        {
+            await _mediator.Send(new ResetPassword(DomainConstraints.StaffMemberRoleNames, staffMemberId));
 
             return Ok();
         }

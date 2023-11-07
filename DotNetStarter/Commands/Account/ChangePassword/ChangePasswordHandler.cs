@@ -1,4 +1,5 @@
 ﻿using DotNetStarter.Common;
+using DotNetStarter.Common.Enums;
 using DotNetStarter.Database.UnitOfWork;
 using DotNetStarter.Extensions;
 using DotNetStarter.Notifications.Users.PasswordChanged;
@@ -21,8 +22,9 @@ namespace DotNetStarter.Commands.Account.ChangePassword
         {
             var user = await _unitOfWork.UserRepository.FindAsync(filter: u => u.Id == request.UserId);
             user!.Password = BCrypt.Net.BCrypt.HashPassword(request.NewPassword);
-            await _unitOfWork.UserRepository.UpdateAsync(user!);
+            user!.Status = Status.Active;
 
+            await _unitOfWork.UserRepository.UpdateAsync(user!);
             await _unitOfWork.SaveChangesAsync();
 
             new PasswordChanged(user.Username, user.Firstname, user.Lastname).Enqueue();

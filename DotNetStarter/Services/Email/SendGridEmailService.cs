@@ -37,6 +37,18 @@ namespace DotNetStarter.Services.Email
             await SendEmailAsync(email, templateId!, templateData);
         }
 
+        public async Task SendAdminResetPasswordEmailAsync(string email, string firstName, string password)
+        {
+            var templateId = _configuration["Email:SendGrid:TemplateIds:AdminResetPassword"];
+            var templateData = new Dictionary<string, string>
+            {
+                { "firstName", firstName },
+                { "password", password },
+            };
+
+            await SendEmailAsync(email, templateId!, templateData);
+        }
+
         public async Task SendChangeEmailRequestAsync(string currentEmail, string newEmail, string firstName, string code)
         {
             var templateId = _configuration["Email:SendGrid:TemplateIds:RequestChangeEmail"];
@@ -105,7 +117,7 @@ namespace DotNetStarter.Services.Email
                 {
                     { "projectName", projectName },
                     { "inviter", inviter },
-                    { "url", $"{_configuration["Urls:BasePortal"]}/invitations?invitationId={invitationId}&email={email}" },
+                    { "url", $"{_configuration["Urls:BasePortal"]}/invitations?invitationId={invitationId}&email={email}&projectId={projectId}" },
                 }
                 : new Dictionary<string, string>
                 {

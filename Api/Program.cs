@@ -4,11 +4,13 @@ using DotNetStarter.Common;
 using DotNetStarter.Database;
 using DotNetStarter.Database.UnitOfWork;
 using DotNetStarter.Services.Email;
+using DotNetStarter.Services.Password;
 using DotNetStarter.Services.Storage;
 using DotNetStarter.Services.Token;
 using FluentValidation;
 using Hangfire;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Versioning;
@@ -37,6 +39,7 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IEmailService, SendGridEmailService>();
 builder.Services.AddScoped<IStorageService, AzureStorageService>();
 builder.Services.AddScoped<IDotNetStarterUnitOfWork, DotNetStarterUnitOfWork>();
+builder.Services.AddScoped<IPasswordService, PasswordService>();
 
 builder.Services.AddControllers(options =>
 {
@@ -140,7 +143,19 @@ builder.Services.AddAuthentication(options =>
         }
     };
 });
-builder.Services.AddAuthorization();
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy(DomainConstraints.CanChangePasswordPolicy, policy =>
+    {
+        policy.RequireAuthenticatedUser().RequireClaim(DomainConstraints.TokenType, TokenTypeNames.ForceChangePassword, TokenTypeNames.Access);
+    });
+
+    options.DefaultPolicy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .RequireClaim(DomainConstraints.TokenType, TokenTypeNames.Access)
+        .Build();
+});
 
 builder.Services.AddHangfire(configuration => configuration
         .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)

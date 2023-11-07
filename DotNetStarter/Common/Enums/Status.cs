@@ -4,5 +4,6 @@
     {
         Active = 0,
         Inactive = 1,
+        ChangingPasswordRequired = 2,
     }
 }
