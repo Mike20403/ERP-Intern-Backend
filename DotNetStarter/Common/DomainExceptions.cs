@@ -189,5 +189,11 @@ namespace DotNetStarter.Common
             Code = "NotProjectTalent",
             Message = "Not Project Talent",
         };
+
+        public static readonly DomainException PrivilegeNotFound = new DomainException
+        {
+            Code = "PrivilegeNotFound",
+            Message = "Privilege Not Found",
+        };
     }
 }

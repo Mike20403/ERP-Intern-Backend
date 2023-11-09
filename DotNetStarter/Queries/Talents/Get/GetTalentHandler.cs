@@ -15,7 +15,7 @@ namespace DotNetStarter.Queries.Talents.Get
 
         public override async Task<Talent> Process(GetTalent request, CancellationToken cancellationToken)
         {
-            return await _unitOfWork.TalentRepository.FindAsync(ClassUtils.GetPropertyName<Talent>(u => u.Role), u => u.Id == request.UserId);
+            return await _unitOfWork.TalentRepository.FindAsync($"{ClassUtils.GetPropertyName<Talent>(t => t.Role)},{ClassUtils.GetPropertyName<Talent>(t => t.Privileges)}", t => t.Id == request.UserId);
         }
     }
 }

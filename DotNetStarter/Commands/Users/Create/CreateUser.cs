@@ -22,7 +22,21 @@ namespace DotNetStarter.Commands.Users.Create
 
         public Status Status { get; }
 
-        public CreateUser(string roleName, string username, string firstname, string lastname, string password, string phoneNumber, Gender gender, Status status)
+        // TODO: change to `List<string>`
+        public List<string>? PrivilegeNames { get; }
+
+        public CreateUser
+        (
+            string roleName, 
+            string username, 
+            string firstname, 
+            string lastname, 
+            string password, 
+            string phoneNumber, 
+            Gender gender, 
+            Status status,
+            List<string>? privilegeNames
+        )
         {
             RoleName = roleName;
             Username = username;
@@ -32,6 +46,7 @@ namespace DotNetStarter.Commands.Users.Create
             PhoneNumber = phoneNumber;
             Gender = gender;
             Status = status;
+            PrivilegeNames = privilegeNames;
         }
     }
 }

@@ -19,7 +19,14 @@ namespace DotNetStarter.Commands.Talents.Update
 
         public override async Task<Talent> Process(UpdateTalent request, CancellationToken cancellationToken)
         {
-            var talent = await _unitOfWork.TalentRepository.FindAsync(ClassUtils.GetPropertyName<Talent>(u => u.Role!), u => u.Id == request.UserId);
+            var talent = await _unitOfWork.TalentRepository
+                .FindAsync($"{ClassUtils.GetPropertyName<Talent>(t => t.Role!)},{ClassUtils.GetPropertyName<Talent>(t => t.Privileges)}", t => t.Id == request.UserId);
+
+            // TODO: remove not null check
+            if (request.PrivilegeNames is not null)
+            {
+                talent!.Privileges = await _unitOfWork.PrivilegeRepository.ListAsync(filter: p => request.PrivilegeNames!.Contains(p.Name));
+            }
 
             _mapper.Map(request, talent);
 

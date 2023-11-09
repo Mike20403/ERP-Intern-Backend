@@ -74,8 +74,9 @@ namespace Api.Controllers
                 request.PhoneNumber!,
                 request.Gender.GetValueOrDefault(),
                 request.Status!.Value,
-                request.IsAvailable!.Value
-                ));
+                request.IsAvailable!.Value,
+                request.Privileges
+            ));
 
             return CreatedAtAction(nameof(Get), new { talentId = result.Id }, _mapper.Map<TalentDto>(result));
         }
@@ -91,8 +92,9 @@ namespace Api.Controllers
                 request.PhoneNumber!,
                 request.Gender.GetValueOrDefault(),
                 request.Status!.Value,
-                request.IsAvailable!.Value
-                ));
+                request.IsAvailable!.Value,
+                request.Privileges
+           ));
 
             return Ok(_mapper.Map<TalentDto>(result));
         }

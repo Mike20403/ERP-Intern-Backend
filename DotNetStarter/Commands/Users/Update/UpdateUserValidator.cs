@@ -1,8 +1,6 @@
 ﻿using DotNetStarter.Common;
-using DotNetStarter.Common.Enums;
 using DotNetStarter.Database.UnitOfWork;
 using FluentValidation;
-using FluentValidation.Validators;
 
 namespace DotNetStarter.Commands.Users.Update
 {
@@ -47,10 +45,16 @@ namespace DotNetStarter.Commands.Users.Update
             When(x => x.RoleNames is not null, () =>
             {
                 RuleFor(x => x.UserId)
-                .NotEmpty()
-                .MustAsync((request, userId, cancellation) => unitOfWork.UserRepository.AnyAsync(u => u.Id == userId && request.RoleNames!.Contains(u.Role!.Name)))
-                .WithErrorCode(DomainExceptions.UserNotFound.Code)
-                .WithMessage(DomainExceptions.UserNotFound.Message);
+                    .NotEmpty()
+                    .MustAsync((request, userId, cancellation) => unitOfWork.UserRepository.AnyAsync(u => u.Id == userId && request.RoleNames!.Contains(u.Role!.Name)))
+                    .WithErrorCode(DomainExceptions.UserNotFound.Code)
+                    .WithMessage(DomainExceptions.UserNotFound.Message);
+
+                RuleForEach(x => x.PrivilegeNames)
+                    .MustAsync((request, privilegeName, cancellation) => unitOfWork.PrivilegeRepository
+                        .AnyAsync(p => p.Name == privilegeName && p.Roles.Any(r => request.RoleNames.Contains(r.Name))))
+                    .WithErrorCode(DomainExceptions.PrivilegeNotFound.Code)
+                    .WithMessage(DomainExceptions.PrivilegeNotFound.Message);
             });
         }
     }

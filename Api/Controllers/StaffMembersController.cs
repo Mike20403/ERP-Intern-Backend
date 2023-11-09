@@ -75,7 +75,8 @@ namespace Api.Controllers
                 request.Password!,
                 request.PhoneNumber!,
                 request.Gender.GetValueOrDefault(),
-                request.Status!.Value
+                request.Status!.Value,
+                request.Privileges
                 ));
 
             return CreatedAtAction(nameof(Get), new { staffMemberId = result.Id }, _mapper.Map<StaffMemberDto>(result));
@@ -92,8 +93,9 @@ namespace Api.Controllers
                 request.Lastname!,
                 request.PhoneNumber!,
                 request.Gender.GetValueOrDefault(),
-                request.Status!.Value
-                ));
+                request.Status!.Value,
+                request.Privileges
+            ));
 
             return Ok(_mapper.Map<StaffMemberDto>(result));
         }

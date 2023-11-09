@@ -4,6 +4,7 @@ using DotNetStarter.Database.UnitOfWork;
 using DotNetStarter.Entities;
 using DotNetStarter.Extensions;
 using DotNetStarter.Notifications.Users.UserCreated;
+using System.Linq.Expressions;
 
 namespace DotNetStarter.Commands.Talents.Create
 {
@@ -27,10 +28,24 @@ namespace DotNetStarter.Commands.Talents.Create
         {
             var role = await _unitOfWork.RoleRepository.FindAsync(ClassUtils.GetPropertyName<Role>(u => u.Privileges), r => r.Name == RoleNames.Talent);
 
+            var filter = new List<Expression<Func<Privilege, bool>>>();
+
+            // TODO: remove not null check
+            if (request.PrivilegeNames is not null)
+            {
+                filter.Add(p => request.PrivilegeNames!.Contains(p.Name));
+            }
+            else // Create user with all role privileges
+            {
+                filter.Add(p => role!.Privileges.Contains(p));
+            }
+
+            var privileges = await _unitOfWork.PrivilegeRepository.ListAsync(filter: filter.ToArray());
+
             var talent = new Talent
             {
                 RoleId = role!.Id,
-                Privileges = role!.Privileges,
+                Privileges = privileges,
             };
 
             _mapper.Map(request, talent);

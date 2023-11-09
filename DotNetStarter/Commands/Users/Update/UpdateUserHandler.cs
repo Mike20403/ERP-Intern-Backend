@@ -19,7 +19,14 @@ namespace DotNetStarter.Commands.Users.Update
 
         public override async Task<User> Process(UpdateUser request, CancellationToken cancellationToken)
         {
-            var user = await _unitOfWork.UserRepository.FindAsync(ClassUtils.GetPropertyName<User>(u => u.Role), u => u.Id == request.UserId);
+            var user = await _unitOfWork.UserRepository
+                .FindAsync($"{ClassUtils.GetPropertyName<User>(u => u.Role!)},{ClassUtils.GetPropertyName<User>(u => u.Privileges)}", u => u.Id == request.UserId);
+
+            // TODO: remove not null check
+            if (request.PrivilegeNames is not null)
+            {
+                user!.Privileges = await _unitOfWork.PrivilegeRepository.ListAsync(filter: p => request.PrivilegeNames!.Contains(p.Name));
+            }
 
             _mapper.Map(request, user);
 

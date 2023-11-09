@@ -1,5 +1,4 @@
-﻿using DotNetStarter.Common;
-using DotNetStarter.Common.Enums;
+﻿using DotNetStarter.Common.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace Api.Models.Users
@@ -8,5 +7,8 @@ namespace Api.Models.Users
     {
         [Required]
         public Status? Status { get; set; }
+
+        // TODO: make required
+        public List<string>? Privileges { get; set; }
     }
 }

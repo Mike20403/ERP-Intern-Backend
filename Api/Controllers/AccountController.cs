@@ -12,6 +12,7 @@ using DotNetStarter.Queries.Users.Get;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace Api.Controllers
 {
@@ -44,8 +45,17 @@ namespace Api.Controllers
         public async Task<ActionResult<AccountDto>> Update([FromBody] UpdateAccountRequest request)
         {
             var user = await _mediator.Send(new GetUser(null, HttpContext.GetCurrentUserId()!.Value));
-
-            var result = await _mediator.Send(new UpdateUser(null, user.Id, request.Firstname!, request.Lastname!, request.PhoneNumber!, request.Gender.GetValueOrDefault(), user.Status));
+            
+            var result = await _mediator.Send(new UpdateUser(
+                null, 
+                user.Id, 
+                request.Firstname!,
+                request.Lastname!,
+                request.PhoneNumber!, 
+                request.Gender.GetValueOrDefault(), 
+                user.Status,
+                user.Privileges.Select(p => p.Name).ToList()
+            ));
 
             return Ok(_mapper.Map<AccountDto>(result));
         }

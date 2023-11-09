@@ -36,6 +36,11 @@ namespace DotNetStarter.Commands.Talents.Update
 
             RuleFor(x => x.Gender)
                 .NotEmpty();
+
+            RuleForEach(x => x.PrivilegeNames)
+                .MustAsync((privilegeName, cancellation) => unitOfWork.PrivilegeRepository.AnyAsync(p => p.Name == privilegeName && p.Roles.Any(r => r.Name == RoleNames.Talent)))
+                .WithErrorCode(DomainExceptions.PrivilegeNotFound.Code)
+                .WithMessage(DomainExceptions.PrivilegeNotFound.Message);
         }
     }
 }

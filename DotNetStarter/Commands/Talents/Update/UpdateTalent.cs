@@ -20,6 +20,9 @@ namespace DotNetStarter.Commands.Talents.Update
 
         public bool IsAvailable { get; }
 
+        // TODO: change to `List<string>`
+        public List<string>? PrivilegeNames { get; }
+
         public UpdateTalent(
             Guid userId,
             string firstname,
@@ -27,7 +30,8 @@ namespace DotNetStarter.Commands.Talents.Update
             string phoneNumber,
             Gender gender,
             Status status,
-            bool isAvailable
+            bool isAvailable,
+            List<string>? privilegeNames 
         )
         {
             UserId = userId;
@@ -37,6 +41,7 @@ namespace DotNetStarter.Commands.Talents.Update
             Gender = gender;
             Status = status;
             IsAvailable = isAvailable;
+            PrivilegeNames = privilegeNames;
         }
     }
 }

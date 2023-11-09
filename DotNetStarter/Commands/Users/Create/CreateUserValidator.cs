@@ -53,6 +53,12 @@ namespace DotNetStarter.Commands.Users.Create
                 .MustAsync((roleName, cancellation) => unitOfWork.RoleRepository.AnyAsync(u => u.Name == roleName))
                 .WithErrorCode(DomainExceptions.InvalidRoleName.Code)
                 .WithMessage(DomainExceptions.InvalidRoleName.Message);
+
+            RuleForEach(x => x.PrivilegeNames)
+                .MustAsync((request, privilegeName, cancellation) => unitOfWork.PrivilegeRepository
+                    .AnyAsync(p => p.Name == privilegeName && p.Roles.Any(r => r.Name == request!.RoleName)))
+                .WithErrorCode(DomainExceptions.PrivilegeNotFound.Code)
+                .WithMessage(DomainExceptions.PrivilegeNotFound.Message);
         }
     }
 }

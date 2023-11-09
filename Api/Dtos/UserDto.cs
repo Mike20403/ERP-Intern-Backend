@@ -18,6 +18,8 @@ namespace Api.Dtos
 
         public Status? Status { get; set; }
 
+        public List<string>? Privileges { get; set; }
+
         public DateTime? CreatedDate { get; set; }
 
         public string? CreatedBy { get; set; }

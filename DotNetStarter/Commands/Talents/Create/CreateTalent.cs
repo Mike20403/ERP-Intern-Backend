@@ -22,6 +22,9 @@ namespace DotNetStarter.Commands.Talents.Create
 
         public bool IsAvailable { get; }
 
+        // TODO: change to `List<string>`
+        public List<string>? PrivilegeNames { get; }
+
         public CreateTalent(
             string username, 
             string firstname, 
@@ -30,7 +33,8 @@ namespace DotNetStarter.Commands.Talents.Create
             string phoneNumber, 
             Gender gender, 
             Status status,
-            bool isAvailable
+            bool isAvailable,
+            List<string>? privilegeNames
         )
         {
             Username = username;
@@ -41,6 +45,7 @@ namespace DotNetStarter.Commands.Talents.Create
             Gender = gender;
             Status = status;
             IsAvailable = isAvailable;
+            PrivilegeNames = privilegeNames;
         }
     }
 }

@@ -14,12 +14,14 @@ namespace Api.Common
             #region User
             CreateMap<User, UserDto>();
             CreateMap<User, StaffMemberDto>()
-                .ForMember(s => s.Type, opt => opt.MapFrom(u => u.Role!.Name.ToStaffMemberType()));
+                .ForMember(s => s.Type, opt => opt.MapFrom(u => u.Role!.Name.ToStaffMemberType()))
+                .ForMember(s => s.Privileges, opt => opt.MapFrom(u => u.Privileges.Select(p => p.Name)));
             CreateMap<User, PersonDto>();
             #endregion
 
             #region Talent
-            CreateMap<Talent, TalentDto>();
+            CreateMap<Talent, TalentDto>()
+                .ForMember(s => s.Privileges, opt => opt.MapFrom(u => u.Privileges.Select(p => p.Name)));
             #endregion
 
             #region Account
