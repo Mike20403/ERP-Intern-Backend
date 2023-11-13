@@ -2,15 +2,16 @@
 using DotNetStarter.Common.Enums;
 using DotNetStarter.Entities;
 using DotNetStarter.Extensions;
+using DotNetStarter.Services.Configuration;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace DotNetStarter.Database
 {
     public class DotNetStarterDbContext : DbContext
     {
-        protected readonly IConfiguration Configuration;
+        private readonly AppSettings _appSettings;
 
         protected readonly IHttpContextAccessor HttpContextAccessor;
 
@@ -18,18 +19,18 @@ namespace DotNetStarter.Database
         {
         }
 
-        public DotNetStarterDbContext(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
+        public DotNetStarterDbContext(IOptions<AppSettings> appSettings, IHttpContextAccessor httpContextAccessor)
         {
-            Configuration = configuration;
+            _appSettings = appSettings.Value;
             HttpContextAccessor = httpContextAccessor;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             // connect to sql server database
-            if (Configuration != null)
+            if (_appSettings != null)
             {
-                options.UseSqlServer(Configuration.GetConnectionString("DotNetStarter"));
+                options.UseSqlServer(_appSettings.ConnectionStrings.DotNetStarter);
             }
             else // it means we are in LINQPad mode
             {

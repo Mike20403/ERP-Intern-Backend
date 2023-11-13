@@ -5,7 +5,8 @@ using DotNetStarter.Entities;
 using DotNetStarter.Extensions;
 using DotNetStarter.Notifications.Users.EmailChanged;
 using DotNetStarter.Notifications.Users.UserCredentialChanged;
-using Microsoft.Extensions.Configuration;
+using DotNetStarter.Services.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace DotNetStarter.Commands.Account.ConfirmChangeEmail
 {
@@ -13,16 +14,16 @@ namespace DotNetStarter.Commands.Account.ConfirmChangeEmail
     {
         private readonly IDotNetStarterUnitOfWork _unitOfWork;
 
-        private readonly IConfiguration _configuration;
+        private readonly AppSettings _appSettings;
 
         public ConfirmChangeEmailHandler(
             IServiceProvider serviceProvider, 
             IDotNetStarterUnitOfWork unitOfWork,
-            IConfiguration configuration
+            IOptions<AppSettings> appSettings
         ) : base(serviceProvider)
         {
             _unitOfWork = unitOfWork;
-            _configuration = configuration;
+            _appSettings = appSettings.Value;
         }
 
         public override async Task Process(ConfirmChangeEmail request, CancellationToken cancellationToken)
@@ -45,7 +46,7 @@ namespace DotNetStarter.Commands.Account.ConfirmChangeEmail
                 Type = OtpType.ActivateAccount,
                 Code = new Random().Next(0, 1000000).ToString("D6"),
                 IsUsed = false,
-                ExpiredDate = DateTime.Now.AddMinutes(int.Parse(_configuration["Otp:ActiveOtpLifetimeDuration"]!)),
+                ExpiredDate = DateTime.Now.AddMinutes(_appSettings.Otp.ActiveOtpLifetimeDuration!),
             };
             
             await _unitOfWork.OtpRepository.CreateAsync(activeOtp);

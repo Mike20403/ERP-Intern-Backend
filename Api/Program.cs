@@ -3,6 +3,7 @@ using Api.Hubs;
 using DotNetStarter.Common;
 using DotNetStarter.Database;
 using DotNetStarter.Database.UnitOfWork;
+using DotNetStarter.Services.Configuration;
 using DotNetStarter.Services.Email;
 using DotNetStarter.Services.Password;
 using DotNetStarter.Services.Storage;
@@ -30,6 +31,9 @@ builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
     .AddEnvironmentVariables()
     .Build();
+
+builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+var appSettings = builder.Configuration.GetSection("AppSettings").Get<AppSettings>();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddDbContext<DotNetStarterDbContext>();
@@ -119,9 +123,9 @@ builder.Services.AddAuthentication(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
+        ValidIssuer = appSettings.Jwt.Issuer,
+        ValidAudience = appSettings.Jwt.Audience,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(appSettings.Jwt.Key)),
         ValidateIssuer = true,
         ValidateAudience = true,
         ValidateIssuerSigningKey = true,
@@ -161,7 +165,7 @@ builder.Services.AddHangfire(configuration => configuration
         .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
         .UseSimpleAssemblyNameTypeSerializer()
         .UseRecommendedSerializerSettings()
-        .UseSqlServerStorage(builder.Configuration.GetConnectionString("DotNetStarter"))); // Add HangFire services to current DB
+        .UseSqlServerStorage(appSettings.ConnectionStrings.DotNetStarter)); // Add HangFire services to current DB
 
 builder.Services.AddHangfireServer();
 

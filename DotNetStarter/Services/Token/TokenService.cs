@@ -1,7 +1,8 @@
 ﻿using DotNetStarter.Common;
 using DotNetStarter.Entities;
 using DotNetStarter.Extensions;
-using Microsoft.Extensions.Configuration;
+using DotNetStarter.Services.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
@@ -12,10 +13,10 @@ namespace DotNetStarter.Services.Token
 {
     public class TokenService : ITokenService
     {
-        private readonly IConfiguration _configuration;
-        public TokenService(IConfiguration configuration)
+        private readonly AppSettings _appSettings;
+        public TokenService(IOptions<AppSettings> appSettings)
         {
-            _configuration = configuration;
+            _appSettings = appSettings.Value;
         }
 
         public (string, AuthToken?) CreateToken(User user, string tokenType = TokenTypeNames.Access)
@@ -24,9 +25,9 @@ namespace DotNetStarter.Services.Token
             var now = DateTime.Now;
             var tokenId = Guid.NewGuid();
 
-            var issuer = _configuration["Jwt:Issuer"];
-            var audience = _configuration["Jwt:Audience"];
-            var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]!);
+            var issuer = _appSettings.Jwt.Issuer;
+            var audience = _appSettings.Jwt.Audience;
+            var key = Encoding.ASCII.GetBytes(_appSettings.Jwt.Key!);
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
@@ -42,7 +43,7 @@ namespace DotNetStarter.Services.Token
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = now.AddMinutes(int.Parse(_configuration["Jwt:TokenLifetimeDuration"]!)),
+                Expires = now.AddMinutes(_appSettings.Jwt.TokenLifetimeDuration!),
                 Issuer = issuer,
                 Audience = audience,
                 SigningCredentials = new SigningCredentials(
@@ -58,7 +59,7 @@ namespace DotNetStarter.Services.Token
                     IsUsed = false,
                     UserId = user!.Id,
                     TokenId = tokenId,
-                    ExpiredDate = now.AddMinutes(int.Parse(_configuration["Jwt:RefreshTokenLifetimeDuration"]!)),
+                    ExpiredDate = now.AddMinutes(_appSettings.Jwt.RefreshTokenLifetimeDuration),
                     Secret = Guid.NewGuid() + "-" + Guid.NewGuid(),
                 }
                 : null;

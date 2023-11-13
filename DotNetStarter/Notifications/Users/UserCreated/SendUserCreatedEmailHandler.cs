@@ -1,9 +1,10 @@
 ﻿using DotNetStarter.Common.Enums;
 using DotNetStarter.Database.UnitOfWork;
 using DotNetStarter.Entities;
+using DotNetStarter.Services.Configuration;
 using DotNetStarter.Services.Email;
 using MediatR;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace DotNetStarter.Notifications.Users.UserCreated
 {
@@ -13,17 +14,17 @@ namespace DotNetStarter.Notifications.Users.UserCreated
 
         private readonly IEmailService _emailService;
 
-        private readonly IConfiguration _configuration;
+        private readonly AppSettings _appSettings;
 
         public SendUserCreatedEmailHandler(
             IDotNetStarterUnitOfWork unitOfWork,
             IEmailService emailService,
-            IConfiguration configuration
+            IOptions<AppSettings> appSettings
         )
         {
             _unitOfWork = unitOfWork;
             _emailService = emailService;
-            _configuration = configuration;
+            _appSettings = appSettings.Value;
         }
 
         public async Task Handle(UserCreated notification, CancellationToken cancellationToken)
@@ -41,7 +42,7 @@ namespace DotNetStarter.Notifications.Users.UserCreated
                     Type = OtpType.ActivateAccount,
                     Code = new Random().Next(0, 1000000).ToString("D6"),
                     IsUsed = false,
-                    ExpiredDate = DateTime.Now.AddMinutes(int.Parse(_configuration["Otp:ActiveOtpLifetimeDuration"]!)),
+                    ExpiredDate = DateTime.Now.AddMinutes(_appSettings.Otp.ActiveOtpLifetimeDuration!),
                 };
                 await _unitOfWork.OtpRepository.CreateAsync(activeOtp);
                 await _unitOfWork.SaveChangesAsync();

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using DotNetStarter.Services.Configuration;
+using Microsoft.Extensions.Options;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
@@ -6,16 +7,16 @@ namespace DotNetStarter.Services.Email
 {
     public class SendGridEmailService : IEmailService
     {
-        private readonly IConfiguration _configuration;
+        private readonly AppSettings _appSettings;
 
-        public SendGridEmailService(IConfiguration configuration)
+        public SendGridEmailService(IOptions<AppSettings> appSettings)
         {
-            _configuration = configuration;
+            _appSettings = appSettings.Value;
         }
 
         public async Task SendChangePasswordEmailAsync(string email, string firstName, string lastName)
         {
-            var templateId = _configuration["Email:SendGrid:TemplateIds:ChangePassword"];
+            var templateId = _appSettings.Email.SendGrid.TemplateIds.ChangePassword;
             var templateData = new Dictionary<string, string>
             {
                 { "firstName", firstName },
@@ -27,11 +28,11 @@ namespace DotNetStarter.Services.Email
 
         public async Task SendResetPasswordEmailAsync(string email, string firstName, string code)
         {
-            var templateId = _configuration["Email:SendGrid:TemplateIds:ResetPassword"];
+            var templateId = _appSettings.Email.SendGrid.TemplateIds.ResetPassword;
             var templateData = new Dictionary<string, string>
             {
                 { "firstName", firstName },
-                { "url", $"{_configuration["Urls:BasePortal"]}/auth/reset-password?username={email}&code={code}" },
+                { "url", $"{_appSettings.Urls.BasePortal}/auth/reset-password?username={email}&code={code}" },
             };
 
             await SendEmailAsync(email, templateId!, templateData);
@@ -39,7 +40,7 @@ namespace DotNetStarter.Services.Email
 
         public async Task SendAdminResetPasswordEmailAsync(string email, string firstName, string password)
         {
-            var templateId = _configuration["Email:SendGrid:TemplateIds:AdminResetPassword"];
+            var templateId = _appSettings.Email.SendGrid.TemplateIds.AdminResetPassword;
             var templateData = new Dictionary<string, string>
             {
                 { "firstName", firstName },
@@ -51,12 +52,12 @@ namespace DotNetStarter.Services.Email
 
         public async Task SendChangeEmailRequestAsync(string currentEmail, string newEmail, string firstName, string code)
         {
-            var templateId = _configuration["Email:SendGrid:TemplateIds:RequestChangeEmail"];
+            var templateId = _appSettings.Email.SendGrid.TemplateIds.RequestChangeEmail;
             var templateData = new Dictionary<string, string>
             {
                 { "firstName", firstName },
                 { "newEmail", newEmail },
-                { "url", $"{_configuration["Urls:BasePortal"]}/account/change-email?email={newEmail}&code={code}" },
+                { "url", $"{_appSettings.Urls.BasePortal}/account/change-email?email={newEmail}&code={code}" },
             };
 
             await SendEmailAsync(currentEmail, templateId!, templateData);
@@ -64,18 +65,18 @@ namespace DotNetStarter.Services.Email
 
         public async Task SendActivateAccountAsync(string email, string firstName, string code)
         {
-            var templateId = _configuration["Email:SendGrid:TemplateIds:ActivateEmail"];
+            var templateId = _appSettings.Email.SendGrid.TemplateIds.ActivateEmail;
             var templateData = new Dictionary<string, string>
             {
                 { "firstName", firstName },
-                { "url", $"{_configuration["Urls:BasePortal"]}/auth/activate-account?email={email}&code={code}" },
+                { "url", $"{_appSettings.Urls.BasePortal}/auth/activate-account?email={email}&code={code}" },
             };
             await SendEmailAsync(email, templateId!, templateData);
         }
 
         public async Task SendNotificationAsync(string email, string firstName, string message)
         {
-            var templateId = _configuration["Email:SendGrid:TemplateIds:SendNotification"];
+            var templateId = _appSettings.Email.SendGrid.TemplateIds.SendNotification;
             var templateData = new Dictionary<string, string>
             {
                 { "firstName", firstName },
@@ -86,7 +87,7 @@ namespace DotNetStarter.Services.Email
 
         public async Task SendCardMovedAsync(string email, string firstName, string stageName, string cardName)
         {
-            var templateId = _configuration["Email:SendGrid:TemplateIds:MoveCard"];
+            var templateId = _appSettings.Email.SendGrid.TemplateIds.MoveCard;
             var templateData = new Dictionary<string, string>
             {
                 { "firstName", firstName },
@@ -98,7 +99,7 @@ namespace DotNetStarter.Services.Email
 
         public async Task SendCardCreatedAsync(string email, string firstName, string stageName, string cardName)
         {
-            var templateId = _configuration["Email:SendGrid:TemplateIds:CreateCard"];
+            var templateId = _appSettings.Email.SendGrid.TemplateIds.CreateCard;
             var templateData = new Dictionary<string, string>
             {
                 { "firstName", firstName },
@@ -110,20 +111,20 @@ namespace DotNetStarter.Services.Email
 
         public async Task SendInvitationEmailAsync(string email, Guid invitationId, string projectName, Guid projectId, string inviter, bool isExists, string? code)
         {
-            var templateId = _configuration["Email:SendGrid:TemplateIds:InviteTalent"];
+            var templateId = _appSettings.Email.SendGrid.TemplateIds.InviteTalent;
 
             var templateData = isExists
                 ? new Dictionary<string, string>
                 {
                     { "projectName", projectName },
                     { "inviter", inviter },
-                    { "url", $"{_configuration["Urls:BasePortal"]}/invitations?invitationId={invitationId}&email={email}&projectId={projectId}" },
+                    { "url", $"{_appSettings.Urls.BasePortal}/invitations?invitationId={invitationId}&email={email}&projectId={projectId}" },
                 }
                 : new Dictionary<string, string>
                 {
                     { "projectName", projectName },
                     { "inviter", inviter },
-                    { "url", $"{_configuration["Urls:BasePortal"]}/auth/register-talent?email={email}&invitation={invitationId}&projectId={projectId}&code={code}" },
+                    { "url", $"{_appSettings.Urls.BasePortal}/auth/register-talent?email={email}&invitation={invitationId}&projectId={projectId}&code={code}" },
                 };
 
             await SendEmailAsync(email, templateId!, templateData);
@@ -131,7 +132,7 @@ namespace DotNetStarter.Services.Email
 
         public async Task ResendOtp(string email, string firstName, string code)
         {
-            var templateId = _configuration["Email:SendGrid:TemplateIds:ResendOtp"];
+            var templateId = _appSettings.Email.SendGrid.TemplateIds.ResendOtp;
             var templateData = new Dictionary<string, string>
             {
                 { "firstName", firstName },
@@ -142,10 +143,10 @@ namespace DotNetStarter.Services.Email
 
         private async Task SendEmailAsync(string email, string templateId, object templateData)
         {
-            var apiKey = _configuration["Email:SendGrid:ApiKey"];
+            var apiKey = _appSettings.Email.SendGrid.ApiKey;
             var client = new SendGridClient(apiKey);
 
-            var from = new EmailAddress(_configuration["Email:Common:FromEmail"], _configuration["Email:Common:FromName"]);
+            var from = new EmailAddress(_appSettings.Email.Common.FromEmail, _appSettings.Email.Common.FromName);
             EmailAddress to = new EmailAddress(email);
 
             var msg = MailHelper.CreateSingleTemplateEmail(from, to, templateId, templateData);

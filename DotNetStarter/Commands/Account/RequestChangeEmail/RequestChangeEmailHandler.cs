@@ -4,7 +4,8 @@ using DotNetStarter.Database.UnitOfWork;
 using DotNetStarter.Entities;
 using DotNetStarter.Extensions;
 using DotNetStarter.Notifications.Users.ChangeEmailRequested;
-using Microsoft.Extensions.Configuration;
+using DotNetStarter.Services.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace DotNetStarter.Commands.Account.ChangeEmailRequires
 {
@@ -12,12 +13,12 @@ namespace DotNetStarter.Commands.Account.ChangeEmailRequires
     {
         private readonly IDotNetStarterUnitOfWork _unitOfWork;
 
-        private readonly IConfiguration _configuration;
+        private readonly AppSettings _appSettings;
 
-        public RequestChangeEmailHandler(IServiceProvider serviceProvider, IDotNetStarterUnitOfWork unitOfWork, IConfiguration configuration) : base(serviceProvider)
+        public RequestChangeEmailHandler(IServiceProvider serviceProvider, IDotNetStarterUnitOfWork unitOfWork, IOptions<AppSettings> appSettings) : base(serviceProvider)
         {
             _unitOfWork = unitOfWork;
-            _configuration = configuration;
+            _appSettings = appSettings.Value;
         }
 
         public override async Task Process(RequestChangeEmail request, CancellationToken cancellationToken)
@@ -30,7 +31,7 @@ namespace DotNetStarter.Commands.Account.ChangeEmailRequires
                 Type = OtpType.ChangeEmail,
                 Code = new Random().Next(0, 1000000).ToString("D6"),
                 IsUsed = false,
-                ExpiredDate = DateTime.Now.AddMinutes(int.Parse(_configuration["Otp:ActiveOtpLifetimeDuration"]!)),
+                ExpiredDate = DateTime.Now.AddMinutes(_appSettings.Otp.ActiveOtpLifetimeDuration!),
             };
 
             await _unitOfWork.OtpRepository.CreateAsync(otp);

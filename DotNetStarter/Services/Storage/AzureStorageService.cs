@@ -1,21 +1,22 @@
 ﻿using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Azure.Storage.Blobs.Specialized;
-using Microsoft.Extensions.Configuration;
+using DotNetStarter.Services.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace DotNetStarter.Services.Storage
 {
     public class AzureStorageService : IStorageService
     {
-        private readonly IConfiguration _configuration;
+        private readonly AppSettings _appSettings;
         private readonly string _containerName;
         private readonly string _connectionString;
 
-        public AzureStorageService(IConfiguration configuration)
+        public AzureStorageService(IOptions<AppSettings> appSettings)
         {
-            _configuration = configuration;
-            _connectionString = _configuration["AzureStorageSettings:ConnectionString"];
-            _containerName = _configuration["AzureStorageSettings:ContainerName"];
+            _appSettings = appSettings.Value;
+            _connectionString = _appSettings.AzureStorageSettings.ConnectionString;
+            _connectionString = _appSettings.AzureStorageSettings.ContainerName;
         }
 
         public async Task UploadAsync(Stream stream, string blobName, string contentType)

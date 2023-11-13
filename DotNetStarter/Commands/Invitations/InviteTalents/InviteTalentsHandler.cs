@@ -5,25 +5,26 @@ using DotNetStarter.Database.UnitOfWork;
 using DotNetStarter.Entities;
 using DotNetStarter.Extensions;
 using DotNetStarter.Notifications.Invitations.TalentInvited;
-using Microsoft.Extensions.Configuration;
+using DotNetStarter.Services.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace DotNetStarter.Commands.Invitations.InviteTalents
 {
     public sealed class InviteTalentsHandler : BaseRequestHandler<InviteTalents, List<Invitation>>
     {
         private readonly IDotNetStarterUnitOfWork _unitOfWork;
-        private readonly IConfiguration _configuration;
+        private readonly AppSettings _appSettings;
         private readonly IMapper _mapper;
 
         public InviteTalentsHandler(
             IDotNetStarterUnitOfWork unitOfWork,
-            IConfiguration configuration,
+            IOptions<AppSettings> appSettings,
             IMapper mapper,
             IServiceProvider serviceProvider
         ) : base(serviceProvider)
         {
             _unitOfWork = unitOfWork;
-            _configuration = configuration;
+            _appSettings = appSettings.Value;
             _mapper = mapper;
         }
 
@@ -66,7 +67,7 @@ namespace DotNetStarter.Commands.Invitations.InviteTalents
                         UserId = inviter!.Id,
                         Type = OtpType.InviteTalent,
                         Code = new Random().Next(0, 1000000).ToString("D6"),
-                        ExpiredDate = DateTime.Now.AddMinutes(int.Parse(_configuration["Otp:InvitationOtpLifetimeDuration"]!)),
+                        ExpiredDate = DateTime.Now.AddMinutes(_appSettings.Otp.ActiveOtpLifetimeDuration!),
                         IsUsed = false,
                     };
 
@@ -82,7 +83,7 @@ namespace DotNetStarter.Commands.Invitations.InviteTalents
                 invitations.Add(invitation);
 
                 new TalentInvited(invitation.EmailAddress!, invitation.Id, project!.Name, project!.Id, inviter!.Firstname, isExisting, code).Enqueue();
-                new MarkInvitationExpired.MarkInvitationExpired(invitation.Id).Schedule(int.Parse(_configuration["Invitation:LifeTimeDurartion"]!));
+                new MarkInvitationExpired.MarkInvitationExpired(invitation.Id).Schedule(_appSettings.Invitation.LifeTimeDurartion);
             }
 
             await _unitOfWork.SaveChangesAsync();
