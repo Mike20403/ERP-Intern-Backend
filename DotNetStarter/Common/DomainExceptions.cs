@@ -88,6 +88,24 @@ namespace DotNetStarter.Common
             Message = "Card not found",
         };
 
+        public static readonly DomainException CommentNotFound = new DomainException
+        {
+            Code = "CommentNotFound",
+            Message = "Comment not found",
+        };
+
+        public static readonly DomainException CommentCannotRespond = new DomainException
+        {
+            Code = "CommentCannotRespond",
+            Message = "This comment can't respond",
+        };
+
+        public static readonly DomainException CommentNotYours = new DomainException
+        {
+            Code = "CommentNotYours",
+            Message = "This comment is not yours",
+        };
+
         public static readonly DomainException AttachmentNotFound = new DomainException
         {
             Code = "AttachmentNotFound",

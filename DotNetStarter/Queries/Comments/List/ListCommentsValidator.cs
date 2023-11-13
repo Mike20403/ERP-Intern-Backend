@@ -2,17 +2,32 @@
 using DotNetStarter.Database.UnitOfWork;
 using FluentValidation;
 
-namespace DotNetStarter.Queries.TalentsOfAProject.List
+namespace DotNetStarter.Queries.Comments.List
 {
-    public sealed class ListProjectTalentsValidator : AbstractValidator<ListProjectTalents>
+    public sealed class ListCommentsValidator : AbstractValidator<ListComments>
     {
-        public ListProjectTalentsValidator(IDotNetStarterUnitOfWork unitOfWork)
+        public ListCommentsValidator(IDotNetStarterUnitOfWork unitOfWork)
         {
             RuleFor(x => x.ProjectId)
                 .NotEmpty()
                 .MustAsync((projectId, cancellation) => unitOfWork.ProjectRepository.AnyAsync(u => u.Id == projectId))
                 .WithErrorCode(DomainExceptions.ProjectNotFound.Code)
                 .WithMessage(DomainExceptions.ProjectNotFound.Message);
+
+            RuleFor(x => x.CardId)
+                .NotEmpty()
+                .MustAsync((cardId, cancellation) => unitOfWork.CardRepository.AnyAsync(u => u.Id == cardId))
+                .WithErrorCode(DomainExceptions.CardNotFound.Code)
+                .WithMessage(DomainExceptions.CardNotFound.Message);
+
+            When(x => x.ParentId is not null, () =>
+            {
+                RuleFor(x => x.ParentId)
+                    .NotEmpty()
+                    .MustAsync((parentId, cancellation) => unitOfWork.CommentRepository.AnyAsync(u => u.ParentId == parentId))
+                    .WithErrorCode(DomainExceptions.CommentNotFound.Code)
+                    .WithMessage(DomainExceptions.CommentNotFound.Message);
+            });
 
             When(x => x.ProjectManagerId is not null, () =>
             {
@@ -29,35 +44,26 @@ namespace DotNetStarter.Queries.TalentsOfAProject.List
                     .WithMessage(DomainExceptions.ProjectNotFound.Message);
             });
 
-            When(x => x.AgencyMemberId is not null, () =>
-            {
-                RuleFor(x => x.AgencyMemberId)
-                    .NotEmpty()
-                    .MustAsync((agencyMemberId, cancellation) => unitOfWork.UserRepository.AnyAsync(u => u.Id == agencyMemberId))
-                    .WithErrorCode(DomainExceptions.AgencyMemberNotFound.Code)
-                    .WithMessage(DomainExceptions.AgencyMemberNotFound.Message);
-
-                RuleFor(x => x.ProjectId)
-                    .NotEmpty()
-                    .MustAsync((request, projectId, cancellation) => unitOfWork.ProjectRepository.AnyAsync(p => p.Id == projectId && p.AgencyMemberId == request.AgencyMemberId))
-                    .WithErrorCode(DomainExceptions.ProjectNotFound.Code)
-                    .WithMessage(DomainExceptions.ProjectNotFound.Message);
-            });
-
             When(x => x.TalentId is not null, () =>
             {
                 RuleFor(x => x.TalentId)
                     .NotEmpty()
-                    .MustAsync((talentId, cancellation) => unitOfWork.UserRepository.AnyAsync(u => u.Id == talentId))
+                    .MustAsync((talentId, cancellation) => unitOfWork.TalentRepository.AnyAsync(u => u.Id == talentId))
                     .WithErrorCode(DomainExceptions.TalentNotFound.Code)
                     .WithMessage(DomainExceptions.TalentNotFound.Message);
 
-                RuleFor(x => x.ProjectId)
+                RuleFor(x => x.CardId)
                     .NotEmpty()
-                    .MustAsync((request, projectId, cancellation) => unitOfWork.ProjectRepository.AnyAsync(p => p.Id == projectId && p.Talents!.Any(t => t.Id == request.TalentId)))
-                    .WithErrorCode(DomainExceptions.ProjectNotFound.Code)
-                    .WithMessage(DomainExceptions.ProjectNotFound.Message);
+                    .MustAsync((request, cardId, cancellation) => unitOfWork.CardRepository.AnyAsync(p => p.Id == cardId && p.Stage!.Project!.Talents!.Any(t => t.Id == request.TalentId)))
+                    .WithErrorCode(DomainExceptions.CardNotFound.Code)
+                    .WithMessage(DomainExceptions.CardNotFound.Message);
             });
+
+            RuleFor(x => x.PageNumber)
+                .GreaterThanOrEqualTo(0);
+
+            RuleFor(x => x.PageSize)
+                .GreaterThanOrEqualTo(1);
         }
-    }
+    } 
 }

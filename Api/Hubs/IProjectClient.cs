@@ -14,5 +14,7 @@ namespace Api.Hubs
         Task AttachmentChanged(DataChanged<AttachmentDto> attachment);
 
         Task CardOwnerChanged(DataChanged<PersonDto> cardOwner);
+
+        Task CommentChanged(List<DataChanged<CommentDto>> comments);
     }
 }

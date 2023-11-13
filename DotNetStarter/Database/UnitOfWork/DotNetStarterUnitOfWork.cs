@@ -34,6 +34,8 @@ namespace DotNetStarter.Database.UnitOfWork
 
         public GenericRepository<DotNetStarterDbContext, Payment> PaymentRepository { get; private set; }
 
+        public GenericRepository<DotNetStarterDbContext, Comment> CommentRepository { get; private set; }
+
         public DotNetStarterUnitOfWork(DotNetStarterDbContext context)
         {
             _context = context;
@@ -51,6 +53,7 @@ namespace DotNetStarter.Database.UnitOfWork
             AttachmentRepository = new GenericRepository<DotNetStarterDbContext, Attachment>(_context);
             InvitationRepository = new GenericRepository<DotNetStarterDbContext, Invitation>(_context);
             PaymentRepository = new GenericRepository<DotNetStarterDbContext, Payment>(_context);
+            CommentRepository = new GenericRepository<DotNetStarterDbContext, Comment>(_context);
         }
 
         public async Task SaveChangesAsync()

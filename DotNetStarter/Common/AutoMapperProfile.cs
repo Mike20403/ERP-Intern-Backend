@@ -3,6 +3,8 @@ using DotNetStarter.Commands.Attachments.Create;
 using DotNetStarter.Commands.Cards.Create;
 using DotNetStarter.Commands.Cards.MoveCards;
 using DotNetStarter.Commands.Cards.Update;
+using DotNetStarter.Commands.Comments.Create;
+using DotNetStarter.Commands.Comments.Update;
 using DotNetStarter.Commands.Invitations.InviteTalents;
 using DotNetStarter.Commands.Invitations.RegisterTalent;
 using DotNetStarter.Commands.Payments.Create;
@@ -52,7 +54,12 @@ namespace DotNetStarter.Common
             CreateMap<InviteTalent, Invitation>().ReverseMap();
             #endregion
 
-            #region
+            #region Comment
+            CreateMap<CreateComment, Comment>();
+            CreateMap<UpdateComment, Comment>();
+            #endregion
+
+            #region Payment
             CreateMap<CreatePayment, Payment>();
             CreateMap<UpdatePayment, Payment>();
             #endregion

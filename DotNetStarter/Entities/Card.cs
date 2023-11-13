@@ -31,5 +31,7 @@ namespace DotNetStarter.Entities
         public List<Talent>? Owners { get; set; }
 
         public List<Payment>? Payments { get; set; }
+
+        public List<Comment>? Comments { get; set; }
     }
 }

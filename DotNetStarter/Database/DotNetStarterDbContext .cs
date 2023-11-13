@@ -126,6 +126,11 @@ namespace DotNetStarter.Database
                     c => c.HasOne(p => p.Card).WithMany().HasForeignKey(pc => pc.CardId).OnDelete(DeleteBehavior.NoAction),
                     c => c.HasOne(p => p.Payment).WithMany().HasForeignKey(pc => pc.PaymentId).OnDelete(DeleteBehavior.NoAction)
                 );
+
+            modelBuilder.Entity<Comment>()
+              .HasOne(p => p.User).WithMany()
+              .HasForeignKey(p => p.UserId)
+              .OnDelete(DeleteBehavior.NoAction);
             #endregion
 
             #region Privilege
@@ -665,6 +670,8 @@ namespace DotNetStarter.Database
         public DbSet<CardOwner> CardTalents { get; set; }
 
         public DbSet<Payment> Payments { get; set; }
+
+        public DbSet<Comment> Comments { get; set; }
 
         private void SetAuditing()
         {

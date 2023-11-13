@@ -54,6 +54,10 @@ namespace Api.Common
             CreateMap<Payment, PaymentDto>();
             #endregion
 
+            #region Comment
+            CreateMap<Comment, CommentDto>();
+            #endregion
+
             #region DataChanged
             CreateMap(typeof(DataChanged<>), typeof(DataChanged<>));
             #endregion
