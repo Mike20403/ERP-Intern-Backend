@@ -9,6 +9,12 @@
         public EmailSettings Email { get; set; }
         public UrlsSettings Urls { get; set; }
         public AzureStorageSettings AzureStorageSettings { get; set; }
+        public AccountSettings Account { get; set; }
+    }
+
+    public class AccountSettings
+    {
+        public int PermanentDeleteAccountDuration { get; set; }
     }
 
     public class JwtSettings
@@ -66,6 +72,7 @@
         public string MoveCard { get; set; }
         public string CreateCard { get; set; }
         public string AdminResetPassword { get; set; }
+        public string RecoverAccount { get; set; }
     }
 
     public class UrlsSettings

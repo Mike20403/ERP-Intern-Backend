@@ -26,6 +26,7 @@ namespace DotNetStarter.Commands.Auth.Login
             {
                 Status.Active => TokenTypeNames.Access,
                 Status.ChangingPasswordRequired => TokenTypeNames.ForceChangePassword,
+                Status.Deleting  => TokenTypeNames.Recover,
                 _ => TokenTypeNames.Access,
             };
 

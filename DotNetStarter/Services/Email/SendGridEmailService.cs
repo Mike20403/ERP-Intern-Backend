@@ -63,6 +63,19 @@ namespace DotNetStarter.Services.Email
             await SendEmailAsync(currentEmail, templateId!, templateData);
         }
 
+        public async Task SendRecoverAccountEmailAsync(string email, string firstName, string code)
+        {
+            var templateId = _appSettings.Email.SendGrid.TemplateIds.RecoverAccount;
+            var templateData = new Dictionary<string, string>
+            {
+                { "firstName", firstName },
+                { "email", email },
+                { "url", $"{_appSettings.Urls.BasePortal}/account/recover-account?email={email}&code={code}" },
+            };
+
+            await SendEmailAsync(email, templateId!, templateData);
+        }
+
         public async Task SendActivateAccountAsync(string email, string firstName, string code)
         {
             var templateId = _appSettings.Email.SendGrid.TemplateIds.ActivateEmail;

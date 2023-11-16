@@ -5,6 +5,8 @@ using AutoMapper;
 using DotNetStarter.Commands.Account.ChangeEmailRequires;
 using DotNetStarter.Commands.Account.ChangePassword;
 using DotNetStarter.Commands.Account.ConfirmChangeEmail;
+using DotNetStarter.Commands.Account.RecoverAccount;
+using DotNetStarter.Commands.Account.RequestDeletingAccount;
 using DotNetStarter.Commands.Users.Update;
 using DotNetStarter.Common;
 using DotNetStarter.Extensions;
@@ -84,6 +86,24 @@ namespace Api.Controllers
         public async Task<ActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
         {
             await _mediator.Send(new ChangePassword(HttpContext.GetCurrentUserId()!.Value, request.CurrentPassword!, request.NewPassword!));
+
+            return Ok();
+        }
+
+        [Authorize]
+        [HttpDelete]
+        public async Task<ActionResult> RequestDeletingAccount()
+        {
+            await _mediator.Send(new RequestDeletingAccount(HttpContext.GetCurrentUserId()!.Value));
+
+            return Ok();
+        }
+
+        [Authorize(DomainConstraints.CanRecoverAccountPolicy)]
+        [HttpPost("recover")]
+        public async Task<ActionResult> RecoverAccount()
+        {
+            await _mediator.Send(new RecoverAccount(HttpContext.GetCurrentUserId()!.Value));
 
             return Ok();
         }

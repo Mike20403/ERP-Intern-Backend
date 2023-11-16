@@ -155,6 +155,11 @@ builder.Services.AddAuthorization(options =>
         policy.RequireAuthenticatedUser().RequireClaim(DomainConstraints.TokenType, TokenTypeNames.ForceChangePassword, TokenTypeNames.Access);
     });
 
+    options.AddPolicy(DomainConstraints.CanRecoverAccountPolicy, policy =>
+    {
+        policy.RequireAuthenticatedUser().RequireClaim(DomainConstraints.TokenType, TokenTypeNames.Recover);
+    });
+
     options.DefaultPolicy = new AuthorizationPolicyBuilder()
         .RequireAuthenticatedUser()
         .RequireClaim(DomainConstraints.TokenType, TokenTypeNames.Access)

@@ -3,6 +3,7 @@ using DotNetStarter.Entities;
 using DotNetStarter.Common.Models;
 using System.Linq.Expressions;
 using DotNetStarter.Extensions;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace DotNetStarter.Repositories
 {
@@ -81,6 +82,23 @@ namespace DotNetStarter.Repositories
             return Task.CompletedTask;
         }
 
+        public virtual Task UpdatesAsync(params TEntity[] entityToUpdates)
+        {
+            dbSet.AttachRange(entityToUpdates);
+            dbSet.UpdateRange(entityToUpdates);
+
+            return Task.CompletedTask;
+        }
+
+        public virtual async Task<int> BulkUpdateAsync
+        (
+            Expression<Func<TEntity, bool>> condition, 
+            Expression<Func<SetPropertyCalls<TEntity>, SetPropertyCalls<TEntity>>> expression
+        )
+        {
+            return await context.Set<TEntity>().Where(condition).ExecuteUpdateAsync(expression);
+        }
+
         public virtual async Task DeleteAsync(object id)
         {
             TEntity? entityToDelete = await dbSet.FindAsync(id);
@@ -101,7 +119,7 @@ namespace DotNetStarter.Repositories
 
             return Task.CompletedTask;
         }
-        public virtual Task DeletesAsync(TEntity[] entityToDeletes)
+        public virtual Task DeletesAsync(params TEntity[] entityToDeletes)
         {
             dbSet.AttachRange(entityToDeletes);
             dbSet.RemoveRange(entityToDeletes);

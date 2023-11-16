@@ -21,5 +21,7 @@
         Task SendInvitationEmailAsync(string email, Guid invitationId, string projectName, Guid projectId, string inviter, bool isExists, string? code = null);
 
         Task ResendOtp(string email, string firstName, string code);
+
+        Task SendRecoverAccountEmailAsync(string email, string firstName, string code);
     }
 }

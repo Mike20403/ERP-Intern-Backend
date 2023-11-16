@@ -13,7 +13,7 @@ namespace DotNetStarter.Commands.Auth.ActivateAccount
                 .NotEmpty()
                 .EmailAddress()
                 .WithMessage("Username must be an email address")
-                .MustAsync((username, cancellation) => unitOfWork.UserRepository.AnyAsync(u => u.Username == username && u.Status == Status.Inactive))
+                .MustAsync((username, cancellation) => unitOfWork.UserRepository.AnyAsync(u => u.Username == username && u.Status != Status.Active))
                 .WithErrorCode(DomainExceptions.UserNotFound.Code)
                 .WithMessage(DomainExceptions.UserNotFound.Message);
 

@@ -12,7 +12,8 @@ namespace DotNetStarter.Commands.Auth.Login
                 .NotEmpty()
                 .EmailAddress()
                 .WithMessage("Username must be an email address")
-                .MustAsync((username, cancellation) => unitOfWork.UserRepository.AnyAsync(u => u.Username == username && (u.Status == Status.Active || u.Status == Status.ChangingPasswordRequired)))
+                .MustAsync((username, cancellation) => unitOfWork.UserRepository
+                    .AnyAsync(u => u.Username == username && new[] { Status.Active, Status.Deleting , Status.ChangingPasswordRequired }.Contains(u.Status)))
                 .WithErrorCode(DomainExceptions.BadCredentials.Code)
                 .WithMessage(DomainExceptions.BadCredentials.Message);
 
