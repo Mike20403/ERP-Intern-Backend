@@ -46,9 +46,6 @@ namespace DotNetStarter.Commands.Invitations.RegisterTalent
                 .WithErrorCode(DomainExceptions.PhoneNumberAlreadyExists.Code)
                 .WithMessage(DomainExceptions.PhoneNumberAlreadyExists.Message);
 
-            RuleFor(x => x.Gender)
-                .NotEmpty();  
-
             RuleFor(x => x.InvitationId)
                 .NotEmpty()
                 .MustAsync((request, invitationId, cancellation) => unitOfWork.InvitationRepository

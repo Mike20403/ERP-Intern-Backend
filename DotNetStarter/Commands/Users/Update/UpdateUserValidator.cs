@@ -33,9 +33,6 @@ namespace DotNetStarter.Commands.Users.Update
                 .WithErrorCode(DomainExceptions.PhoneNumberAlreadyExists.Code)
                 .WithMessage(DomainExceptions.PhoneNumberAlreadyExists.Message);
 
-            RuleFor(x => x.Gender)
-                .NotEmpty();
-
             RuleForEach(x => x.RoleNames)
                 .NotEmpty()
                 .MustAsync((roleName, cancellation) => unitOfWork.RoleRepository.AnyAsync(u => u.Name == roleName))

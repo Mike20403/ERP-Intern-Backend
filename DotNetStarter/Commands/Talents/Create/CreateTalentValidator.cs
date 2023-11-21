@@ -45,9 +45,6 @@ namespace DotNetStarter.Commands.Talents.Create
                 .WithErrorCode(DomainExceptions.PhoneNumberAlreadyExists.Code)
                 .WithMessage(DomainExceptions.PhoneNumberAlreadyExists.Message);
 
-            RuleFor(x => x.Gender)
-                .NotEmpty();
-
             RuleForEach(x => x.PrivilegeNames)
                 .MustAsync((privilegeName, cancellation) => unitOfWork.PrivilegeRepository.AnyAsync(p => p.Name == privilegeName && p.Roles.Any(r => r.Name == RoleNames.Talent)))
                 .WithErrorCode(DomainExceptions.PrivilegeNotFound.Code)
