@@ -22,6 +22,13 @@ namespace DotNetStarter.Commands.Invitations.ProcessInvitation
         {
             var invitation = await _unitOfWork.InvitationRepository.GetByIdAsync(request.InvitationId);
 
+            await _unitOfWork.InvitationRepository.BulkUpdateAsync(
+                i => i.ProjectId == invitation!.ProjectId
+                        && i.InviterId == invitation!.InviterId
+                        && i.TalentId == invitation!.TalentId,
+                s => s.SetProperty(i => i.InvitationStatus, i => InvitationStatus.Expired)
+            );
+
             invitation!.InvitationStatus = request.IsAccepted ? InvitationStatus.Accepted : InvitationStatus.Rejected;
 
             if (invitation.InvitationStatus is InvitationStatus.Accepted)
