@@ -7,11 +7,14 @@ namespace DotNetStarter.Queries.Cards.List
     {
         public Guid? ProjectManagerId { get; }
 
+        public Guid? TalentId { get; }
+
         public Guid ProjectId { get; }
 
-        public ListCards(Guid? projectManagerId, Guid projectId)
+        public ListCards(Guid? projectManagerId, Guid? talentId, Guid projectId)
         {
             ProjectManagerId = projectManagerId;
+            TalentId = talentId;
             ProjectId = projectId;
         }
     }

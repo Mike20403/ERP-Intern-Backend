@@ -11,11 +11,14 @@ namespace DotNetStarter.Commands.Cards.MoveCards
 
         public Guid? ProjectManagerId { get; }
 
-        public MoveCards(List<MovingCard> cards, Guid projectId, Guid? projectManagerId)
+        public Guid? TalentId { get; }
+
+        public MoveCards(List<MovingCard> cards, Guid projectId, Guid? projectManagerId, Guid? talentId)
         {
             Cards = cards;
             ProjectId = projectId;
             ProjectManagerId = projectManagerId;
+            TalentId = talentId;
         }
     }
 }

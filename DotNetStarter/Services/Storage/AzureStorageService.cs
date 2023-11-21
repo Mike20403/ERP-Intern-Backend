@@ -16,7 +16,7 @@ namespace DotNetStarter.Services.Storage
         {
             _appSettings = appSettings.Value;
             _connectionString = _appSettings.AzureStorageSettings.ConnectionString;
-            _connectionString = _appSettings.AzureStorageSettings.ContainerName;
+            _containerName = _appSettings.AzureStorageSettings.ContainerName;
         }
 
         public async Task UploadAsync(Stream stream, string blobName, string contentType)

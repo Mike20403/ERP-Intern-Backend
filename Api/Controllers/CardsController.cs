@@ -42,7 +42,10 @@ namespace Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<ActionResult<List<CardDto>>> List([FromRoute] Guid projectId)
         {
-            var result = await _mediator.Send(new ListCards(HttpContext.GetCurrentUserId()!.Value, projectId));
+            Guid? projectManagerId = User.IsInRole(RoleNames.ProjectManager) ? HttpContext.GetCurrentUserId()!.Value : null;
+            Guid? talentId = User.IsInRole(RoleNames.Talent) ? HttpContext.GetCurrentUserId()!.Value : null;
+
+            var result = await _mediator.Send(new ListCards(projectManagerId, talentId, projectId));
 
             return Ok(_mapper.Map<List<CardDto>>(result));
         }
@@ -52,7 +55,10 @@ namespace Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<ActionResult<CardDto>> Get([FromRoute] Guid projectId, [FromRoute] Guid cardId)
         {
-            var result = await _mediator.Send(new GetCard(HttpContext.GetCurrentUserId()!.Value, cardId, projectId));
+            Guid? projectManagerId = User.IsInRole(RoleNames.ProjectManager) ? HttpContext.GetCurrentUserId()!.Value : null;
+            Guid? talentId = User.IsInRole(RoleNames.Talent) ? HttpContext.GetCurrentUserId()!.Value : null;
+
+            var result = await _mediator.Send(new GetCard(projectManagerId, talentId, cardId, projectId));
 
             return Ok(_mapper.Map<CardDto>(result));
         }
@@ -62,7 +68,10 @@ namespace Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.Created)]
         public async Task<ActionResult<List<DataChanged<CardDto>>>> Create([FromRoute] Guid projectId, [FromBody] CreateCardRequest request)
         {
-            var result = await _mediator.Send(new CreateCard(HttpContext.GetCurrentUserId()!.Value, request.Name!, request.PrevCardId, request.NextCardId, request.StageId, projectId));
+            Guid? projectManagerId = User.IsInRole(RoleNames.ProjectManager) ? HttpContext.GetCurrentUserId()!.Value : null;
+            Guid? talentId = User.IsInRole(RoleNames.Talent) ? HttpContext.GetCurrentUserId()!.Value : null;
+
+            var result = await _mediator.Send(new CreateCard(projectManagerId, talentId, request.Name!, request.PrevCardId, request.NextCardId, request.StageId, projectId));
 
             var dto = _mapper.Map<List<DataChanged<CardDto>>>(result);
 
@@ -76,7 +85,10 @@ namespace Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<ActionResult<List<DataChanged<CardDto>>>> Delete([FromRoute] Guid projectId, [FromRoute] Guid cardId)
         {
-            var result = await _mediator.Send(new DeleteCard(HttpContext.GetCurrentUserId()!.Value, cardId, projectId));
+            Guid? projectManagerId = User.IsInRole(RoleNames.ProjectManager) ? HttpContext.GetCurrentUserId()!.Value : null;
+            Guid? talentId = User.IsInRole(RoleNames.Talent) ? HttpContext.GetCurrentUserId()!.Value : null;
+
+            var result = await _mediator.Send(new DeleteCard(projectManagerId, talentId, cardId, projectId));
 
             var dto = _mapper.Map<List<DataChanged<CardDto>>>(result);
 
@@ -90,7 +102,10 @@ namespace Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<ActionResult<DataChanged<CardDto>>> Update([FromRoute] Guid projectId, [FromRoute] Guid cardId, [FromBody] UpdateCardRequest request)
         {
-            var result = await _mediator.Send(new UpdateCard(HttpContext.GetCurrentUserId()!.Value, cardId, request.Name!, request.Description, projectId));
+            Guid? projectManagerId = User.IsInRole(RoleNames.ProjectManager) ? HttpContext.GetCurrentUserId()!.Value : null;
+            Guid? talentId = User.IsInRole(RoleNames.Talent) ? HttpContext.GetCurrentUserId()!.Value : null;
+
+            var result = await _mediator.Send(new UpdateCard(projectManagerId, talentId, cardId, request.Name!, request.Description, projectId));
 
             var dto = _mapper.Map<DataChanged<CardDto>>(result);
 
@@ -104,9 +119,12 @@ namespace Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<ActionResult<List<DataChanged<MovingCardDto>>>> Move([FromRoute] Guid projectId, [FromBody] List<MovingCardDto> request)
         {
+            Guid? projectManagerId = User.IsInRole(RoleNames.ProjectManager) ? HttpContext.GetCurrentUserId()!.Value : null;
+            Guid? talentId = User.IsInRole(RoleNames.Talent) ? HttpContext.GetCurrentUserId()!.Value : null;
+
             var cards = request.Select(c => new MovingCard(c.Id, c.PrevCardId, c.NextCardId, c.StageId)).ToList();
 
-            var result = await _mediator.Send(new MoveCards(cards, projectId, HttpContext.GetCurrentUserId()!.Value));
+            var result = await _mediator.Send(new MoveCards(cards, projectId, projectManagerId, talentId));
 
             var dto = _mapper.Map<List<DataChanged<MovingCardDto>>>(result);
 

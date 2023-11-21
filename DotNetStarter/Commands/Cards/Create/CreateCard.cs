@@ -8,6 +8,8 @@ namespace DotNetStarter.Commands.Cards.Create
     {
         public Guid? ProjectManagerId { get; }
 
+        public Guid? TalentId { get; }
+
         public string Name { get; }
 
         public Guid? PrevCardId { get; }
@@ -18,9 +20,10 @@ namespace DotNetStarter.Commands.Cards.Create
 
         public Guid ProjectId { get; }
 
-        public CreateCard(Guid? projectManagerId, string name, Guid? prevCardId, Guid? nextCardId, Guid stageId, Guid projectId)
+        public CreateCard(Guid? projectManagerId, Guid? talentId, string name, Guid? prevCardId, Guid? nextCardId, Guid stageId, Guid projectId)
         {
             ProjectManagerId = projectManagerId;
+            TalentId = talentId;
             Name = name;
             PrevCardId = prevCardId;
             NextCardId = nextCardId;

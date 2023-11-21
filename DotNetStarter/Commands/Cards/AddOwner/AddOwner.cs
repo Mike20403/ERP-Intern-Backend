@@ -14,12 +14,15 @@ namespace DotNetStarter.Commands.Cards.AddOwner
 
         public Guid? ProjectManagerId { get; }
 
-        public AddOwner(Guid projectId, Guid cardId, Guid ownerId, Guid? projectManagerId)
+        public Guid? TalentId { get; }
+
+        public AddOwner(Guid projectId, Guid cardId, Guid ownerId, Guid? projectManagerId, Guid? talentId)
         {
             ProjectId = projectId;
             CardId = cardId;
             OwnerId = ownerId;
             ProjectManagerId = projectManagerId;
+            TalentId = talentId;
         }
     }
 }

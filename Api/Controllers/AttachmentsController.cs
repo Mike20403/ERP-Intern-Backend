@@ -39,7 +39,10 @@ namespace Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<ActionResult<List<AttachmentDto>>> ListAttachments([FromRoute] Guid projectId, [FromRoute] Guid cardId)
         {
-            var result = await _mediator.Send(new ListAttachments(HttpContext.GetCurrentUserId()!.Value, cardId, projectId));
+            Guid? projectManagerId = User.IsInRole(RoleNames.ProjectManager) ? HttpContext.GetCurrentUserId()!.Value : null;
+            Guid? talentId = User.IsInRole(RoleNames.Talent) ? HttpContext.GetCurrentUserId()!.Value : null;
+
+            var result = await _mediator.Send(new ListAttachments(projectManagerId, talentId, cardId, projectId));
 
             return Ok(_mapper.Map<List<AttachmentDto>>(result));
         }
@@ -49,7 +52,10 @@ namespace Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.Created)]
         public async Task<ActionResult<DataChanged<AttachmentDto>>> CreateAttachment([FromRoute] Guid projectId, [FromRoute] Guid cardId, [FromForm] CreateAttachmentRequest request)
         {
-            var result = await _mediator.Send(new CreateAttachment(HttpContext.GetCurrentUserId()!.Value, request.File!, cardId, projectId));
+            Guid? projectManagerId = User.IsInRole(RoleNames.ProjectManager) ? HttpContext.GetCurrentUserId()!.Value : null;
+            Guid? talentId = User.IsInRole(RoleNames.Talent) ? HttpContext.GetCurrentUserId()!.Value : null;
+
+            var result = await _mediator.Send(new CreateAttachment(projectManagerId, talentId, request.File!, cardId, projectId));
 
             var dto = _mapper.Map<DataChanged<AttachmentDto>>(result);
 
@@ -63,7 +69,10 @@ namespace Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<ActionResult<DataChanged<AttachmentDto>>> DeleteAttachment([FromRoute] Guid projectId, Guid cardId, [FromRoute] Guid attachmentId)
         {
-            var result = await _mediator.Send(new DeleteAttachment(HttpContext.GetCurrentUserId()!.Value, attachmentId, projectId, cardId));
+            Guid? projectManagerId = User.IsInRole(RoleNames.ProjectManager) ? HttpContext.GetCurrentUserId()!.Value : null;
+            Guid? talentId = User.IsInRole(RoleNames.Talent) ? HttpContext.GetCurrentUserId()!.Value : null;
+
+            var result = await _mediator.Send(new DeleteAttachment(projectManagerId, talentId, attachmentId, projectId, cardId));
 
             var dto = _mapper.Map<DataChanged<AttachmentDto>>(result);
 

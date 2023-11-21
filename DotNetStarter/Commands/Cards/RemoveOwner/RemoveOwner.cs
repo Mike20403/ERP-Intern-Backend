@@ -14,12 +14,15 @@ namespace DotNetStarter.Commands.Cards.RemoveOwner
 
         public Guid? ProjectManagerId { get; }
 
-        public RemoveOwner(Guid projectId, Guid cardId, Guid ownerId, Guid? projectManagerId)
+        public Guid? TalentId { get; }
+
+        public RemoveOwner(Guid projectId, Guid cardId, Guid ownerId, Guid? projectManagerId, Guid? talentId)
         {
             ProjectId = projectId;
             CardId = cardId;
             OwnerId = ownerId;
             ProjectManagerId = projectManagerId;
+            TalentId = talentId;
         }
     }
 }

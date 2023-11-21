@@ -36,7 +36,10 @@ namespace Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<ActionResult<DataChanged<PersonDto>>> AddOwner([FromRoute] Guid projectId, [FromRoute] Guid cardId, [FromRoute] Guid ownerId)
         {
-            var result = await _mediator.Send(new AddOwner(projectId, cardId, ownerId, HttpContext.GetCurrentUserId()!.Value));
+            Guid? projectManagerId = User.IsInRole(RoleNames.ProjectManager) ? HttpContext.GetCurrentUserId()!.Value : null;
+            Guid? talentId = User.IsInRole(RoleNames.Talent) ? HttpContext.GetCurrentUserId()!.Value : null;
+
+            var result = await _mediator.Send(new AddOwner(projectId, cardId, ownerId, projectManagerId, talentId));
 
             var dto = _mapper.Map<DataChanged<PersonDto>>(result);
 
@@ -49,7 +52,10 @@ namespace Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<ActionResult<DataChanged<PersonDto>>> RemoveOwner([FromRoute] Guid projectId, [FromRoute] Guid cardId, [FromRoute] Guid ownerId)
         {
-            var result = await _mediator.Send(new RemoveOwner(projectId, cardId, ownerId, HttpContext.GetCurrentUserId()!.Value));
+            Guid? projectManagerId = User.IsInRole(RoleNames.ProjectManager) ? HttpContext.GetCurrentUserId()!.Value : null;
+            Guid? talentId = User.IsInRole(RoleNames.Talent) ? HttpContext.GetCurrentUserId()!.Value : null;
+
+            var result = await _mediator.Send(new RemoveOwner(projectId, cardId, ownerId, projectManagerId, talentId));
 
             var dto = _mapper.Map<DataChanged<PersonDto>>(result);
 

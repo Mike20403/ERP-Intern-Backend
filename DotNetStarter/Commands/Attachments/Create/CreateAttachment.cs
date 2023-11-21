@@ -9,15 +9,19 @@ namespace DotNetStarter.Commands.Attachments.Create
     {
         public Guid? ProjectManagerId { get; }
 
+        public Guid? TalentId { get; }
+
+
         public IFormFile File { get; }
 
         public Guid CardId { get; }
 
         public Guid ProjectId { get; }
 
-        public CreateAttachment(Guid? projectManagerId, IFormFile file, Guid cardId, Guid projectId)
+        public CreateAttachment(Guid? projectManagerId, Guid? talentId, IFormFile file, Guid cardId, Guid projectId)
         {
             ProjectManagerId = projectManagerId;
+            TalentId = talentId;
             File = file;
             CardId = cardId;
             ProjectId = projectId;

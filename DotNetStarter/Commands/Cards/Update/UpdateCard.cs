@@ -8,6 +8,8 @@ namespace DotNetStarter.Commands.Cards.Update
     {
         public Guid? ProjectManagerId { get; }
 
+        public Guid? TalentId { get; }
+
         public Guid CardId { get; }
 
         public string Name { get; }
@@ -16,9 +18,10 @@ namespace DotNetStarter.Commands.Cards.Update
 
         public Guid ProjectId { get; }
 
-        public UpdateCard(Guid? projectManagerId, Guid cardId, string name, string description, Guid projectId)
+        public UpdateCard(Guid? projectManagerId, Guid? talentId, Guid cardId, string name, string description, Guid projectId)
         {
             ProjectManagerId = projectManagerId;
+            TalentId = talentId;
             CardId = cardId;
             Name = name;
             Description = description;

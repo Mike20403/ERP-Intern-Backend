@@ -39,6 +39,21 @@ namespace DotNetStarter.Commands.Attachments.Delete
                     .WithErrorCode(DomainExceptions.ProjectNotFound.Code)
                     .WithMessage(DomainExceptions.ProjectNotFound.Message);
             });
+
+            When(x => x.TalentId is not null, () =>
+            {
+                RuleFor(x => x.TalentId)
+                    .NotEmpty()
+                    .MustAsync((talentId, cancellation) => unitOfWork.TalentRepository.AnyAsync(u => u.Id == talentId))
+                    .WithErrorCode(DomainExceptions.TalentNotFound.Code)
+                    .WithMessage(DomainExceptions.TalentNotFound.Message);
+
+                RuleFor(x => x.ProjectId)
+                    .NotEmpty()
+                    .MustAsync((request, projectId, cancellation) => unitOfWork.ProjectRepository.AnyAsync(p => p.Id == projectId && p.Talents.Any(t => t.Id == request.TalentId)))
+                    .WithErrorCode(DomainExceptions.ProjectNotFound.Code)
+                    .WithMessage(DomainExceptions.ProjectNotFound.Message);
+            });
         }
     }
 }
