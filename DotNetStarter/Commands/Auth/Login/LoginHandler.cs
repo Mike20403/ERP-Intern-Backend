@@ -2,7 +2,10 @@
 using DotNetStarter.Common.Enums;
 using DotNetStarter.Database.UnitOfWork;
 using DotNetStarter.Entities;
+using DotNetStarter.Services.Configuration;
 using DotNetStarter.Services.Token;
+using Microsoft.Extensions.Options;
+using OtpNet;
 
 namespace DotNetStarter.Commands.Auth.Login
 {
@@ -12,7 +15,12 @@ namespace DotNetStarter.Commands.Auth.Login
 
         private readonly IDotNetStarterUnitOfWork _unitOfWork;
 
-        public LoginHandler(IServiceProvider serviceProvider, ITokenService tokenService, IDotNetStarterUnitOfWork unitOfWork) : base(serviceProvider)
+        public LoginHandler
+        (
+            ITokenService tokenService, 
+            IDotNetStarterUnitOfWork unitOfWork,
+            IServiceProvider serviceProvider
+        ) : base(serviceProvider)
         {
             _tokenService = tokenService;
             _unitOfWork = unitOfWork;
@@ -29,6 +37,17 @@ namespace DotNetStarter.Commands.Auth.Login
                 Status.Deleting  => TokenTypeNames.Recover,
                 _ => TokenTypeNames.Access,
             };
+
+            string? totpCode = null;
+
+            if (user!.is2faEnabled && user.Status is Status.Active)
+            {
+                tokenType = TokenTypeNames.TwoFactors;
+
+                var totp = new Totp(Base32Encoding.ToBytes(user.Secret));
+
+                totpCode = totp.ComputeTotp();
+            }
 
             var (token, authToken) = _tokenService.CreateToken(user!, tokenType);
 

@@ -16,5 +16,6 @@
         public const string TokenType = "type";
         public const string CanChangePasswordPolicy = "CanChangePassword";
         public const string CanRecoverAccountPolicy = "CanRecoverAccount";
+        public const string TwoFactorAuthorizationPolicy = "TwoFactorAuthorization";
     }
 }

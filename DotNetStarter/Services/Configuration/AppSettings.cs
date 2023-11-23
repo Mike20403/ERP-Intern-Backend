@@ -10,6 +10,12 @@
         public UrlsSettings Urls { get; set; }
         public AzureStorageSettings AzureStorageSettings { get; set; }
         public AccountSettings Account { get; set; }
+        public TotpSettings Totp { get; set; }
+    }
+
+    public class TotpSettings
+    {
+        public int TotpSecretLength { get; set; }
     }
 
     public class AccountSettings

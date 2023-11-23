@@ -31,5 +31,9 @@ namespace DotNetStarter.Entities
         public Role? Role { get; set; }
 
         public List<Privilege> Privileges { get; set; }
+
+        public bool is2faEnabled { get; set; }
+
+        public string? Secret { get; set; }
     }
 }

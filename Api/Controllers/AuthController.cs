@@ -7,8 +7,12 @@ using DotNetStarter.Commands.Auth.ForgotPassword;
 using DotNetStarter.Commands.Auth.Login;
 using DotNetStarter.Commands.Auth.RefreshToken;
 using DotNetStarter.Commands.Auth.ResetPassword;
+using DotNetStarter.Commands.Auth.TwoFactorsLogin;
 using DotNetStarter.Commands.Invitations.RegisterTalent;
+using DotNetStarter.Common;
+using DotNetStarter.Extensions;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -30,6 +34,18 @@ namespace Api.Controllers
         public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest request)
         {
             var result = await _mediator.Send(new Login(request.Username!, request.Password!));
+
+            return Ok(result);
+        }
+
+        [Authorize(DomainConstraints.TwoFactorAuthorizationPolicy)]
+        [HttpPost("two-factors-login")]
+        public async Task<ActionResult<LoginResponse>> TwoFactorsLogin(TwoFactorsLoginRequest request)
+        {
+            var result = await _mediator.Send(new TwoFactorsLogin(
+                HttpContext.GetCurrentUserId()!.Value,
+                request.TwoFactorsCode!
+            )); 
 
             return Ok(result);
         }

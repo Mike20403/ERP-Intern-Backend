@@ -213,5 +213,11 @@ namespace DotNetStarter.Common
             Code = "PrivilegeNotFound",
             Message = "Privilege Not Found",
         };
+
+        public static readonly DomainException InvalidTwoFactorsCode = new DomainException
+        {
+            Code = "InvalidTwoFactorsCode",
+            Message = "Invalid Two-Factors Code",
+        };
     }
 }

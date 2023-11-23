@@ -5,5 +5,6 @@
         public const string Access = "access";
         public const string ForceChangePassword = "force-change-password";
         public const string Recover = "recover-account";
+        public const string TwoFactors = "two-factors";
     }
 }

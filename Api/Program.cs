@@ -162,6 +162,11 @@ builder.Services.AddAuthorization(options =>
         policy.RequireAuthenticatedUser().RequireClaim(DomainConstraints.TokenType, TokenTypeNames.Recover);
     });
 
+    options.AddPolicy(DomainConstraints.TwoFactorAuthorizationPolicy, policy =>
+    {
+        policy.RequireAuthenticatedUser().RequireClaim(DomainConstraints.TokenType, TokenTypeNames.TwoFactors);
+    });
+
     options.DefaultPolicy = new AuthorizationPolicyBuilder()
         .RequireAuthenticatedUser()
         .RequireClaim(DomainConstraints.TokenType, TokenTypeNames.Access)

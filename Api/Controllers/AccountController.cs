@@ -4,7 +4,9 @@ using Api.Models.Account;
 using AutoMapper;
 using DotNetStarter.Commands.Account.ChangeEmailRequires;
 using DotNetStarter.Commands.Account.ChangePassword;
+using DotNetStarter.Commands.Account.Configure2fa;
 using DotNetStarter.Commands.Account.ConfirmChangeEmail;
+using DotNetStarter.Commands.Account.Enable2fa;
 using DotNetStarter.Commands.Account.RecoverAccount;
 using DotNetStarter.Commands.Account.RequestDeletingAccount;
 using DotNetStarter.Commands.Users.Update;
@@ -14,7 +16,6 @@ using DotNetStarter.Queries.Users.Get;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 
 namespace Api.Controllers
 {
@@ -104,6 +105,30 @@ namespace Api.Controllers
         public async Task<ActionResult> RecoverAccount()
         {
             await _mediator.Send(new RecoverAccount(HttpContext.GetCurrentUserId()!.Value));
+
+            return Ok();
+        }
+
+        [Authorize]
+        [HttpPut("configure-2fa")]
+        public async Task<ActionResult<Configure2faResponse>> Configure2fa(Configure2faRequest request)
+        {
+            var result = await _mediator.Send(new Configure2fa(
+                HttpContext.GetCurrentUserId()!.Value,
+                request.Is2faEnabled!.Value
+            ));
+
+            return Ok(result);
+        }
+            
+        [Authorize]
+        [HttpPut("enable-2fa")]
+        public async Task<ActionResult> Enable2fa(Enable2faRequest request)
+        {
+            await _mediator.Send(new Enable2fa(
+                HttpContext.GetCurrentUserId()!.Value,
+                request.TwoFactorCode!
+            ));
 
             return Ok();
         }
