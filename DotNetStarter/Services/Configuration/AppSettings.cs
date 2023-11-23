@@ -72,6 +72,7 @@
         public string MoveCard { get; set; }
         public string CreateCard { get; set; }
         public string AdminResetPassword { get; set; }
+        public string ExportFile { get; set; }
         public string RecoverAccount { get; set; }
     }
 

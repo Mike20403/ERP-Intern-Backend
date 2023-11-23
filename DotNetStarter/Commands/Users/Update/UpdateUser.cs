@@ -18,13 +18,13 @@ namespace DotNetStarter.Commands.Users.Update
 
         public Status Status { get; }
 
-        public List<string> RoleNames { get; }
+        public string RoleName { get; }
 
         public List<string>? PrivilegeNames { get; }
 
         public UpdateUser
         (
-            List<string> roleNames, 
+            string roleName,
             Guid userId, 
             string firstname, 
             string lastname, 
@@ -40,7 +40,7 @@ namespace DotNetStarter.Commands.Users.Update
             PhoneNumber = phoneNumber;
             Gender = gender;
             Status = status;
-            RoleNames = roleNames;
+            RoleName = roleName;
             PrivilegeNames = privilegeNames;
         }
     }

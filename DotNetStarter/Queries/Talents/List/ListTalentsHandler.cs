@@ -54,7 +54,7 @@ namespace DotNetStarter.Queries.Talents.List
 
             return await _unitOfWork.TalentRepository.GetPagedListAsync(
                 request.OrderBy,
-                ClassUtils.GetPropertyName<Talent>(u => u.Role),
+                $"{ClassUtils.GetPropertyName<Talent>(t => t.Role)},{ClassUtils.GetPropertyName<Talent>(t => t.Privileges)}",
                 pageNumber: request.PageNumber,
                 pageSize: request.PageSize,
                 filter: filter.ToArray()

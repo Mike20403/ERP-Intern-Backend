@@ -1,9 +1,12 @@
 ﻿using Api.Common;
 using Api.Dtos;
 using Api.Models.StaffMembers;
+using Api.Models.Users;
 using AutoMapper;
 using DotNetStarter.Commands.Users.Create;
 using DotNetStarter.Commands.Users.Delete;
+using DotNetStarter.Commands.Users.Export;
+using DotNetStarter.Commands.Users.Import;
 using DotNetStarter.Commands.Users.ResetPassword;
 using DotNetStarter.Commands.Users.Update;
 using DotNetStarter.Common;
@@ -24,7 +27,6 @@ namespace Api.Controllers
     public class StaffMembersController : ControllerBase
     {
         private readonly IMediator _mediator;
-
         private readonly IMapper _mapper;
 
         public StaffMembersController(IMediator mediator, IMapper mapper)
@@ -87,7 +89,7 @@ namespace Api.Controllers
         public async Task<ActionResult<StaffMemberDto>> Update([FromRoute] Guid staffMemberId, [FromBody] UpdateStaffMemberRequest request)
         {
             var result = await _mediator.Send(new UpdateUser(
-                DomainConstraints.StaffMemberRoleNames,
+                request.Type!.Value.ToRoleName(),
                 staffMemberId,
                 request.Firstname!,
                 request.Lastname!,
@@ -115,6 +117,32 @@ namespace Api.Controllers
             await _mediator.Send(new ResetPassword(DomainConstraints.StaffMemberRoleNames, staffMemberId));
 
             return Ok();
+        }
+
+        [HttpPost("import")]
+        [ProducesResponseType((int)HttpStatusCode.Accepted)]
+        public async Task<ActionResult> Import([FromForm] ImportUsersRequest request)
+        {
+            await _mediator.Send(new ImportUsers(HttpContext.GetCurrentUserId()!.Value, request.File));
+
+            return Accepted();
+        }
+
+        [HttpPost("export")]
+        public async Task<ActionResult> Export([FromQuery] ListStaffMembersQueryParams queryParams)
+        {
+            await _mediator.Send(new ExportUser(
+                HttpContext.GetCurrentUserId()!.Value,
+                queryParams.PageNumber,
+                queryParams.PageSize,
+                queryParams.SearchQuery,
+                queryParams.OrderBy.ToOrderBy(),
+                queryParams.Type.ToRoleNames(),
+                queryParams.Gender,
+                queryParams.Status
+                ));
+
+            return Accepted();
         }
     }
 }

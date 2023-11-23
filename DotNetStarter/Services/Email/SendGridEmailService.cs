@@ -154,7 +154,17 @@ namespace DotNetStarter.Services.Email
             await SendEmailAsync(email, templateId!, templateData);
         }
 
-        private async Task SendEmailAsync(string email, string templateId, object templateData)
+        public async Task SendFileDataAsync(string email, string firstName, List<FileAttachmentInfo> attachments)
+        {
+            var templateId = _appSettings.Email.SendGrid.TemplateIds.ExportFile;
+            var templateData = new Dictionary<string, object>
+                {
+                    { "firstName", firstName },
+                };
+            await SendEmailAsync(email, templateId!, templateData, attachments);
+        }
+
+        private async Task SendEmailAsync(string email, string templateId, object templateData, List<FileAttachmentInfo>? attachments = null)
         {
             var apiKey = _appSettings.Email.SendGrid.ApiKey;
             var client = new SendGridClient(apiKey);
@@ -163,7 +173,21 @@ namespace DotNetStarter.Services.Email
             EmailAddress to = new EmailAddress(email);
 
             var msg = MailHelper.CreateSingleTemplateEmail(from, to, templateId, templateData);
+
+            if (attachments is not null)
+            {
+                var sgAttachments = attachments.Select(attachmentInfo =>
+                    new Attachment
+                    {
+                        Content = Convert.ToBase64String(attachmentInfo.Data),
+                        Filename = attachmentInfo.FileName,
+                        Type = attachmentInfo.ContentType,
+                    }).ToList();
+
+                msg.AddAttachments(sgAttachments);
+            }
+
             await client.SendEmailAsync(msg);
-        }
+        }  
     }
 }

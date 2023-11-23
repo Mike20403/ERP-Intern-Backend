@@ -1,9 +1,12 @@
 ﻿using Api.Common;
 using Api.Dtos;
 using Api.Models.Talents;
+using Api.Models.Users;
 using AutoMapper;
 using DotNetStarter.Commands.Talents.Create;
 using DotNetStarter.Commands.Talents.Delete;
+using DotNetStarter.Commands.Talents.Export;
+using DotNetStarter.Commands.Talents.Import;
 using DotNetStarter.Commands.Talents.Update;
 using DotNetStarter.Commands.Users.ResetPassword;
 using DotNetStarter.Common;
@@ -24,7 +27,6 @@ namespace Api.Controllers
     public class TalentsController : ControllerBase
     {
         private readonly IMediator _mediator;
-
         private readonly IMapper _mapper;
 
         public TalentsController(IMediator mediator, IMapper mapper)
@@ -114,6 +116,32 @@ namespace Api.Controllers
             await _mediator.Send(new ResetPassword(new List<string>{ RoleNames.Talent }, talentId));
 
             return Ok();
+        }
+
+        [HttpPost("import")]
+        [ProducesResponseType((int)HttpStatusCode.Accepted)]
+        public async Task<ActionResult> Import([FromForm] ImportUsersRequest request)
+        {
+            await _mediator.Send(new ImportTalents(HttpContext.GetCurrentUserId()!.Value, request.File));
+
+            return Accepted();
+        }
+
+        [HttpPost("export")]
+        public async Task<ActionResult> Export([FromQuery] ListTalentsQueryParams queryParams)
+        {
+            await _mediator.Send(new ExportTalent(
+                HttpContext.GetCurrentUserId()!.Value,
+                queryParams.PageNumber,
+                queryParams.PageSize,
+                queryParams.SearchQuery,
+                queryParams.OrderBy.ToOrderBy(),
+                queryParams.Gender,
+                queryParams.Status,
+                queryParams.IsAvailable
+            ));
+
+            return Accepted();
         }
     }
 }

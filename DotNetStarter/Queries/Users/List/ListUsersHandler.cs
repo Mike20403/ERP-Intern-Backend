@@ -54,7 +54,7 @@ namespace DotNetStarter.Queries.Users.List
 
             return await _unitOfWork.UserRepository.GetPagedListAsync(
                 request.OrderBy,
-                ClassUtils.GetPropertyName<User>(u => u.Role),
+                $"{ClassUtils.GetPropertyName<User>(u => u.Role)},{ClassUtils.GetPropertyName<User>(u => u.Privileges)}",
                 pageNumber: request.PageNumber,
                 pageSize: request.PageSize,
                 filter: filter.ToArray()

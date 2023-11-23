@@ -15,7 +15,10 @@ using DotNetStarter.Commands.Talents.Create;
 using DotNetStarter.Commands.Talents.Update;
 using DotNetStarter.Commands.Users.Create;
 using DotNetStarter.Commands.Users.Update;
+using DotNetStarter.Common.ImportDataUsers;
+using DotNetStarter.Common.Models;
 using DotNetStarter.Entities;
+using DotNetStarter.Extensions;
 
 namespace DotNetStarter.Common
 {
@@ -26,12 +29,21 @@ namespace DotNetStarter.Common
             #region User
             CreateMap<CreateUser, User>();
             CreateMap<UpdateUser, User>();
+            CreateMap<User, ImportStaffMemberDto>()
+                .ForMember(s => s.RoleName, opt => opt.MapFrom(u => u.Role!.Name.ToStaffMemberType()))
+                .ForMember(s => s.Privileges, opt => opt.MapFrom(u => string.Join(", ", u.Privileges.Select(p => p.Name))));
+            CreateMap<ImportStaffMemberDto, ImportDataStaffMembers>()
+                .ForMember(dest => dest.Privileges, opt => opt.MapFrom((src, dest) => src.Privileges.Split(", ").ToList()));
             #endregion
 
             #region Talent
             CreateMap<CreateTalent, Talent>();
             CreateMap<UpdateTalent, Talent>();
             CreateMap<RegisterTalent, Talent>();
+            CreateMap<Talent, ImportTalentDto>()
+                .ForMember(s => s.Privileges, opt => opt.MapFrom(u => string.Join(", ", u.Privileges.Select(p => p.Name))));
+            CreateMap<ImportTalentDto, ImportDataTalents>()
+                .ForMember(dest => dest.Privileges, opt => opt.MapFrom((src, dest) => src.Privileges.Split(", ").ToList()));
             #endregion
 
             #region Project

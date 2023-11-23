@@ -22,6 +22,8 @@
 
         Task ResendOtp(string email, string firstName, string code);
 
+        Task SendFileDataAsync(string email, string firstName, List<FileAttachmentInfo> attachments);
+
         Task SendRecoverAccountEmailAsync(string email, string firstName, string code);
     }
 }

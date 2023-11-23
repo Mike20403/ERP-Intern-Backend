@@ -4,6 +4,7 @@ using DotNetStarter.Common;
 using DotNetStarter.Database;
 using DotNetStarter.Database.UnitOfWork;
 using DotNetStarter.Services.Configuration;
+using DotNetStarter.Services.CsvService;
 using DotNetStarter.Services.Email;
 using DotNetStarter.Services.Password;
 using DotNetStarter.Services.Storage;
@@ -44,6 +45,7 @@ builder.Services.AddScoped<IEmailService, SendGridEmailService>();
 builder.Services.AddScoped<IStorageService, AzureStorageService>();
 builder.Services.AddScoped<IDotNetStarterUnitOfWork, DotNetStarterUnitOfWork>();
 builder.Services.AddScoped<IPasswordService, PasswordService>();
+builder.Services.AddScoped<CsvService>();
 
 builder.Services.AddControllers(options =>
 {

@@ -33,23 +33,23 @@ namespace DotNetStarter.Commands.Users.Update
                 .WithErrorCode(DomainExceptions.PhoneNumberAlreadyExists.Code)
                 .WithMessage(DomainExceptions.PhoneNumberAlreadyExists.Message);
 
-            RuleForEach(x => x.RoleNames)
+            RuleFor(x => x.RoleName)
                 .NotEmpty()
                 .MustAsync((roleName, cancellation) => unitOfWork.RoleRepository.AnyAsync(u => u.Name == roleName))
                 .WithErrorCode(DomainExceptions.InvalidRoleName.Code)
                 .WithMessage(DomainExceptions.InvalidRoleName.Message);
 
-            When(x => x.RoleNames is not null, () =>
+            When(x => x.RoleName is not null, () =>
             {
                 RuleFor(x => x.UserId)
                     .NotEmpty()
-                    .MustAsync((request, userId, cancellation) => unitOfWork.UserRepository.AnyAsync(u => u.Id == userId && request.RoleNames!.Contains(u.Role!.Name)))
+                    .MustAsync((request, userId, cancellation) => unitOfWork.UserRepository.AnyAsync(u => u.Id == userId && request.RoleName == u.Role!.Name))
                     .WithErrorCode(DomainExceptions.UserNotFound.Code)
                     .WithMessage(DomainExceptions.UserNotFound.Message);
 
                 RuleForEach(x => x.PrivilegeNames)
                     .MustAsync((request, privilegeName, cancellation) => unitOfWork.PrivilegeRepository
-                        .AnyAsync(p => p.Name == privilegeName && p.Roles.Any(r => request.RoleNames.Contains(r.Name))))
+                        .AnyAsync(p => p.Name == privilegeName && p.Roles.Any(r => request.RoleName == r.Name)))
                     .WithErrorCode(DomainExceptions.PrivilegeNotFound.Code)
                     .WithMessage(DomainExceptions.PrivilegeNotFound.Message);
             });
