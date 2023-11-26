@@ -16,7 +16,7 @@ namespace DotNetStarter.Queries.Comments.List
         }
         public override async Task<PagedList<Comment>> Process(ListComments request, CancellationToken cancellationToken)
         {
-            var filter = new List<Expression<Func<Comment, bool>>>();
+            var filter = new List<Expression<Func<Comment, bool>>>(){ p => p.CardId == request.CardId };
 
             if (!string.IsNullOrEmpty(request.SearchQuery))
             {

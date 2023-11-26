@@ -21,7 +21,7 @@ namespace Api.Controllers
     [Authorize(Roles = $"{RoleNames.ProjectManager},{RoleNames.Talent}")]
     [ApiVersion(ApiVersions.Version1)]
     [ApiController]
-    [Route("api/v{version:apiVersion}/project/{projectId}/card/{cardId}/[controller]")]
+    [Route("api/v{version:apiVersion}/projects/{projectId}/card/{cardId}/[controller]")]
     public class CommentsController : ControllerBase
     {
         private readonly IMediator _mediator;
