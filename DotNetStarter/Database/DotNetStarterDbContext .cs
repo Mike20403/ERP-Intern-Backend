@@ -132,6 +132,10 @@ namespace DotNetStarter.Database
               .HasOne(p => p.User).WithMany()
               .HasForeignKey(p => p.UserId)
               .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<TwoFactorsBackup>(entity => {
+                entity.HasIndex(tf => tf.Code);  
+            });
             #endregion
 
             #region Privilege

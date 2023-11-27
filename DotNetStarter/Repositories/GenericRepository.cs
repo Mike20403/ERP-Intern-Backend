@@ -74,6 +74,13 @@ namespace DotNetStarter.Repositories
             return (await dbSet.AddAsync(entity)).Entity;
         }
 
+        public virtual Task CreatesAsync(params TEntity[] entities)
+        {
+            dbSet.AddRangeAsync(entities);
+
+            return Task.CompletedTask;
+        }
+
         public virtual Task UpdateAsync(TEntity entityToUpdate)
         {
             dbSet.Attach(entityToUpdate);

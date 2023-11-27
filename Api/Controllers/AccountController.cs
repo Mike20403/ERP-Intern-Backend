@@ -125,12 +125,12 @@ namespace Api.Controllers
         [HttpPut("enable-2fa")]
         public async Task<ActionResult> Enable2fa(Enable2faRequest request)
         {
-            await _mediator.Send(new Enable2fa(
+            var result = await _mediator.Send(new Enable2fa(
                 HttpContext.GetCurrentUserId()!.Value,
                 request.TwoFactorCode!
             ));
 
-            return Ok();
+            return Ok(result);
         }
     }
 }

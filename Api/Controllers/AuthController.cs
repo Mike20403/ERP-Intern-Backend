@@ -5,6 +5,7 @@ using Api.Models.Invitations;
 using DotNetStarter.Commands.Auth.ActivateAccount;
 using DotNetStarter.Commands.Auth.ForgotPassword;
 using DotNetStarter.Commands.Auth.Login;
+using DotNetStarter.Commands.Auth.LoginWithBackup;
 using DotNetStarter.Commands.Auth.RefreshToken;
 using DotNetStarter.Commands.Auth.ResetPassword;
 using DotNetStarter.Commands.Auth.TwoFactorsLogin;
@@ -49,6 +50,15 @@ namespace Api.Controllers
 
             return Ok(result);
         }
+
+        [HttpPost("backup-code-login")]
+        public async Task<ActionResult<LoginResponse>> BackupCodeLogin(BackupCodeLoginRequest request)
+        {
+            var result = await _mediator.Send(new LoginWithBackup(request.Username!, request.BackupCode!));
+
+            return Ok(result);
+        }
+
 
         [HttpPost]
         [Route("forgot-password")]

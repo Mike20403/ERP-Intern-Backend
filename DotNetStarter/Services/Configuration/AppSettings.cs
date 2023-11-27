@@ -16,6 +16,8 @@
     public class TotpSettings
     {
         public int TotpSecretLength { get; set; }
+        public int TotpBackupCodeQuantity { get; set; }
+        public int TotpBackupCodeLength { get; set; }
     }
 
     public class AccountSettings

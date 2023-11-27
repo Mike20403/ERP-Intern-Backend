@@ -32,5 +32,7 @@ namespace DotNetStarter.Database.UnitOfWork
         GenericRepository<DotNetStarterDbContext, Payment> PaymentRepository  { get; }
 
         GenericRepository<DotNetStarterDbContext, Comment> CommentRepository  { get; }
+
+        GenericRepository<DotNetStarterDbContext, TwoFactorsBackup> TwoFactorsBackupRepository { get; }
     }
 }

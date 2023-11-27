@@ -2,7 +2,7 @@
 
 namespace DotNetStarter.Commands.Account.Enable2fa
 {
-    public sealed class Enable2fa : IRequest
+    public sealed class Enable2fa : IRequest<Enable2faResponse>
     {
         public Guid UserId { get; }
         public string TwoFactorsCode { get; }
