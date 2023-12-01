@@ -133,6 +133,16 @@ namespace DotNetStarter.Database
               .HasForeignKey(p => p.UserId)
               .OnDelete(DeleteBehavior.NoAction);
 
+            modelBuilder.Entity<Stage>()
+                .HasMany(c => c.Users)
+                .WithMany(p => p.Stages)
+                .UsingEntity<StageNotification>(
+                    c => c.HasOne(p => p.User).WithMany().HasForeignKey(pc => pc.UserId).OnDelete(DeleteBehavior.NoAction),
+                    c => c.HasOne(p => p.Stage).WithMany().HasForeignKey(pc => pc.StageId).OnDelete(DeleteBehavior.NoAction)
+                );
+
+            modelBuilder.Entity<StageNotification>().HasIndex(sn => new { sn.UserId, sn.StageId }).IsUnique();
+            
             modelBuilder.Entity<TwoFactorsBackup>(entity => {
                 entity.HasIndex(tf => tf.Code);  
             });
@@ -677,6 +687,8 @@ namespace DotNetStarter.Database
         public DbSet<Payment> Payments { get; set; }
 
         public DbSet<Comment> Comments { get; set; }
+
+        public DbSet<StageNotification> StageNotifications { get; set; }
 
         private void SetAuditing()
         {

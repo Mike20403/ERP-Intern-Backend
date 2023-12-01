@@ -19,15 +19,23 @@ public sealed class CardCreatedHandler : INotificationHandler<CardCreated>
     public async Task Handle(CardCreated notification, CancellationToken cancellationToken)
     {
         var card = await _unitOfWork.CardRepository.GetByIdAsync(notification.CardId);
-        var stage = await _unitOfWork.StageRepository.GetByIdAsync(notification.StageId);
+        var stage = await _unitOfWork.StageRepository.FindAsync(ClassUtils.GetPropertyName<Stage>(t => t.Users!), filter: o => o.Id == notification.StageId);
 
-        if (card is null || stage is null || !stage.IsNotificationEnabled)
+        if (stage is null || stage.Users is null)
         {
             return;
         }
-        var project = await _unitOfWork.ProjectRepository.FindAsync($"{ClassUtils.GetPropertyName<Project>(c => c.ProjectManager)}", p => p.Id == notification.ProjectId);
-        var projectManager = project!.ProjectManager;
-        await _emailService.SendCardCreatedAsync(projectManager.Username, projectManager.Firstname, stage.Name, card.Name);
+
+        var users = stage!.Users!.ToList();
+        var recipients = users.Select(user => new CardRecipient
+        {
+            Email = user.Username,
+            FirstName = user.Firstname,
+            StageName = stage.Name,
+            CardName = card.Name
+        }).ToList();
+
+        await _emailService.SendCardCreatedAsync(recipients);
     }
 }
 

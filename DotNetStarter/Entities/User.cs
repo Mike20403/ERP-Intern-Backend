@@ -35,5 +35,7 @@ namespace DotNetStarter.Entities
         public bool is2faEnabled { get; set; }
 
         public string? Secret { get; set; }
+
+        public List<Stage>? Stages { get; set; }
     }
 }
