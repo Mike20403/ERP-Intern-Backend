@@ -6,13 +6,10 @@
 
         public string Name { get; }
 
-        public bool IsNotificationEnabled { get;}
-
-        public UpsertStage(Guid? id, string name, bool isNotificationEnabled)
+        public UpsertStage(Guid? id, string name)
         {
             Id = id;
             Name = name;
-            IsNotificationEnabled = isNotificationEnabled;
         }
     }
 }

@@ -12,9 +12,9 @@
 
         Task SendNotificationAsync(string email, string firstName, string message);
 
-        Task SendCardMovedAsync(string email, string firstName, string stageName, string cardName);
+        Task SendCardMovedAsync(List<CardRecipient> cardRecipients);
 
-        Task SendCardCreatedAsync(string email, string firstName, string stageName, string cardName);
+        Task SendCardCreatedAsync(List<CardRecipient> cardRecipients);
 
         Task SendChangePasswordEmailAsync(string email, string firstName, string lastName);
 

@@ -98,28 +98,38 @@ namespace DotNetStarter.Services.Email
             await SendEmailAsync(email, templateId!, templateData);
         }
 
-        public async Task SendCardMovedAsync(string email, string firstName, string stageName, string cardName)
-        {
-            var templateId = _appSettings.Email.SendGrid.TemplateIds.MoveCard;
-            var templateData = new Dictionary<string, string>
-            {
-                { "firstName", firstName },
-                { "stageName", stageName },
-                { "cardName", cardName },
-            };
-            await SendEmailAsync(email, templateId!, templateData);
-        }
-
-        public async Task SendCardCreatedAsync(string email, string firstName, string stageName, string cardName)
+        public async Task SendCardMovedAsync(List<CardRecipient> cardRecipients)
         {
             var templateId = _appSettings.Email.SendGrid.TemplateIds.CreateCard;
-            var templateData = new Dictionary<string, string>
+
+            foreach (var recipient in cardRecipients)
             {
-                { "firstName", firstName },
-                { "stageName", stageName },
-                { "cardName", cardName },
-            };
-            await SendEmailAsync(email, templateId!, templateData);
+                var templateData = new Dictionary<string, string>
+                {
+                    { "firstName", recipient.FirstName },
+                    { "stageName", recipient.StageName },
+                    { "cardName", recipient.CardName },
+                };
+
+                await SendEmailAsync(recipient.Email, templateId!, templateData);
+            }
+        }
+
+        public async Task SendCardCreatedAsync(List<CardRecipient> cardRecipients)
+        {
+            var templateId = _appSettings.Email.SendGrid.TemplateIds.CreateCard;
+
+            foreach (var recipient in cardRecipients)
+            {
+                var templateData = new Dictionary<string, string>
+                {
+                    { "firstName", recipient.FirstName },
+                    { "stageName", recipient.StageName },
+                    { "cardName", recipient.CardName },
+                };
+
+                await SendEmailAsync(recipient.Email, templateId!, templateData);
+            }
         }
 
         public async Task SendInvitationEmailAsync(string email, Guid invitationId, string projectName, Guid projectId, string inviter, bool isExists, string? code)

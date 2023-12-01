@@ -1,8 +1,10 @@
 ﻿using Api.Common;
 using Api.Dtos;
 using Api.Hubs;
+using Api.Models.Stages;
 using AutoMapper;
 using DotNetStarter.Commands.Stages.Update;
+using DotNetStarter.Commands.Stages.UpdateNotification;
 using DotNetStarter.Common;
 using DotNetStarter.Extensions;
 using DotNetStarter.Queries.Stages.List;
@@ -51,7 +53,7 @@ namespace Api.Controllers
         [HttpPut]
         public async Task<ActionResult<List<StageDto>>> Update([FromRoute] Guid projectId, [FromBody] List<StageDto>? stages)
         {
-            var upsertStages = stages?.Select(s => new UpsertStage(s.Id, s.Name!, s.IsNotificationEnabled))?.ToList() ?? new List<UpsertStage>();
+            var upsertStages = stages?.Select(s => new UpsertStage(s.Id, s.Name!))?.ToList() ?? new List<UpsertStage>();
 
             var result = await _mediator.Send(new UpdateStages(
                 HttpContext.GetCurrentUserId()!.Value,
@@ -63,6 +65,18 @@ namespace Api.Controllers
             await _projectHubContext.Clients.Group(projectId.ToProjectGroup()).StagesChanged(dtos);
 
             return Ok(dtos);
+        }
+
+        [Authorize(Roles = $"{RoleNames.ProjectManager},{RoleNames.Talent}")]
+        [HttpPut("{stageId}")]
+        public async Task<ActionResult> UpdateStageNotification([FromRoute] Guid projectId, [FromRoute] Guid stageId, [FromBody] StageNotificationRequest request)
+        {
+            Guid? projectManagerId = User.IsInRole(RoleNames.ProjectManager) ? HttpContext.GetCurrentUserId()!.Value : null;
+            Guid? talentId = User.IsInRole(RoleNames.Talent) ? HttpContext.GetCurrentUserId()!.Value : null;
+
+            await _mediator.Send(new UpdateNotification(projectManagerId, talentId, projectId, stageId, request.IsNotificationEnabled!.Value));
+
+            return Ok();
         }
     }
 }

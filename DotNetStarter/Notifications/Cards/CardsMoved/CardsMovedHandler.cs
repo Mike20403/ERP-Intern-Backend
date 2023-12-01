@@ -22,8 +22,6 @@ public sealed class CardsMovedHandler : INotificationHandler<CardsMoved>
             $"{ClassUtils.GetPropertyName<Project>(c => c.ProjectManager)},{ClassUtils.GetPropertyName<Project>(c => c.Stages)}",
             p => p.Id == notification.ProjectId);
 
-        var projectManager = project!.ProjectManager;
-
         var changingStageCards = new List<ChangingCard>();
 
         foreach (var card in notification.NewCards)
@@ -37,12 +35,20 @@ public sealed class CardsMovedHandler : INotificationHandler<CardsMoved>
         }
 
         var groupedCards = changingStageCards.GroupBy(c => c.StageId);
-        var hasNotificationGroupedCards = groupedCards.Where(group => project.Stages.Find(s => s.Id == group.Key).IsNotificationEnabled);
-
-        foreach (var group in hasNotificationGroupedCards)
+        foreach (var group in groupedCards)
         {
-            var stage = project.Stages.Find(s => s.Id == group.Key);
-            await _emailService.SendCardMovedAsync(projectManager.Username, projectManager.Firstname, stage.Name, string.Join(", ", group.Select(c => c.Name)));
+            var stageId = group.Select(g => g.StageId).FirstOrDefault();
+            var stage = await _unitOfWork.StageRepository.FindAsync(includeProperties: ClassUtils.GetPropertyName<Stage>(c => c.Users), filter: p => p.Id == stageId);
+            var users = stage!.Users!.ToList();
+            var recipients = users.Select(user => new CardRecipient
+            {
+                Email = user.Username,
+                FirstName = user.Firstname,
+                StageName = stage.Name,
+                CardName = string.Join(", ", group.Select(c => c.Name))
+            }).ToList();
+
+            await _emailService.SendCardMovedAsync(recipients);
         }
     }
 }

@@ -25,7 +25,6 @@ namespace DotNetStarter.Commands.Stages.Update
                 {
                     var existingStage = project.Stages.Find(s => s.Id == stage.Id);
                     existingStage.Name = stage.Name;
-                    existingStage.IsNotificationEnabled = stage.IsNotificationEnabled;
                     existingStage.Order = 1000 + index;
 
                     return existingStage;
@@ -34,7 +33,6 @@ namespace DotNetStarter.Commands.Stages.Update
                 return new Stage
                 {
                     Name = stage.Name,
-                    IsNotificationEnabled = stage.IsNotificationEnabled,
                     Order = 1000 + index,
                 };
             }).ToList();
